@@ -1,0 +1,306 @@
+{
+  "version": "0.4",
+  "title": "Gradient Panel Right — Create Account",
+  "type": "page",
+  "description": "Clean white form left, bold gradient panel right.",
+  "thumbnail": "",
+  "content": [
+    {
+      "id": "fl-register-wrap",
+      "elType": "container",
+      "settings": {
+        "container_type": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "height": "100vh",
+        "min_height": {
+          "size": 100,
+          "unit": "vh"
+        },
+        "padding": {
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "unit": "px",
+          "isLinked": true
+        },
+        "gap": {
+          "size": 0,
+          "unit": "px"
+        },
+        "align_items": "stretch",
+        "content_width": "full"
+      },
+      "elements": [
+        {
+          "id": "fl-register-left",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "column",
+            "width": {
+              "size": 50,
+              "unit": "%"
+            },
+            "min_height": {
+              "size": 100,
+              "unit": "vh"
+            },
+            "background_background": "classic",
+            "background_color": "#ffffff",
+            "padding": {
+              "top": "60",
+              "right": "72",
+              "bottom": "60",
+              "left": "72",
+              "unit": "px",
+              "isLinked": false
+            },
+            "align_items": "flex-start",
+            "justify_content": "center",
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "fl-register-logo",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "✦ YourBrand.",
+                "header_size": "h4",
+                "title_color": "#111827",
+                "typography_typography": "custom",
+                "typography_font_size": {
+                  "size": 20,
+                  "unit": "px"
+                },
+                "typography_font_weight": "800",
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "48",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "fl-register-h1",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Create account",
+                "size": "xl",
+                "title_color": "#111827",
+                "typography_typography": "custom",
+                "typography_font_size": {
+                  "size": 40,
+                  "unit": "px"
+                },
+                "typography_font_weight": "800",
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "8",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "fl-register-p1",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Fill in your details to get started.",
+                "header_size": "p",
+                "title_color": "#6b7280",
+                "typography_font_size": {
+                  "size": 14,
+                  "unit": "px"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "32",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "fl-register-form",
+              "elType": "widget",
+              "widgetType": "cle-register-form",
+              "settings": {
+                "form_title": "",
+                "form_description": "",
+                "button_text": "Create Account",
+                "show_remember": "yes",
+                "show_lost_password": "yes",
+                "show_login_link": "yes",
+                "login_link_text": "Already have an account? Sign in",
+                "lost_password_text": "Forgot password?",
+                "form_padding": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "0",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": true
+                },
+                "form_background_background": "",
+                "form_box_shadow_box_shadow_type": "",
+                "button_background_background": "gradient",
+                "button_background_color": "#4f46e5",
+                "button_background_color_b": "#7c3aed",
+                "button_background_gradient_angle": {
+                  "size": 135,
+                  "unit": "deg"
+                },
+                "button_border_radius": {
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "unit": "px",
+                  "isLinked": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "fl-register-right",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "column",
+            "width": {
+              "size": 50,
+              "unit": "%"
+            },
+            "min_height": {
+              "size": 100,
+              "unit": "vh"
+            },
+            "background_background": "gradient",
+            "background_color": "#4f46e5",
+            "background_color_b": "#7c3aed",
+            "background_gradient_angle": {
+              "size": 145,
+              "unit": "deg"
+            },
+            "padding": {
+              "top": "60",
+              "right": "60",
+              "bottom": "60",
+              "left": "60",
+              "unit": "px",
+              "isLinked": false
+            },
+            "align_items": "flex-start",
+            "justify_content": "flex-end",
+            "border_radius": {
+              "top": "0",
+              "right": "24",
+              "bottom": "24",
+              "left": "0",
+              "unit": "px",
+              "isLinked": false
+            },
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "fl-register-star",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "✦",
+                "header_size": "h1",
+                "title_color": "rgba(255,255,255,0.25)",
+                "typography_font_size": {
+                  "size": 80,
+                  "unit": "px"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "40",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "fl-register-rh",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Get access to your personal hub for clarity and productivity",
+                "size": "xl",
+                "title_color": "#ffffff",
+                "typography_typography": "custom",
+                "typography_font_size": {
+                  "size": 34,
+                  "unit": "px"
+                },
+                "typography_font_weight": "800",
+                "typography_line_height": {
+                  "size": 1.2,
+                  "unit": "em"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "20",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "fl-register-rsub",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Access your tasks, notes, and projects anytime, anywhere.",
+                "header_size": "p",
+                "title_color": "rgba(255,255,255,0.7)",
+                "typography_font_size": {
+                  "size": 15,
+                  "unit": "px"
+                },
+                "typography_line_height": {
+                  "size": 1.7,
+                  "unit": "em"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "0",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

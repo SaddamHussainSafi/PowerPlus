@@ -1,0 +1,357 @@
+{
+  "version": "0.4",
+  "title": "Dreamer — Sign In",
+  "type": "page",
+  "description": "Soft lavender background with a floating white card on the left and a 3D character illustration on the right.",
+  "thumbnail": "",
+  "content": [
+    {
+      "id": "dr-login-wrap",
+      "elType": "container",
+      "settings": {
+        "container_type": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "height": "100vh",
+        "min_height": {
+          "size": 100,
+          "unit": "vh"
+        },
+        "padding": {
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "unit": "px",
+          "isLinked": true
+        },
+        "gap": {
+          "size": 0,
+          "unit": "px"
+        },
+        "align_items": "center",
+        "justify_content": "center",
+        "background_background": "classic",
+        "background_color": "#e8e0f0",
+        "content_width": "full"
+      },
+      "elements": [
+        {
+          "id": "dr-login-left",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "column",
+            "width": {
+              "size": 50,
+              "unit": "%"
+            },
+            "min_height": {
+              "size": 100,
+              "unit": "vh"
+            },
+            "padding": {
+              "top": "60",
+              "right": "60",
+              "bottom": "60",
+              "left": "80",
+              "unit": "px",
+              "isLinked": false
+            },
+            "align_items": "flex-start",
+            "justify_content": "center",
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "dr-login-card",
+              "elType": "container",
+              "settings": {
+                "container_type": "flex",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#ffffff",
+                "border_radius": {
+                  "top": "24",
+                  "right": "24",
+                  "bottom": "24",
+                  "left": "24",
+                  "unit": "px",
+                  "isLinked": true
+                },
+                "box_shadow_box_shadow_type": "yes",
+                "box_shadow_box_shadow": {
+                  "horizontal": 0,
+                  "vertical": 20,
+                  "blur": 60,
+                  "spread": 0,
+                  "color": "rgba(100,60,160,0.12)"
+                },
+                "padding": {
+                  "top": "40",
+                  "right": "40",
+                  "bottom": "40",
+                  "left": "40",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "align_items": "flex-start",
+                "content_width": "full"
+              },
+              "elements": [
+                {
+                  "id": "dr-login-logo",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "☀ dreamer.",
+                    "header_size": "h4",
+                    "title_color": "#1a1a2e",
+                    "typography_typography": "custom",
+                    "typography_font_size": {
+                      "size": 20,
+                      "unit": "px"
+                    },
+                    "typography_font_weight": "700",
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "8",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "dr-login-noact",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "No account? <a href='#' style='color:#3b5bdb;'>Sign up</a>",
+                    "header_size": "p",
+                    "title_color": "#888",
+                    "typography_font_size": {
+                      "size": 13,
+                      "unit": "px"
+                    },
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "28",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "dr-login-h1",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "Sign in",
+                    "size": "xl",
+                    "title_color": "#1a1a2e",
+                    "typography_typography": "custom",
+                    "typography_font_size": {
+                      "size": 40,
+                      "unit": "px"
+                    },
+                    "typography_font_weight": "900",
+                    "typography_line_height": {
+                      "size": 1.1,
+                      "unit": "em"
+                    },
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "28",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "dr-login-google-row",
+                  "elType": "container",
+                  "settings": {
+                    "container_type": "flex",
+                    "flex_direction": "row",
+                    "gap": {
+                      "size": 12,
+                      "unit": "px"
+                    },
+                    "align_items": "center",
+                    "padding": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "0",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "content_width": "full",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "28",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  },
+                  "elements": [
+                    {
+                      "id": "dr-login-gbtn",
+                      "elType": "widget",
+                      "widgetType": "button",
+                      "settings": {
+                        "text": "G   Sign in with Google",
+                        "button_type": "info",
+                        "size": "sm",
+                        "background_color": "#3b5bdb",
+                        "border_radius": {
+                          "top": "10",
+                          "right": "10",
+                          "bottom": "10",
+                          "left": "10",
+                          "unit": "px",
+                          "isLinked": true
+                        },
+                        "typography_font_weight": "600",
+                        "typography_font_size": {
+                          "size": 14,
+                          "unit": "px"
+                        },
+                        "padding": {
+                          "top": "13",
+                          "right": "24",
+                          "bottom": "13",
+                          "left": "24",
+                          "unit": "px",
+                          "isLinked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "dr-login-form",
+                  "elType": "widget",
+                  "widgetType": "cle-login-form",
+                  "settings": {
+                    "form_title": "",
+                    "form_description": "",
+                    "button_text": "Sign in",
+                    "show_remember": "yes",
+                    "show_lost_password": "yes",
+                    "show_register_link": "yes",
+                    "register_link_text": "No account? Sign up",
+                    "lost_password_text": "Forgot password?",
+                    "form_padding": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "0",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "form_background_background": "",
+                    "form_box_shadow_box_shadow_type": "",
+                    "button_background_background": "classic",
+                    "button_background_color": "#1a1a2e",
+                    "button_border_radius": {
+                      "top": "12",
+                      "right": "12",
+                      "bottom": "12",
+                      "left": "12",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "field_border_type": "solid",
+                    "field_border_width": {
+                      "top": "1",
+                      "right": "1",
+                      "bottom": "1",
+                      "left": "1",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "field_border_color": "#22c55e",
+                    "field_border_radius": {
+                      "top": "10",
+                      "right": "10",
+                      "bottom": "10",
+                      "left": "10",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "field_background_color": "#ffffff",
+                    "label_color": "#555",
+                    "label_typography_font_size": {
+                      "size": 13,
+                      "unit": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dr-login-right",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "column",
+            "width": {
+              "size": 50,
+              "unit": "%"
+            },
+            "min_height": {
+              "size": 100,
+              "unit": "vh"
+            },
+            "align_items": "center",
+            "justify_content": "center",
+            "padding": {
+              "top": "40",
+              "right": "40",
+              "bottom": "40",
+              "left": "40",
+              "unit": "px",
+              "isLinked": true
+            },
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "dr-login-img",
+              "elType": "widget",
+              "widgetType": "image",
+              "settings": {
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&q=80",
+                  "alt": "3D character illustration"
+                },
+                "image_size": "full",
+                "width": {
+                  "size": 85,
+                  "unit": "%"
+                },
+                "align": "center",
+                "css_filters_filter": "drop-shadow",
+                "_css_classes": "dr-3d-character"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

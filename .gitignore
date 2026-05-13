@@ -1,0 +1,63 @@
+# === Dependencies ===
+vendor/
+node_modules/
+
+# === Build / dist ===
+dist/
+build/
+*.zip
+*.tar.gz
+
+# === Environment & secrets ===
+.env
+.env.*
+wp-config.php
+*.key
+*.pem
+
+# === Logs & debug ===
+*.log
+debug.log
+error.log
+php_error.log
+
+# === System files ===
+.DS_Store
+Thumbs.db
+desktop.ini
+._*
+
+# === IDE / editor ===
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# === PHP tooling ===
+composer.lock
+.phpcs.xml
+phpcs.xml
+phpunit.xml
+.phpunit.cache/
+coverage/
+
+# === Temp / scratch ===
+*.bak
+*.tmp
+*.swp
+*.swo
+*~
+.sass-cache/
+.cache/
+
+# === WP local dev ===
+*.sql
+*.sql.gz
+wp-content/
+wp-includes/
+wp-admin/
+
+# === Claude / AI artifacts ===
+save-zip.sh
+*.sh

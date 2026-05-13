@@ -1,0 +1,363 @@
+{
+  "version": "0.4",
+  "title": "UXOLIST — Reset Password",
+  "type": "page",
+  "description": "Clean white form on the left, dark navy image card with testimonial on the right.",
+  "thumbnail": "",
+  "content": [
+    {
+      "id": "ux-reset-wrap",
+      "elType": "container",
+      "settings": {
+        "container_type": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "height": "100vh",
+        "min_height": {
+          "size": 100,
+          "unit": "vh"
+        },
+        "padding": {
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "unit": "px",
+          "isLinked": true
+        },
+        "gap": {
+          "size": 0,
+          "unit": "px"
+        },
+        "align_items": "center",
+        "justify_content": "center",
+        "background_background": "classic",
+        "background_color": "#dbeafe",
+        "content_width": "full"
+      },
+      "elements": [
+        {
+          "id": "ux-reset-outer",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "row",
+            "flex_wrap": "nowrap",
+            "background_background": "classic",
+            "background_color": "#ffffff",
+            "border_radius": {
+              "top": "24",
+              "right": "24",
+              "bottom": "24",
+              "left": "24",
+              "unit": "px",
+              "isLinked": true
+            },
+            "box_shadow_box_shadow_type": "yes",
+            "box_shadow_box_shadow": {
+              "horizontal": 0,
+              "vertical": 24,
+              "blur": 80,
+              "spread": 0,
+              "color": "rgba(0,0,0,0.12)"
+            },
+            "padding": {
+              "top": "0",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "unit": "px",
+              "isLinked": true
+            },
+            "gap": {
+              "size": 0,
+              "unit": "px"
+            },
+            "align_items": "stretch",
+            "width": {
+              "size": 90,
+              "unit": "%"
+            },
+            "max_width": {
+              "size": 1060,
+              "unit": "px"
+            },
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "ux-reset-left",
+              "elType": "container",
+              "settings": {
+                "container_type": "flex",
+                "flex_direction": "column",
+                "width": {
+                  "size": 50,
+                  "unit": "%"
+                },
+                "background_background": "classic",
+                "background_color": "#ffffff",
+                "padding": {
+                  "top": "56",
+                  "right": "56",
+                  "bottom": "56",
+                  "left": "56",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "align_items": "flex-start",
+                "justify_content": "center",
+                "content_width": "full"
+              },
+              "elements": [
+                {
+                  "id": "ux-reset-h1",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "Set new password",
+                    "size": "xl",
+                    "title_color": "#0f172a",
+                    "typography_typography": "custom",
+                    "typography_font_size": {
+                      "size": 34,
+                      "unit": "px"
+                    },
+                    "typography_font_weight": "800",
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "6",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "ux-reset-sub",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "Must be at least 8 characters long.",
+                    "header_size": "p",
+                    "title_color": "#64748b",
+                    "typography_font_size": {
+                      "size": 14,
+                      "unit": "px"
+                    },
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "32",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "ux-reset-form",
+                  "elType": "widget",
+                  "widgetType": "cle-reset-password-form",
+                  "settings": {
+                    "button_text": "Reset Password",
+                    "form_padding": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "0",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "button_background_background": "classic",
+                    "button_background_color": "#0f172a",
+                    "button_border_radius": {
+                      "top": "8",
+                      "right": "8",
+                      "bottom": "8",
+                      "left": "8",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "field_border_type": "solid",
+                    "field_border_color": "#e2e8f0",
+                    "field_border_radius": {
+                      "top": "8",
+                      "right": "8",
+                      "bottom": "8",
+                      "left": "8",
+                      "unit": "px",
+                      "isLinked": true
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ux-reset-right",
+              "elType": "container",
+              "settings": {
+                "container_type": "flex",
+                "flex_direction": "column",
+                "width": {
+                  "size": 50,
+                  "unit": "%"
+                },
+                "background_background": "classic",
+                "background_color": "#0f172a",
+                "background_image": {
+                  "url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&q=80"
+                },
+                "background_position": "center center",
+                "background_size": "cover",
+                "background_overlay_background": "classic",
+                "background_overlay_color": "rgba(10,15,40,0.72)",
+                "background_overlay": "yes",
+                "border_radius": {
+                  "top": "0",
+                  "right": "24",
+                  "bottom": "24",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "padding": {
+                  "top": "40",
+                  "right": "40",
+                  "bottom": "40",
+                  "left": "40",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "align_items": "flex-start",
+                "justify_content": "space-between",
+                "content_width": "full"
+              },
+              "elements": [
+                {
+                  "id": "ux-reset-brand",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "UXOLIST",
+                    "header_size": "h5",
+                    "title_color": "#ffffff",
+                    "typography_typography": "custom",
+                    "typography_font_size": {
+                      "size": 16,
+                      "unit": "px"
+                    },
+                    "typography_font_weight": "700",
+                    "typography_letter_spacing": {
+                      "size": 2,
+                      "unit": "px"
+                    },
+                    "align": "left"
+                  }
+                },
+                {
+                  "id": "ux-reset-testimonial-wrap",
+                  "elType": "container",
+                  "settings": {
+                    "container_type": "flex",
+                    "flex_direction": "column",
+                    "background_background": "classic",
+                    "background_color": "rgba(15,23,42,0.75)",
+                    "border_radius": {
+                      "top": "16",
+                      "right": "16",
+                      "bottom": "16",
+                      "left": "16",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "padding": {
+                      "top": "24",
+                      "right": "24",
+                      "bottom": "24",
+                      "left": "24",
+                      "unit": "px",
+                      "isLinked": false
+                    },
+                    "content_width": "full"
+                  },
+                  "elements": [
+                    {
+                      "id": "ux-reset-tquote",
+                      "elType": "widget",
+                      "widgetType": "heading",
+                      "settings": {
+                        "title": "I used this for my last project and it saved me at least 10 hours of busy work. Seriously a game changer!",
+                        "header_size": "p",
+                        "title_color": "#ffffff",
+                        "typography_font_size": {
+                          "size": 16,
+                          "unit": "px"
+                        },
+                        "typography_line_height": {
+                          "size": 1.6,
+                          "unit": "em"
+                        },
+                        "align": "left",
+                        "_margin": {
+                          "top": "0",
+                          "right": "0",
+                          "bottom": "16",
+                          "left": "0",
+                          "unit": "px",
+                          "isLinked": false
+                        }
+                      }
+                    },
+                    {
+                      "id": "ux-reset-tname",
+                      "elType": "widget",
+                      "widgetType": "heading",
+                      "settings": {
+                        "title": "Mohin Uddin",
+                        "header_size": "h6",
+                        "title_color": "#ffffff",
+                        "typography_font_size": {
+                          "size": 14,
+                          "unit": "px"
+                        },
+                        "typography_font_weight": "700",
+                        "align": "left",
+                        "_margin": {
+                          "top": "0",
+                          "right": "0",
+                          "bottom": "2",
+                          "left": "0",
+                          "unit": "px",
+                          "isLinked": false
+                        }
+                      }
+                    },
+                    {
+                      "id": "ux-reset-trole",
+                      "elType": "widget",
+                      "widgetType": "heading",
+                      "settings": {
+                        "title": "Lead Graphic Designer",
+                        "header_size": "p",
+                        "title_color": "rgba(255,255,255,0.55)",
+                        "typography_font_size": {
+                          "size": 13,
+                          "unit": "px"
+                        },
+                        "align": "left"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

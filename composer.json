@@ -1,0 +1,13 @@
+{
+  "name": "cle/custom-login-elementor",
+  "description": "Custom Login -- Elementor Login Builder",
+  "type": "wordpress-plugin",
+  "autoload": {
+    "psr-4": {
+      "CLE\\": ""
+    }
+  },
+  "require": {
+    "php": ">=8.0"
+  }
+}

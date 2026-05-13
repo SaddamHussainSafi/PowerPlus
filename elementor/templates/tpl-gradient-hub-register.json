@@ -1,0 +1,382 @@
+{
+  "version": "0.4",
+  "title": "Gradient Hub — Register",
+  "type": "page",
+  "description": "Vibrant blue-purple gradient panel on the left with tagline, clean white form with social logins on the right.",
+  "thumbnail": "",
+  "content": [
+    {
+      "id": "gh-reg-wrap",
+      "elType": "container",
+      "settings": {
+        "container_type": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "height": "100vh",
+        "min_height": {
+          "size": 100,
+          "unit": "vh"
+        },
+        "padding": {
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "unit": "px",
+          "isLinked": true
+        },
+        "gap": {
+          "size": 0,
+          "unit": "px"
+        },
+        "align_items": "center",
+        "justify_content": "center",
+        "background_background": "classic",
+        "background_color": "#eef2ff",
+        "content_width": "full"
+      },
+      "elements": [
+        {
+          "id": "gh-reg-outer",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "row",
+            "flex_wrap": "nowrap",
+            "background_background": "classic",
+            "background_color": "#ffffff",
+            "border_radius": {
+              "top": "28",
+              "right": "28",
+              "bottom": "28",
+              "left": "28",
+              "unit": "px",
+              "isLinked": true
+            },
+            "box_shadow_box_shadow_type": "yes",
+            "box_shadow_box_shadow": {
+              "horizontal": 0,
+              "vertical": 32,
+              "blur": 80,
+              "spread": 0,
+              "color": "rgba(79,70,229,0.15)"
+            },
+            "padding": {
+              "top": "0",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "unit": "px",
+              "isLinked": true
+            },
+            "gap": {
+              "size": 0,
+              "unit": "px"
+            },
+            "align_items": "stretch",
+            "width": {
+              "size": 90,
+              "unit": "%"
+            },
+            "max_width": {
+              "size": 1060,
+              "unit": "px"
+            },
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "gh-reg-left",
+              "elType": "container",
+              "settings": {
+                "container_type": "flex",
+                "flex_direction": "column",
+                "width": {
+                  "size": 42,
+                  "unit": "%"
+                },
+                "background_background": "gradient",
+                "background_color": "#3b4ce8",
+                "background_color_b": "#7c3aed",
+                "background_gradient_angle": {
+                  "size": 145,
+                  "unit": "deg"
+                },
+                "border_radius": {
+                  "top": "28",
+                  "right": "0",
+                  "bottom": "0",
+                  "left": "28",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "padding": {
+                  "top": "40",
+                  "right": "40",
+                  "bottom": "48",
+                  "left": "40",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "align_items": "flex-start",
+                "justify_content": "space-between",
+                "content_width": "full"
+              },
+              "elements": [
+                {
+                  "id": "gh-reg-star-top",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "✳",
+                    "header_size": "h3",
+                    "title_color": "rgba(255,255,255,0.9)",
+                    "typography_font_size": {
+                      "size": 36,
+                      "unit": "px"
+                    },
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "0",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": true
+                    }
+                  }
+                },
+                {
+                  "id": "gh-reg-tagline-wrap",
+                  "elType": "container",
+                  "settings": {
+                    "container_type": "flex",
+                    "flex_direction": "column",
+                    "padding": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "0",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "content_width": "full"
+                  },
+                  "elements": [
+                    {
+                      "id": "gh-reg-tagline-pre",
+                      "elType": "widget",
+                      "widgetType": "heading",
+                      "settings": {
+                        "title": "Start today",
+                        "header_size": "p",
+                        "title_color": "rgba(255,255,255,0.7)",
+                        "typography_font_size": {
+                          "size": 14,
+                          "unit": "px"
+                        },
+                        "align": "left",
+                        "_margin": {
+                          "top": "0",
+                          "right": "0",
+                          "bottom": "8",
+                          "left": "0",
+                          "unit": "px",
+                          "isLinked": false
+                        }
+                      }
+                    },
+                    {
+                      "id": "gh-reg-tagline",
+                      "elType": "widget",
+                      "widgetType": "heading",
+                      "settings": {
+                        "title": "Get access your personal hub for clarity and productivity",
+                        "size": "xl",
+                        "title_color": "#ffffff",
+                        "typography_typography": "custom",
+                        "typography_font_size": {
+                          "size": 28,
+                          "unit": "px"
+                        },
+                        "typography_font_weight": "800",
+                        "typography_line_height": {
+                          "size": 1.3,
+                          "unit": "em"
+                        },
+                        "align": "left"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "gh-reg-right",
+              "elType": "container",
+              "settings": {
+                "container_type": "flex",
+                "flex_direction": "column",
+                "width": {
+                  "size": 58,
+                  "unit": "%"
+                },
+                "background_background": "classic",
+                "background_color": "#ffffff",
+                "border_radius": {
+                  "top": "0",
+                  "right": "28",
+                  "bottom": "28",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "padding": {
+                  "top": "52",
+                  "right": "64",
+                  "bottom": "52",
+                  "left": "64",
+                  "unit": "px",
+                  "isLinked": false
+                },
+                "align_items": "flex-start",
+                "justify_content": "center",
+                "content_width": "full"
+              },
+              "elements": [
+                {
+                  "id": "gh-reg-star-form",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "✳",
+                    "header_size": "h4",
+                    "title_color": "#4f46e5",
+                    "typography_font_size": {
+                      "size": 28,
+                      "unit": "px"
+                    },
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "12",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "gh-reg-h1",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "Create an account",
+                    "size": "xl",
+                    "title_color": "#0f172a",
+                    "typography_typography": "custom",
+                    "typography_font_size": {
+                      "size": 36,
+                      "unit": "px"
+                    },
+                    "typography_font_weight": "800",
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "6",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "gh-reg-sub",
+                  "elType": "widget",
+                  "widgetType": "heading",
+                  "settings": {
+                    "title": "Access your tasks, notes, and projects anytime, anywhere — and keep everything flowing in one place.",
+                    "header_size": "p",
+                    "title_color": "#64748b",
+                    "typography_font_size": {
+                      "size": 14,
+                      "unit": "px"
+                    },
+                    "typography_line_height": {
+                      "size": 1.6,
+                      "unit": "em"
+                    },
+                    "align": "left",
+                    "_margin": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "32",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": false
+                    }
+                  }
+                },
+                {
+                  "id": "gh-reg-form",
+                  "elType": "widget",
+                  "widgetType": "cle-register-form",
+                  "settings": {
+                    "form_title": "",
+                    "form_description": "",
+                    "button_text": "Get Started",
+                    "show_login_link": "yes",
+                    "login_link_text": "Already have an account? Sign in",
+                    "form_padding": {
+                      "top": "0",
+                      "right": "0",
+                      "bottom": "0",
+                      "left": "0",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "form_background_background": "",
+                    "form_box_shadow_box_shadow_type": "",
+                    "button_background_background": "classic",
+                    "button_background_color": "#4f46e5",
+                    "button_hover_background_color": "#3730a3",
+                    "button_border_radius": {
+                      "top": "10",
+                      "right": "10",
+                      "bottom": "10",
+                      "left": "10",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "field_border_type": "solid",
+                    "field_border_width": {
+                      "top": "1",
+                      "right": "1",
+                      "bottom": "1",
+                      "left": "1",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "field_border_color": "#e2e8f0",
+                    "field_border_radius": {
+                      "top": "10",
+                      "right": "10",
+                      "bottom": "10",
+                      "left": "10",
+                      "unit": "px",
+                      "isLinked": true
+                    },
+                    "field_background_color": "#f8fafc",
+                    "placeholder_color": "#94a3b8"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "version": "0.4",
+  "title": "Split Left — Sign In",
+  "type": "page",
+  "description": "Dark panel left, clean white login form right.",
+  "thumbnail": "",
+  "content": [
+    {
+      "id": "sl-login-wrap",
+      "elType": "container",
+      "settings": {
+        "container_type": "flex",
+        "flex_direction": "row",
+        "flex_wrap": "nowrap",
+        "height": "100vh",
+        "min_height": {
+          "size": 100,
+          "unit": "vh"
+        },
+        "padding": {
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "unit": "px",
+          "isLinked": true
+        },
+        "gap": {
+          "size": 0,
+          "unit": "px"
+        },
+        "align_items": "stretch",
+        "content_width": "full"
+      },
+      "elements": [
+        {
+          "id": "sl-login-left",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "column",
+            "width": {
+              "size": 50,
+              "unit": "%"
+            },
+            "min_height": {
+              "size": 100,
+              "unit": "vh"
+            },
+            "background_background": "classic",
+            "background_color": "#0f172a",
+            "background_image": {
+              "url": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1000&q=80"
+            },
+            "background_position": "center center",
+            "background_size": "cover",
+            "background_overlay_background": "classic",
+            "background_overlay_color": "rgba(15,23,42,0.65)",
+            "background_overlay": "yes",
+            "padding": {
+              "top": "48",
+              "right": "48",
+              "bottom": "48",
+              "left": "48",
+              "unit": "px",
+              "isLinked": false
+            },
+            "align_items": "flex-start",
+            "justify_content": "flex-end",
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "sl-login-tag",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "CLASSIC DESIGNS",
+                "header_size": "h6",
+                "title_color": "rgba(255,255,255,0.55)",
+                "typography_typography": "custom",
+                "typography_font_size": {
+                  "size": 11,
+                  "unit": "px"
+                },
+                "typography_font_weight": "600",
+                "typography_letter_spacing": {
+                  "size": 2,
+                  "unit": "px"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "14",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "sl-login-hero",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Create Your Account",
+                "size": "xl",
+                "title_color": "#ffffff",
+                "typography_typography": "custom",
+                "typography_font_size": {
+                  "size": 38,
+                  "unit": "px"
+                },
+                "typography_font_weight": "800",
+                "typography_line_height": {
+                  "size": 1.2,
+                  "unit": "em"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "16",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "sl-login-sub",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Join thousands of users. Start for free today.",
+                "header_size": "p",
+                "title_color": "rgba(255,255,255,0.65)",
+                "typography_font_size": {
+                  "size": 15,
+                  "unit": "px"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "0",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "sl-login-right",
+          "elType": "container",
+          "settings": {
+            "container_type": "flex",
+            "flex_direction": "column",
+            "width": {
+              "size": 50,
+              "unit": "%"
+            },
+            "min_height": {
+              "size": 100,
+              "unit": "vh"
+            },
+            "background_background": "classic",
+            "background_color": "#ffffff",
+            "padding": {
+              "top": "60",
+              "right": "72",
+              "bottom": "60",
+              "left": "72",
+              "unit": "px",
+              "isLinked": false
+            },
+            "align_items": "flex-start",
+            "justify_content": "center",
+            "content_width": "full"
+          },
+          "elements": [
+            {
+              "id": "sl-login-h1",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Sign In",
+                "size": "xl",
+                "title_color": "#111827",
+                "typography_typography": "custom",
+                "typography_font_size": {
+                  "size": 36,
+                  "unit": "px"
+                },
+                "typography_font_weight": "800",
+                "typography_line_height": {
+                  "size": 1.1,
+                  "unit": "em"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "8",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "sl-login-p1",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Please enter your details.",
+                "header_size": "p",
+                "title_color": "#6b7280",
+                "typography_font_size": {
+                  "size": 15,
+                  "unit": "px"
+                },
+                "align": "left",
+                "_margin": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "36",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": false
+                }
+              }
+            },
+            {
+              "id": "sl-login-form",
+              "elType": "widget",
+              "widgetType": "cle-login-form",
+              "settings": {
+                "form_title": "",
+                "form_description": "",
+                "button_text": "Sign In",
+                "show_remember": "yes",
+                "show_lost_password": "yes",
+                "show_register_link": "yes",
+                "register_link_text": "Don't have an account? Sign up",
+                "form_padding": {
+                  "top": "0",
+                  "right": "0",
+                  "bottom": "0",
+                  "left": "0",
+                  "unit": "px",
+                  "isLinked": true
+                },
+                "form_background_background": "",
+                "form_box_shadow_box_shadow_type": "",
+                "button_background_background": "classic",
+                "button_background_color": "#111827",
+                "button_border_radius": {
+                  "top": "10",
+                  "right": "10",
+                  "bottom": "10",
+                  "left": "10",
+                  "unit": "px",
+                  "isLinked": true
+                },
+                "field_border_type": "solid",
+                "field_border_width": {
+                  "top": "1",
+                  "right": "1",
+                  "bottom": "1",
+                  "left": "1",
+                  "unit": "px",
+                  "isLinked": true
+                },
+                "field_border_color": "#22c55e",
+                "field_border_radius": {
+                  "top": "8",
+                  "right": "8",
+                  "bottom": "8",
+                  "left": "8",
+                  "unit": "px",
+                  "isLinked": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

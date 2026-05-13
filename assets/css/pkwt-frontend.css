@@ -1,0 +1,412 @@
+/* ==========================================================================
+   PowerKit Frontend — Auth Forms
+   ========================================================================== */
+
+/* ── Honeypot ─────────────────────────────────────────────────────────────── */
+.pkwt-honeypot {
+	position: absolute !important;
+	left: -9999px !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+	width: 0 !important;
+	height: 0 !important;
+}
+
+/* ── Form Wrapper ─────────────────────────────────────────────────────────── */
+.pkwt-form-wrap {
+	max-width: 480px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 40px 36px;
+	background: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ── Form Title & Description ─────────────────────────────────────────────── */
+.pkwt-form-title {
+	margin: 0 0 8px;
+	font-size: 26px;
+	font-weight: 700;
+	color: #111827;
+	line-height: 1.25;
+}
+
+.pkwt-form-description {
+	margin: 0 0 28px;
+	font-size: 14px;
+	color: #6b7280;
+	line-height: 1.6;
+}
+
+/* ── Form Layout ──────────────────────────────────────────────────────────── */
+.pkwt-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.pkwt-form-field {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 16px;
+}
+
+.pkwt-form-field label,
+.pkwt-form label:not(.pkwt-checkbox) {
+	display: block;
+	margin-bottom: 6px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #374151;
+	letter-spacing: 0.01em;
+}
+
+/* ── Inputs ───────────────────────────────────────────────────────────────── */
+.pkwt-form input[type="text"],
+.pkwt-form input[type="email"],
+.pkwt-form input[type="password"],
+.pkwt-form input[type="url"],
+.pkwt-form input[type="tel"] {
+	width: 100%;
+	padding: 11px 14px;
+	font-size: 14px;
+	color: #111827;
+	background: #f9fafb;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 10px;
+	box-sizing: border-box;
+	transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+	outline: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.pkwt-form input[type="text"]:focus,
+.pkwt-form input[type="email"]:focus,
+.pkwt-form input[type="password"]:focus,
+.pkwt-form input[type="url"]:focus,
+.pkwt-form input[type="tel"]:focus {
+	border-color: #7c3aed;
+	background: #ffffff;
+	box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.pkwt-form input.is-invalid {
+	border-color: #ef4444;
+	background: #fef2f2;
+}
+
+.pkwt-form input.is-valid {
+	border-color: #10b981;
+}
+
+/* ── Password Wrap ────────────────────────────────────────────────────────── */
+.pkwt-password-wrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.pkwt-password-wrap input {
+	padding-right: 48px;
+	flex: 1;
+}
+
+.pkwt-password-toggle {
+	position: absolute;
+	right: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 28px;
+	height: 28px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #9ca3af;
+	transition: color 0.15s ease;
+}
+
+.pkwt-password-toggle:hover {
+	color: #374151;
+}
+
+.pkwt-password-toggle::before {
+	content: '';
+	display: block;
+	width: 18px;
+	height: 18px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-size: contain;
+	opacity: 0.55;
+}
+
+/* ── Remember / Checkbox ──────────────────────────────────────────────────── */
+.pkwt-row-space {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.pkwt-checkbox {
+	display: inline-flex !important;
+	align-items: center;
+	gap: 8px;
+	font-size: 13px;
+	color: #6b7280;
+	cursor: pointer;
+	font-weight: 400 !important;
+	margin: 0;
+}
+
+.pkwt-checkbox input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	border: 1.5px solid #d1d5db;
+	border-radius: 4px;
+	accent-color: #7c3aed;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+/* ── Lost Password Link ───────────────────────────────────────────────────── */
+.pkwt-lost-link {
+	margin: 0;
+	font-size: 13px;
+}
+
+.pkwt-lost-link a,
+.pkwt-form a {
+	color: #7c3aed;
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.pkwt-lost-link a:hover,
+.pkwt-form a:hover {
+	text-decoration: underline;
+	color: #6d28d9;
+}
+
+/* ── Submit Button ────────────────────────────────────────────────────────── */
+.pkwt-submit {
+	position: relative;
+	display: block;
+	width: 100%;
+	padding: 13px 20px;
+	margin-top: 4px;
+	font-size: 15px;
+	font-weight: 600;
+	color: #ffffff;
+	background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	overflow: hidden;
+	letter-spacing: 0.01em;
+	transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+	box-shadow: 0 2px 10px rgba(124, 58, 237, 0.3);
+}
+
+.pkwt-submit:hover:not(:disabled) {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.pkwt-submit:active:not(:disabled) {
+	transform: translateY(0);
+	box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+}
+
+.pkwt-submit:disabled,
+.pkwt-submit.is-loading {
+	opacity: 0.7;
+	cursor: progress;
+	transform: none;
+}
+
+/* Loading spinner on button */
+.pkwt-submit.is-loading::after {
+	content: '';
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 16px;
+	height: 16px;
+	border: 2px solid rgba(255, 255, 255, 0.4);
+	border-top-color: #ffffff;
+	border-radius: 50%;
+	animation: pkwt-spin 0.7s linear infinite;
+}
+
+@keyframes pkwt-spin {
+	to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* ── Messages ─────────────────────────────────────────────────────────────── */
+.pkwt-message {
+	margin: 10px 0 0;
+	min-height: 0;
+	font-size: 13px;
+	border-radius: 8px;
+	padding: 0;
+	transition: all 0.2s ease;
+}
+
+.pkwt-message:empty {
+	display: none;
+}
+
+.pkwt-message.is-error {
+	color: #b91c1c;
+	background: #fef2f2;
+	border: 1px solid #fecaca;
+	padding: 10px 14px;
+}
+
+.pkwt-message.is-success {
+	color: #065f46;
+	background: #ecfdf5;
+	border: 1px solid #a7f3d0;
+	padding: 10px 14px;
+}
+
+.pkwt-field-error {
+	color: #ef4444;
+	display: block;
+	font-size: 12px;
+	margin-top: 4px;
+}
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+.pkwt-divider {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 18px 0;
+	font-size: 12px;
+	color: #9ca3af;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.pkwt-divider::before,
+.pkwt-divider::after {
+	content: '';
+	flex: 1;
+	border-top: 1px solid #e5e7eb;
+}
+
+/* ── Social Login ─────────────────────────────────────────────────────────── */
+.pkwt-social-login {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 4px;
+}
+
+.pkwt-social-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	flex: 1;
+	min-width: 120px;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 10px;
+	padding: 10px 14px;
+	text-decoration: none;
+	color: #374151;
+	font-size: 13px;
+	font-weight: 500;
+	background: #ffffff;
+	transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pkwt-social-btn:hover {
+	border-color: #d1d5db;
+	background: #f9fafb;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+	text-decoration: none;
+	color: #111827;
+}
+
+/* ── Auth Tabs ────────────────────────────────────────────────────────────── */
+.pkwt-auth-tabs-nav {
+	display: flex;
+	gap: 0;
+	margin-bottom: 24px;
+	background: #f3f4f6;
+	border-radius: 10px;
+	padding: 3px;
+}
+
+.pkwt-auth-tab {
+	flex: 1;
+	border: none;
+	background: transparent;
+	padding: 9px 16px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #6b7280;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+.pkwt-auth-tab.is-active {
+	background: #ffffff;
+	color: #111827;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Redirect Timer ───────────────────────────────────────────────────────── */
+.pkwt-redirect-timer-bar {
+	height: 4px;
+	background: #e5e7eb;
+	border-radius: 999px;
+	overflow: hidden;
+	margin-top: 12px;
+}
+
+.pkwt-redirect-timer-bar-fill {
+	height: 100%;
+	width: 0;
+	background: linear-gradient(90deg, #7c3aed, #a855f7);
+	transition: width 1s linear;
+}
+
+/* ── Bottom Link ──────────────────────────────────────────────────────────── */
+.pkwt-form-footer-link {
+	text-align: center;
+	margin-top: 20px;
+	font-size: 13px;
+	color: #6b7280;
+}
+
+.pkwt-form-footer-link a {
+	color: #7c3aed;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.pkwt-form-footer-link a:hover {
+	text-decoration: underline;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+	.pkwt-form-wrap {
+		padding: 28px 20px;
+	}
+}
