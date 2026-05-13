@@ -4,7 +4,7 @@ Donate link: https://saddamhussain.com.np/
 Tags: login, elementor, custom login, login page, register
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 3.5.4
+Stable tag: 3.5.5
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -178,6 +178,10 @@ Please report security issues directly to the author via the contact form at htt
 8. The onboarding wizard shown on first activation
 
 == Changelog ==
+= 3.5.5 =
+* Fix: Zip packaging — top-level folder inside archive is now "powerkit-powerful-tools-for-your-website" (no version suffix), eliminating false TextDomainMismatch errors in Plugin Check
+* Fix: Exclude .claude AI directory and all hidden files from release zip
+
 = 3.5.4 =
 * Fix: Rename main plugin file to match WP.org slug (powerkit-powerful-tools-for-your-website.php)
 * Fix: Update Plugin URI header to correct WP.org listing URL

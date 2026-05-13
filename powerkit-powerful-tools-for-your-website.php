@@ -3,7 +3,7 @@
  * Plugin Name:       PowerKit - Powerful Tools For Your Website
  * Plugin URI:        https://wordpress.org/plugins/powerkit-powerful-tools-for-your-website/
  * Description:       Power Packed Tools - Complete WordPress Management Suite
- * Version:           3.5.4
+ * Version:           3.5.5
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Saddam Hussain Safi
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'PKWT_VERSION' ) ) {
-	define( 'PKWT_VERSION', '3.5.4' );
+	define( 'PKWT_VERSION', '3.5.5' );
 }
 if ( ! defined( 'PKWT_PLUGIN_FILE' ) ) {
 	define( 'PKWT_PLUGIN_FILE', __FILE__ );
