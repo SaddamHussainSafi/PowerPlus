@@ -4,7 +4,7 @@ Donate link: https://saddamhussain.com.np/
 Tags: login, elementor, custom login, login page, register
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 3.5.3
+Stable tag: 3.5.4
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -178,6 +178,14 @@ Please report security issues directly to the author via the contact form at htt
 8. The onboarding wizard shown on first activation
 
 == Changelog ==
+= 3.5.4 =
+* Fix: Rename main plugin file to match WP.org slug (powerkit-powerful-tools-for-your-website.php)
+* Fix: Update Plugin URI header to correct WP.org listing URL
+* Fix: Move inline <style> block in templates view to enqueued CSS file (pkwt-templates.css)
+* Fix: Move inline <script> block in templates view to enqueued JS file (pkwt-templates.js) with wp_localize_script for PHP values
+* Fix: Wrap all $_POST username/email/honeypot fields with sanitize_text_field() / sanitize_email() after wp_unslash()
+* Fix: Add inline code comments explaining wp_signon() and wp_create_user() use WP core hook chains
+
 = 3.4.2 =
 * Fix: Nonce now injected via wp_add_inline_script on elementor-editor handle — guaranteed to reach the page even when external JS file is not yet cached on the server
 

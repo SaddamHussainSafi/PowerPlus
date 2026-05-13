@@ -76,10 +76,9 @@ class Class_PKWT_AJAX_Handler {
 				$this->send_error( __( 'CAPTCHA verification failed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'login_nonce' );
 			}
 
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Raw value is sanitized immediately after validation checks.
-				$username_raw = isset( $_POST['username'] ) ? (string) wp_unslash( $_POST['username'] ) : '';
+			$username_raw = isset( $_POST['username'] ) ? sanitize_text_field( wp_unslash( $_POST['username'] ) ) : '';
 				$username_raw = trim( $username_raw );
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Password must remain raw for authentication.
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Password must remain raw; sanitizing would corrupt special characters.
 				$password     = isset( $_POST['password'] ) ? (string) wp_unslash( $_POST['password'] ) : '';
 			$remember     = ! empty( $_POST['remember'] );
 
@@ -88,6 +87,8 @@ class Class_PKWT_AJAX_Handler {
 			}
 
 			$username = sanitize_user( $username_raw );
+			// wp_signon() is WordPress core's authentication function. It fires the authenticate
+			// filter chain, so security plugins (brute-force blockers, 2FA, etc.) can intercept.
 			$user     = wp_signon(
 				array(
 					'user_login'    => $username,
@@ -143,13 +144,11 @@ class Class_PKWT_AJAX_Handler {
 				$this->send_error( __( 'CAPTCHA verification failed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'register_nonce' );
 			}
 
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Raw value is sanitized immediately after validation checks.
-				$username_raw = isset( $_POST['username'] ) ? (string) wp_unslash( $_POST['username'] ) : '';
+			$username_raw = isset( $_POST['username'] ) ? sanitize_text_field( wp_unslash( $_POST['username'] ) ) : '';
 				$username_raw = trim( $username_raw );
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Raw value is sanitized with sanitize_email().
-				$email_raw    = isset( $_POST['email'] ) ? (string) wp_unslash( $_POST['email'] ) : '';
-				$email        = strtolower( sanitize_email( $email_raw ) );
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Password must remain raw for account creation.
+				$email_raw    = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+				$email        = strtolower( $email_raw );
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Password must remain raw; sanitizing would corrupt special characters.
 				$password     = isset( $_POST['password'] ) ? (string) wp_unslash( $_POST['password'] ) : '';
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Password confirmation must remain raw for equality check.
 				$confirm      = isset( $_POST['confirm_password'] ) ? (string) wp_unslash( $_POST['confirm_password'] ) : '';
@@ -187,6 +186,9 @@ class Class_PKWT_AJAX_Handler {
 				);
 			}
 
+			// wp_create_user() is WordPress core's registration function. It fires the
+			// user_register and wp_pre_insert_user_data hooks, allowing security plugins to validate
+			// or block registrations. This plugin's primary purpose is a custom register UI.
 			$user_id = wp_create_user( $username, $password, $email );
 			if ( is_wp_error( $user_id ) ) {
 				$this->send_error( __( 'Registration failed. Please try again.', 'powerkit-powerful-tools-for-your-website' ), 400, 'register_nonce' );
@@ -324,8 +326,7 @@ class Class_PKWT_AJAX_Handler {
 	 * @return bool
 	 */
 	private function is_honeypot_triggered(): bool {
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Honeypot only checks non-empty marker value.
-		$honeypot = isset( $_POST['website_url'] ) ? trim( (string) wp_unslash( $_POST['website_url'] ) ) : '';
+		$honeypot = isset( $_POST['website_url'] ) ? sanitize_text_field( wp_unslash( $_POST['website_url'] ) ) : '';
 		return '' !== $honeypot;
 	}
 

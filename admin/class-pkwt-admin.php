@@ -110,6 +110,27 @@ class Class_PKWT_Admin {
 
 		wp_enqueue_style( 'pkwt-admin', PKWT_PLUGIN_URL . 'assets/css/pkwt-admin.css', array(), PKWT_VERSION );
 		wp_enqueue_script( 'pkwt-admin', PKWT_PLUGIN_URL . 'assets/js/pkwt-admin.js', array(), PKWT_VERSION, true );
+
+		if ( false !== strpos( $hook, 'pkwt-settings-templates' ) || 'pkwt-settings-templates' === $page ) {
+			wp_enqueue_style( 'pkwt-templates', PKWT_PLUGIN_URL . 'assets/css/pkwt-templates.css', array(), PKWT_VERSION );
+			wp_enqueue_script( 'pkwt-templates', PKWT_PLUGIN_URL . 'assets/js/pkwt-templates.js', array(), PKWT_VERSION, true );
+			wp_localize_script(
+				'pkwt-templates',
+				'pkwtTemplatesData',
+				array(
+					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+					'i18n'    => array(
+						'importing'        => __( 'Importing…', 'powerkit-powerful-tools-for-your-website' ),
+						'imported'         => __( 'Imported!', 'powerkit-powerful-tools-for-your-website' ),
+						'openElementor'    => __( 'Open in Elementor →', 'powerkit-powerful-tools-for-your-website' ),
+						'viewPage'         => __( 'View Page →', 'powerkit-powerful-tools-for-your-website' ),
+						'importFailed'     => __( 'Import failed.', 'powerkit-powerful-tools-for-your-website' ),
+						'sessionExpired'   => __( 'Session expired — please refresh the page.', 'powerkit-powerful-tools-for-your-website' ),
+						'importFailedRetry'=> __( 'Import failed. Please try again.', 'powerkit-powerful-tools-for-your-website' ),
+					),
+				)
+			);
+		}
 	}
 
 	/**
