@@ -273,11 +273,405 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 </details>
 
 <details>
-<summary><strong>v3.5.3</strong> — Initial WP.org submission</summary>
+<summary><strong>v3.4.2</strong></summary>
 
-- Full `CLE` → `PKWT` prefix rename across all classes, constants, and hooks
-- All Plugin Check errors resolved
-- `readme.txt` Stable tag aligned with plugin version
+- Fix: Nonce now injected via `wp_add_inline_script` on elementor-editor handle — guaranteed to reach the page even when external JS file is not yet cached on the server
+
+</details>
+
+<details>
+<summary><strong>v3.4.1</strong></summary>
+
+- Fix: Nonce now generated fresh on every editor page load via `wp_localize_script` — eliminates "Security check failed" error in widget template picker
+- Fix: Dashboard Page Templates tab Import buttons now use AJAX instead of admin-post form — eliminates "The link you followed has expired" error
+
+</details>
+
+<details>
+<summary><strong>v3.4.0</strong> — In-widget template import</summary>
+
+- Feature: Template import now works directly inside the Elementor widget panel — click Import on any layout card in the Login, Register, Lost Password, or Reset Password widget
+- Removed: Old preset/theme colour system removed from all widgets
+- Improvement: Template import uses AJAX — no page reloads or expiring form links
+- Improvement: After import, links to open the page in Elementor or view it are shown inline in the widget panel
+
+</details>
+
+<details>
+<summary><strong>v3.3.0</strong> — Template library</summary>
+
+- Feature: Full Elementor page template library — 3 complete layout sets (Split Left, Centered Card, Gradient Panel Right), each with Login / Register / Forgot Password / Reset Password variants, importable in one click
+- Feature: New "Page Templates" admin tab for browsing and importing templates
+- Improvement: Template import writes directly to `_elementor_data` post meta, sets edit mode to builder, and flushes CSS cache automatically
+
+</details>
+
+<details>
+<summary><strong>v3.2.0</strong> — Built-in form templates</summary>
+
+- Feature: 6 built-in form templates added to all auth widgets — Default, Midnight, Aurora, Minimal, Corporate, Sunset
+
+</details>
+
+<details>
+<summary><strong>v3.1.5</strong></summary>
+
+- Fixed: `?_pkwt_no_cache=1` no longer appended to login/logout/register/lost password URLs — clean URLs everywhere
+
+</details>
+
+<details>
+<summary><strong>v3.1.4</strong></summary>
+
+- Improved: Login URL field redesigned as a WordPress permalink-style slug editor
+- Changed: Default login page slug is now `wp-admin` (matching WordPress default)
+
+</details>
+
+<details>
+<summary><strong>v3.1.3</strong></summary>
+
+- Improved: Custom login URL now automatically renames the login page slug to match — no redirect needed
+
+</details>
+
+<details>
+<summary><strong>v3.1.2</strong></summary>
+
+- Fixed: Custom login URL showing 404 — now cleanly redirects to the configured login page
+
+</details>
+
+<details>
+<summary><strong>v3.1.1</strong></summary>
+
+- Fixed: `ERR_TOO_MANY_REDIRECTS` loop in custom login URL routing
+- Fixed: Path comparison now uses `get_permalink()` instead of cached URL with query strings
+
+</details>
+
+<details>
+<summary><strong>v3.1.0</strong></summary>
+
+- Fixed: Custom login URL showing 404 — now redirects to the Elementor login page when configured
+- Fixed: Redirect loop between custom URL and login page slug
+
+</details>
+
+<details>
+<summary><strong>v3.0.9</strong></summary>
+
+- Fixed: Custom login URL serving raw `wp-login.php` instead of the Elementor login page
+
+</details>
+
+<details>
+<summary><strong>v3.0.8</strong></summary>
+
+- Fixed: Elementor preview iframe fails to load on plugin auth pages — redirector was intercepting preview requests
+- Fixed: `X-Frame-Options` / CSP `frame-ancestors` headers now suppressed for all Elementor preview contexts
+
+</details>
+
+<details>
+<summary><strong>v3.0.7</strong></summary>
+
+- Fixed: HTML entities appearing in Elementor live preview — switched to triple-brace `{{{ }}}` syntax
+- Fixed: Frontend CSS and JS not loading on pages containing PowerKit widgets
+- Fixed: Classic Editor module dequeuing `wp-editor` on the Elementor editor screen
+
+</details>
+
+<details>
+<summary><strong>v3.0.6</strong></summary>
+
+- Fixed: White screen on all WordPress admin pages — PHP parse error in `capture_change_snapshot()`
+
+</details>
+
+<details>
+<summary><strong>v3.0.5</strong></summary>
+
+- Fixed: Fatal `TypeError` — `fix_svg_filetype()` type signature aligned with WordPress core
+
+</details>
+
+<details>
+<summary><strong>v3.0.4</strong></summary>
+
+- Fixed: Media uploads broken when plugin active — SVG upload hooks now conditional on feature being enabled
+- Fixed: Elementor editor fails to load auth pages — `X-Frame-Options` headers suppressed during editor sessions
+
+</details>
+
+<details>
+<summary><strong>v3.0.3</strong></summary>
+
+- Fixed: `phpcs:enable` comment leaking as visible text in admin page footers
+- Fixed: "Elementor is not active" conflict notice showing when Elementor is active
+- Fixed: SVG upload "server cannot process the image" thumbnail error
+- Removed: White Label page and all related functionality
+- Improved: Complete widget UI redesign with professional modern design and loading spinner animations
+
+</details>
+
+<details>
+<summary><strong>v3.0.2</strong></summary>
+
+- Fixed: Grey oval overlay on settings pages caused by missing CSS class alias
+
+</details>
+
+<details>
+<summary><strong>v3.0.1</strong></summary>
+
+- Fixed: Various PHPCS prefix compliance warnings
+- Fixed: Post meta key `_cle_page_type` renamed to `_pkwt_page_type`
+- Fixed: Export filename updated from `cle-settings-*.json` to `pkwt-settings-*.json`
+- Fixed: All admin redirect URLs updated to `page=pkwt-settings`
+
+</details>
+
+<details>
+<summary><strong>v3.0.0</strong> — Full PKWT rename & WP.org compliance</summary>
+
+- Fixed: Namespace renamed from `CLE\` to `PKWT\` (4+ character prefix, WP.org compliance)
+- Fixed: All option keys, hooks, and transients renamed from `cle_` to `pkwt_` prefix
+- Fixed: AJAX endpoint derived via `admin_url()` instead of hardcoded path
+- Fixed: `ob_start()` in Ghost Mode paired with `shutdown` action `ob_end_flush()`
+- Fixed: Text domain confirmed as `powerkit-powerful-tools-for-your-website` throughout
+- Fixed: Added `== External Services ==` section to readme documenting reCAPTCHA and hCaptcha
+
+</details>
+
+<details>
+<summary><strong>v2.9.9</strong></summary>
+
+- Changed: Sidebar top-level menu label fixed to "PowerKit"
+- Changed: Removed user-facing "CLE" wording from all UI
+
+</details>
+
+<details>
+<summary><strong>v2.9.8 – v2.9.6</strong> — Plugin Check compliance pass</summary>
+
+- Fixed: Nonce verification warnings resolved
+- Fixed: Removed deprecated `load_plugin_textdomain()` for WP.org translation compliance
+- Fixed: Frontend script defer behavior uses enqueued script tag modification (no raw output)
+- Fixed: Added missing `translators:` comments for placeholder-based strings
+
+</details>
+
+<details>
+<summary><strong>v2.9.5</strong></summary>
+
+- Changed: Plugin display name updated to **PowerKit - Powerful Tools For Your Website**
+
+</details>
+
+<details>
+<summary><strong>v2.9.4</strong></summary>
+
+- Fixed: All plugin constants guarded with `defined()` checks — no more activation warnings
+
+</details>
+
+<details>
+<summary><strong>v2.9.3</strong></summary>
+
+- Changed: Plugin display name updated for WordPress.org naming compliance
+
+</details>
+
+<details>
+<summary><strong>v2.9.2</strong></summary>
+
+- Changed: Compliance hardening pass for WP.org submission prep
+- Changed: Ghost plugin-name masking default is now OFF unless explicitly enabled
+
+</details>
+
+<details>
+<summary><strong>v2.9.1</strong></summary>
+
+- Fixed: Toggle switch click behavior works directly on the switch body across all settings pages
+
+</details>
+
+<details>
+<summary><strong>v2.9.0</strong> — PowerKit rebrand</summary>
+
+- Changed: Rebranded plugin metadata and admin branding to **PowerKit - Powerful Tools For Your Website**
+- Fixed: Ghost Mode plugin name masking now rewrites plugin folder aliases reliably
+
+</details>
+
+<details>
+<summary><strong>v2.8.8</strong></summary>
+
+- Changed: Unified green visual theme across plugin admin UI accents, buttons, links, and save bars
+
+</details>
+
+<details>
+<summary><strong>v2.8.7</strong></summary>
+
+- Fixed: Unified all module toggles to use the exact same switch system as Overview
+- Added: Runtime conversion of legacy toggle inputs into consistent switch markup
+
+</details>
+
+<details>
+<summary><strong>v2.8.6 – v2.8.5</strong></summary>
+
+- Fixed: Overview table forces high-contrast light surface/text colours in dark-mode environments
+
+</details>
+
+<details>
+<summary><strong>v2.8.4</strong></summary>
+
+- Fixed: Deactivation now explicitly removes auth URL filters immediately
+
+</details>
+
+<details>
+<summary><strong>v2.8.3</strong></summary>
+
+- Added: Dynamic capability mapping for settings groups — selected access roles can save settings
+- Fixed: Activity log metadata sanitization handles non-string values safely
+
+</details>
+
+<details>
+<summary><strong>v2.8.2</strong> — Security Operations panel</summary>
+
+- Added: Security Operations controls — dashboard toggle, admin-only test mode, settings activity logging
+- Added: Role-based plugin access configuration with administrator-safe fallback
+- Added: Settings activity log table with clear action in Security page
+
+</details>
+
+<details>
+<summary><strong>v2.8.1</strong></summary>
+
+- Added: Deferred loading for admin and module editor scripts
+- Added: Dismissible guided setup panel with smart recommendations on Overview
+- Changed: Admin option reads now use request-level caching to reduce repeated option fetches
+
+</details>
+
+<details>
+<summary><strong>v2.8.0</strong> — Card-based admin redesign</summary>
+
+- Changed: Rebuilt Duplicate, SVG Upload, Ghost Mode, and Classic Editor pages into card-based layouts with top/bottom save bars
+- Changed: Overview feature control table now uses a 5-column management layout
+
+</details>
+
+<details>
+<summary><strong>v2.7.0</strong> — Premium admin design system</summary>
+
+- Added: New premium card-based design system for all core settings pages
+- Added: Top and bottom save controls across settings forms
+- Changed: Unified toggle switch UI across all settings pages
+
+</details>
+
+<details>
+<summary><strong>v2.6.4</strong></summary>
+
+- Added: Native endpoint blocking toggle for `/wp-login.php` and guest `/wp-admin` (404 response)
+- Added: Emergency recovery bypass via `CLE_AUTH_RECOVERY_MODE` constant
+
+</details>
+
+<details>
+<summary><strong>v2.6.3</strong></summary>
+
+- Fixed: `register_page_id` and `lost_password_page_id` no longer reset to `0` when saving unrelated settings sections
+- Fixed: Conflict scan now auto-heals missing auth page IDs
+
+</details>
+
+<details>
+<summary><strong>v2.6.2 – v2.6.0</strong> — Overview redesign</summary>
+
+- Changed: Overview redesigned to a clean minimal toggle table
+- Changed: One-click module switch now toggles instantly via card switch control
+
+</details>
+
+<details>
+<summary><strong>v2.5.0</strong></summary>
+
+- Added: WordPress left-menu submenu navigation for all plugin sections
+
+</details>
+
+<details>
+<summary><strong>v2.4.0</strong></summary>
+
+- Added: Live configuration test actions on Overview (Login URL test + Security Scan)
+- Added: Configuration snapshots with one-click rollback restore points
+- Added: Module search/filter controls with dependency and impact details
+
+</details>
+
+<details>
+<summary><strong>v2.3.0</strong></summary>
+
+- Added: 3-step quick setup wizards for Duplicate, SVG Upload, Ghost Mode, and Classic Editor tabs
+- Added: One-click "Apply Recommended Settings" presets for major modules
+
+</details>
+
+<details>
+<summary><strong>v2.2.0</strong></summary>
+
+- Added: New dashboard-style Overview tab with module cards, quick actions, and health score
+- Added: One-click module enable/disable actions from overview with status feedback
+
+</details>
+
+<details>
+<summary><strong>v2.1.1</strong></summary>
+
+- Fixed: Feature toggles no longer reset to OFF when saving a different tab
+- Changed: Replaced key ON/OFF checkboxes with slider-style toggle UI
+
+</details>
+
+<details>
+<summary><strong>v2.1.0</strong> — Classic Editor module</summary>
+
+- Added: Classic Editor tab with master toggle, scope controls, and per post type selection
+- Added: User preference support (Classic/Block) with optional admin bypass
+- Added: Gutenberg cleanup controls (widgets, FSE, patterns, block directory)
+
+</details>
+
+<details>
+<summary><strong>v2.0.0</strong> — Duplicate, SVG Upload & Ghost Mode</summary>
+
+- Added: Integrated Duplicate, SVG Upload, and Ghost Mode feature modules
+- Added: Server-side SVG sanitization, role-based SVG permissions, media scan, and sanitization logs
+- Added: Ghost Mode signal controls, endpoint hardening toggles, and detection test tool
+- Added: Post-login redirect page selector and custom login URL controls
+
+</details>
+
+<details>
+<summary><strong>v1.0.0</strong> — Initial release</summary>
+
+- Login Form widget with full styling controls
+- Register Form widget with configurable fields
+- Lost Password, Reset Password, Auth Logo, Auth Message, Social Login, Auth Tabs widgets
+- CAPTCHA widget with reCAPTCHA v2/v3 and hCaptcha support
+- Admin settings panel with General, Redirects, Compatibility, Security, White Label, and Import/Export tabs
+- WooCommerce, Multisite, WPML, Polylang compatibility
+- WP Rocket and W3 Total Cache auto-exclusion
+- Rate limiting, brute force protection, and first-run onboarding wizard
 
 </details>
 
