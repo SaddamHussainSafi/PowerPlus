@@ -118,7 +118,7 @@ class Class_PKWT_AJAX_Handler {
 			);
 		} catch ( \Throwable $e ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'PowerPlus Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
 			$this->send_error( __( 'Login could not be completed.', 'powerplus-toolkit' ), 500, 'login_nonce' );
 		}
@@ -210,7 +210,7 @@ class Class_PKWT_AJAX_Handler {
 			);
 		} catch ( \Throwable $e ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'PowerPlus Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
 			$this->send_error( __( 'Registration could not be completed.', 'powerplus-toolkit' ), 500, 'register_nonce' );
 		}
@@ -246,7 +246,7 @@ class Class_PKWT_AJAX_Handler {
 			);
 		} catch ( \Throwable $e ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'PowerPlus Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
 			$this->send_error( __( 'Password reset request failed.', 'powerplus-toolkit' ), 500, 'lostpw_nonce' );
 		}
@@ -302,7 +302,7 @@ class Class_PKWT_AJAX_Handler {
 			);
 		} catch ( \Throwable $e ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'PowerPlus Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
 			$this->send_error( __( 'Password reset failed.', 'powerplus-toolkit' ), 500, 'resetpw_nonce' );
 		}

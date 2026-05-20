@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Lost_Password extends Class_Abstract_Form_Widget {
 
 	public function get_name() { return 'pkwt-lost-password'; }
-	public function get_title() { return esc_html__( 'PowerKit Lost Password', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Lost Password', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-mail'; }
 	public function get_keywords() { return array( 'lost password', 'forgot', 'auth' ); }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Auth_Logo extends Widget_Base {
 
 	public function get_name() { return 'pkwt-auth-logo'; }
-	public function get_title() { return esc_html__( 'PowerKit Auth Logo', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Auth Logo', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-site-logo'; }
 	public function get_keywords() { return array( 'logo', 'brand', 'auth' ); }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }

@@ -20,7 +20,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 	}
 
 	public function get_title() {
-		return esc_html__( 'PowerKit Login Form', 'powerplus-toolkit' );
+		return esc_html__( 'PowerPlus Login Form', 'powerplus-toolkit' );
 	}
 
 	public function get_icon() {

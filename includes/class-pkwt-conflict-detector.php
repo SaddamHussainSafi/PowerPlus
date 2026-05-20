@@ -79,7 +79,7 @@ class Class_PKWT_Conflict_Detector {
 		);
 
 		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			$report['issues'][] = __( 'Elementor is not active. PowerKit widgets are disabled.', 'powerplus-toolkit' );
+			$report['issues'][] = __( 'Elementor is not active. PowerPlus widgets are disabled.', 'powerplus-toolkit' );
 		} elseif ( version_compare( ELEMENTOR_VERSION, PKWT_MIN_ELEMENTOR, '<' ) ) {
 			$report['issues'][] = __( 'Elementor version is below 3.5.0.', 'powerplus-toolkit' );
 		}
@@ -129,7 +129,7 @@ class Class_PKWT_Conflict_Detector {
 			return;
 		}
 
-		echo '<div class="notice notice-warning is-dismissible"><p><strong>' . esc_html__( 'PowerKit Conflict Report', 'powerplus-toolkit' ) . '</strong></p><ul>';
+		echo '<div class="notice notice-warning is-dismissible"><p><strong>' . esc_html__( 'PowerPlus Conflict Report', 'powerplus-toolkit' ) . '</strong></p><ul>';
 		foreach ( $issues as $issue ) {
 			echo '<li>' . esc_html( $issue ) . '</li>';
 		}

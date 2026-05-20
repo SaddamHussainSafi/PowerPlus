@@ -23,7 +23,7 @@ $modules = array(
 		'label'      => __( 'Auth Redirects', 'powerplus-toolkit' ),
 		'active'     => ! empty( $pkwt_settings['enabled'] ),
 		'icon'       => 'dashicons-lock',
-		'plugin'     => __( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' ),
+		'plugin'     => __( 'PowerPlus — All-in-One Powerful Toolkit', 'powerplus-toolkit' ),
 		'link'       => admin_url( 'admin.php?page=pkwt-settings-general' ),
 		'link_label' => __( 'Open', 'powerplus-toolkit' ),
 	),
@@ -69,7 +69,7 @@ $modules = array(
 $notice = isset( $_GET['pkwt_notice'] ) ? sanitize_key( wp_unslash( $_GET['pkwt_notice'] ) ) : '';
 ?>
 <div class="wrap pkwt-ui pkwt-overview-wrap">
-	<h1><?php esc_html_e( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' ); ?></h1>
+	<h1><?php esc_html_e( 'PowerPlus — All-in-One Powerful Toolkit', 'powerplus-toolkit' ); ?></h1>
 	<p class="description"><?php esc_html_e( 'Developed by Saddam Hussain Safi | Incepta Studio', 'powerplus-toolkit' ); ?></p>
 
 	<div class="pkwt-guide-panel" data-pkwt-guide-panel>

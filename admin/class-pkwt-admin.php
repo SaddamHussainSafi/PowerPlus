@@ -55,9 +55,9 @@ class Class_PKWT_Admin {
 		}
 
 		$settings   = $this->get_cached_option( 'pkwt_settings', array() );
-		$name       = __( 'PowerKit', 'powerplus-toolkit' );
+		$name       = __( 'PowerPlus', 'powerplus-toolkit' );
 		$icon       = ! empty( $settings['custom_admin_menu_icon'] ) ? (string) $settings['custom_admin_menu_icon'] : 'dashicons-lock';
-		$page_title = __( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' );
+		$page_title = __( 'PowerPlus — All-in-One Powerful Toolkit', 'powerplus-toolkit' );
 
 		add_menu_page(
 			esc_html( $page_title ),
@@ -222,7 +222,7 @@ class Class_PKWT_Admin {
 
 		return sprintf(
 			/* translators: %s: current year */
-			esc_html__( '© %s PowerKit - Powerful Tools For Your Website | Developed by Saddam Hussain Safi', 'powerplus-toolkit' ),
+			esc_html__( '© %s PowerPlus — All-in-One Powerful Toolkit | Developed by Saddam Hussain Safi', 'powerplus-toolkit' ),
 			gmdate( 'Y' )
 		) . ' | <a href="https://inceptastudio.com/" target="_blank" rel="noopener noreferrer">Incepta Studio</a> | <a href="https://saddamhussain.com.np/" target="_blank" rel="noopener noreferrer">Portfolio</a>';
 	}
@@ -239,7 +239,7 @@ class Class_PKWT_Admin {
 		if ( 0 !== strpos( $page, 'pkwt-settings' ) ) {
 			return $text;
 		}
-		return esc_html__( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' );
+		return esc_html__( 'PowerPlus — All-in-One Powerful Toolkit', 'powerplus-toolkit' );
 	}
 
 	/**

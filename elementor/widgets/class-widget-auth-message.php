@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Auth_Message extends Widget_Base {
 
 	public function get_name() { return 'pkwt-auth-message'; }
-	public function get_title() { return esc_html__( 'PowerKit Auth Message', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Auth Message', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-alert'; }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }
 

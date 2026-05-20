@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 
 	public function get_name() { return 'pkwt-register-form'; }
-	public function get_title() { return esc_html__( 'PowerKit Register Form', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Register Form', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-user-circle-o'; }
 	public function get_keywords() { return array( 'register', 'signup', 'auth', 'form' ); }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }

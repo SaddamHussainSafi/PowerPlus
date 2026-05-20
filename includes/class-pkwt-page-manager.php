@@ -60,7 +60,7 @@ class Class_PKWT_Page_Manager {
 					'post_status'  => 'publish',
 					'post_content' => sprintf(
 						'<!-- wp:paragraph --><p>%s</p><!-- /wp:paragraph -->',
-						esc_html__( 'Edit this page with Elementor and add PowerKit widgets.', 'powerplus-toolkit' )
+						esc_html__( 'Edit this page with Elementor and add PowerPlus widgets.', 'powerplus-toolkit' )
 					),
 				)
 			);

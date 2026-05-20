@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Auth_Tabs extends Widget_Base {
 
 	public function get_name() { return 'pkwt-auth-tabs'; }
-	public function get_title() { return esc_html__( 'PowerKit Auth Tabs', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Auth Tabs', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-tabs'; }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }
 

@@ -4,7 +4,7 @@ Donate link: https://saddamhussain.com.np/
 Tags: login, elementor, custom login, login page, register
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 3.5.6
+Stable tag: 3.5.7
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -178,6 +178,9 @@ Please report security issues directly to the author via the contact form at htt
 8. The onboarding wizard shown on first activation
 
 == Changelog ==
+
+= 3.5.7 =
+* Fixed: All remaining "PowerKit" display strings replaced with "PowerPlus" across admin notices, widget titles, onboarding, conflict detector, and frontend messages
 = 3.5.6 =
 * Renamed: Plugin slug changed to powerplus-toolkit (approved by WordPress.org)
 * Renamed: Plugin display name changed to PowerPlus — All-in-One Powerful Toolkit

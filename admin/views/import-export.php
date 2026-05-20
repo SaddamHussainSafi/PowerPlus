@@ -27,7 +27,7 @@ $notice = isset( $_GET['pkwt_notice'] ) ? sanitize_key( wp_unslash( $_GET['pkwt_
 	<div class="pkwt-card-grid">
 		<section class="pkwt-card">
 			<h2><?php esc_html_e( 'Export', 'powerplus-toolkit' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'Download all PowerKit settings as a JSON file.', 'powerplus-toolkit' ); ?></p>
+			<p class="description"><?php esc_html_e( 'Download all PowerPlus settings as a JSON file.', 'powerplus-toolkit' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( 'pkwt_export_settings' ); ?>
 				<input type="hidden" name="action" value="pkwt_export_settings" />

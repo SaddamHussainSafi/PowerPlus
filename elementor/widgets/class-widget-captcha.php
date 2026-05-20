@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Captcha extends Widget_Base {
 
 	public function get_name() { return 'pkwt-captcha'; }
-	public function get_title() { return esc_html__( 'PowerKit CAPTCHA', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus CAPTCHA', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-shield-check'; }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }
 

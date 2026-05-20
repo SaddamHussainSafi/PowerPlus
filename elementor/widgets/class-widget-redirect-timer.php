@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Redirect_Timer extends Widget_Base {
 
 	public function get_name() { return 'pkwt-redirect-timer'; }
-	public function get_title() { return esc_html__( 'PowerKit Redirect Timer', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Redirect Timer', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-time-line'; }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }
 

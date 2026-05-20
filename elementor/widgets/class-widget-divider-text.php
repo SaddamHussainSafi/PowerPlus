@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Divider_Text extends Widget_Base {
 
 	public function get_name() { return 'pkwt-divider-text'; }
-	public function get_title() { return esc_html__( 'PowerKit Divider Text', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Divider Text', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-divider'; }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }
 

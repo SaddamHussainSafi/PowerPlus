@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Social_Login extends Widget_Base {
 
 	public function get_name() { return 'pkwt-social-login'; }
-	public function get_title() { return esc_html__( 'PowerKit Social Login', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Social Login', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-share-arrow'; }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }
 

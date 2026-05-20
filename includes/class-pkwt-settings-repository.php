@@ -46,7 +46,7 @@ class Class_PKWT_Settings_Repository {
 			'hcaptcha_site_key'      => '',
 			'hcaptcha_secret_key'    => '',
 			'woocommerce_mode'       => 0,
-			'plugin_menu_name'       => __( 'PowerKit', 'powerplus-toolkit' ),
+			'plugin_menu_name'       => __( 'PowerPlus', 'powerplus-toolkit' ),
 			'plugin_description'     => __( 'Power Packed Tools - Complete WordPress Management Suite', 'powerplus-toolkit' ),
 			'support_url'            => 'https://inceptastudio.com/',
 			'hide_plugins_list'      => 0,

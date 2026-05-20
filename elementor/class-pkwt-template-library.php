@@ -304,7 +304,7 @@ class Class_PKWT_Template_Library {
 			wp_send_json_error( array(
 				'message' => sprintf(
 					/* translators: %s: page type label */
-					__( 'No page is configured for the "%s" form. Please go to PowerKit → General settings and assign a page first.', 'powerplus-toolkit' ),
+					__( 'No page is configured for the "%s" form. Please go to PowerPlus → General settings and assign a page first.', 'powerplus-toolkit' ),
 					esc_html( $page_type )
 				),
 			) );
@@ -318,7 +318,7 @@ class Class_PKWT_Template_Library {
 			wp_send_json_error( array(
 				'message' => sprintf(
 					// translators: %d is the WordPress page ID number.
-					__( 'The configured page (ID: %d) does not exist. Please update your PowerKit settings.', 'powerplus-toolkit' ),
+					__( 'The configured page (ID: %d) does not exist. Please update your PowerPlus settings.', 'powerplus-toolkit' ),
 					$target_id
 				),
 			) );

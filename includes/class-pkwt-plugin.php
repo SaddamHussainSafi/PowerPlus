@@ -132,7 +132,7 @@ class Class_PKWT_Plugin {
 			return;
 		}
 
-		echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'PowerKit - Powerful Tools For Your Website requires newer PHP/WordPress versions.', 'powerplus-toolkit' ) . '</p></div>';
+		echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'PowerPlus — All-in-One Powerful Toolkit requires newer PHP/WordPress versions.', 'powerplus-toolkit' ) . '</p></div>';
 	}
 
 	/**

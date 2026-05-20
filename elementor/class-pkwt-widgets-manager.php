@@ -73,7 +73,7 @@ class Class_PKWT_Widgets_Manager {
 			return;
 		}
 
-		echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html__( 'PowerKit widgets require Elementor to be active.', 'powerplus-toolkit' ) . '</p></div>';
+		echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html__( 'PowerPlus widgets require Elementor to be active.', 'powerplus-toolkit' ) . '</p></div>';
 	}
 
 	/**

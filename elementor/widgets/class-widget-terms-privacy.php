@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Terms_Privacy extends Widget_Base {
 
 	public function get_name() { return 'pkwt-terms-privacy'; }
-	public function get_title() { return esc_html__( 'PowerKit Terms & Privacy', 'powerplus-toolkit' ); }
+	public function get_title() { return esc_html__( 'PowerPlus Terms & Privacy', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-document-file'; }
 	public function get_categories() { return array( 'powerplus-toolkit' ); }
 

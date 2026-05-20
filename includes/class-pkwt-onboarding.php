@@ -31,8 +31,8 @@ class Class_PKWT_Onboarding {
 	public function register_page(): void {
 		add_submenu_page(
 			null,
-			esc_html__( 'PowerKit Onboarding', 'powerplus-toolkit' ),
-			esc_html__( 'PowerKit Onboarding', 'powerplus-toolkit' ),
+			esc_html__( 'PowerPlus Onboarding', 'powerplus-toolkit' ),
+			esc_html__( 'PowerPlus Onboarding', 'powerplus-toolkit' ),
 			'manage_options',
 			'pkwt-onboarding',
 			array( $this, 'render' )
@@ -74,7 +74,7 @@ class Class_PKWT_Onboarding {
 		);
 		?>
 		<div class="pkwt-onboarding-wrap" style="max-width:900px;margin:40px auto;background:#fff;padding:30px;border:1px solid #ddd;">
-			<h1><?php echo esc_html__( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' ); ?></h1>
+			<h1><?php echo esc_html__( 'PowerPlus — All-in-One Powerful Toolkit', 'powerplus-toolkit' ); ?></h1>
 			<ol style="display:flex;gap:20px;list-style:decimal;padding-left:20px;">
 				<?php foreach ( $steps as $step ) : ?>
 					<li><?php echo esc_html( $step ); ?></li>
