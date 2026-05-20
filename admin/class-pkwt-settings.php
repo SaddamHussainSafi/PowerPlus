@@ -222,7 +222,7 @@ class Class_PKWT_Settings {
 	 */
 	public function export_settings(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_export_settings' );
@@ -246,7 +246,7 @@ class Class_PKWT_Settings {
 	 */
 	public function import_settings(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_import_settings' );
@@ -291,7 +291,7 @@ class Class_PKWT_Settings {
 	 */
 	public function reset_settings(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_reset_settings' );

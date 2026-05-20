@@ -50,8 +50,8 @@ class Class_PKWT_Security {
 	public function register_privacy_policy(): void {
 		if ( function_exists( 'wp_add_privacy_policy_content' ) ) {
 			wp_add_privacy_policy_content(
-				__( 'PowerKit - Powerful Tools For Your Website', 'powerkit-powerful-tools-for-your-website' ),
-				'<p>' . esc_html__( 'This plugin stores temporary login attempt counters in transients and plugin settings in wp_options. It does not store passwords.', 'powerkit-powerful-tools-for-your-website' ) . '</p>'
+				__( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' ),
+				'<p>' . esc_html__( 'This plugin stores temporary login attempt counters in transients and plugin settings in wp_options. It does not store passwords.', 'powerplus-toolkit' ) . '</p>'
 			);
 		}
 	}

@@ -73,7 +73,7 @@ class Class_PKWT_Widgets_Manager {
 			return;
 		}
 
-		echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html__( 'PowerKit widgets require Elementor to be active.', 'powerkit-powerful-tools-for-your-website' ) . '</p></div>';
+		echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html__( 'PowerKit widgets require Elementor to be active.', 'powerplus-toolkit' ) . '</p></div>';
 	}
 
 	/**
@@ -98,11 +98,11 @@ class Class_PKWT_Widgets_Manager {
 		$config = array(
 			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
 			'nonce'      => wp_create_nonce( 'pkwt_ajax_import_template' ),
-			'importing'  => __( 'Importing\u2026', 'powerkit-powerful-tools-for-your-website' ),
-			'success'    => __( 'Imported!', 'powerkit-powerful-tools-for-your-website' ),
-			'error'      => __( 'Import failed.', 'powerkit-powerful-tools-for-your-website' ),
-			'openEditor' => __( 'Open in Elementor', 'powerkit-powerful-tools-for-your-website' ),
-			'viewPage'   => __( 'View Page', 'powerkit-powerful-tools-for-your-website' ),
+			'importing'  => __( 'Importing\u2026', 'powerplus-toolkit' ),
+			'success'    => __( 'Imported!', 'powerplus-toolkit' ),
+			'error'      => __( 'Import failed.', 'powerplus-toolkit' ),
+			'openEditor' => __( 'Open in Elementor', 'powerplus-toolkit' ),
+			'viewPage'   => __( 'View Page', 'powerplus-toolkit' ),
 		);
 		wp_add_inline_script(
 			'elementor-editor', // Always present in the Elementor editor.
@@ -137,10 +137,10 @@ class Class_PKWT_Widgets_Manager {
 			'PKWTFrontend',
 			array(
 				'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-				'pleaseWait'    => __( 'Please wait...', 'powerkit-powerful-tools-for-your-website' ),
-				'connectionError' => __( 'Connection error. Please try again.', 'powerkit-powerful-tools-for-your-website' ),
-				'slowConnection' => __( 'Connection is slow. Please try again.', 'powerkit-powerful-tools-for-your-website' ),
-				'offlineError'   => __( 'You appear to be offline. Please check your connection.', 'powerkit-powerful-tools-for-your-website' ),
+				'pleaseWait'    => __( 'Please wait...', 'powerplus-toolkit' ),
+				'connectionError' => __( 'Connection error. Please try again.', 'powerplus-toolkit' ),
+				'slowConnection' => __( 'Connection is slow. Please try again.', 'powerplus-toolkit' ),
+				'offlineError'   => __( 'You appear to be offline. Please check your connection.', 'powerplus-toolkit' ),
 			)
 		);
 	}
@@ -154,9 +154,9 @@ class Class_PKWT_Widgets_Manager {
 	 */
 	public function register_category( $elements_manager ): void {
 		$elements_manager->add_category(
-			'powerkit-powerful-tools-for-your-website',
+			'powerplus-toolkit',
 			array(
-				'title' => __( 'Login Pages', 'powerkit-powerful-tools-for-your-website' ),
+				'title' => __( 'Login Pages', 'powerplus-toolkit' ),
 				'icon'  => 'eicon-lock-user',
 			)
 		);

@@ -20,7 +20,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 	}
 
 	public function get_title() {
-		return esc_html__( 'PowerKit Login Form', 'powerkit-powerful-tools-for-your-website' );
+		return esc_html__( 'PowerKit Login Form', 'powerplus-toolkit' );
 	}
 
 	public function get_icon() {
@@ -32,7 +32,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 	}
 
 	public function get_categories() {
-		return array( 'powerkit-powerful-tools-for-your-website' );
+		return array( 'powerplus-toolkit' );
 	}
 
 	protected function get_page_type(): string {
@@ -44,24 +44,24 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 
 		$this->start_controls_section(
 			'login_content',
-			array( 'label' => esc_html__( 'Fields & Options', 'powerkit-powerful-tools-for-your-website' ) )
+			array( 'label' => esc_html__( 'Fields & Options', 'powerplus-toolkit' ) )
 		);
 
 		$this->add_control(
 			'form_title',
 			array(
-				'label'   => esc_html__( 'Heading', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Heading', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Welcome back', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Welcome back', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'form_description',
 			array(
-				'label'   => esc_html__( 'Subheading', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Subheading', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXTAREA,
-				'default' => esc_html__( 'Sign in to your account to continue.', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Sign in to your account to continue.', 'powerplus-toolkit' ),
 				'rows'    => 2,
 			)
 		);
@@ -69,52 +69,52 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'username_label',
 			array(
-				'label'   => esc_html__( 'Username Label', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Username Label', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Username or Email', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Username or Email', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'username_placeholder',
 			array(
-				'label'   => esc_html__( 'Username Placeholder', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Username Placeholder', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'you@example.com', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'you@example.com', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'password_label',
 			array(
-				'label'   => esc_html__( 'Password Label', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Password Label', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Password', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Password', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'password_placeholder',
 			array(
-				'label'   => esc_html__( 'Password Placeholder', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Password Placeholder', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( '••••••••', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( '••••••••', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'button_text',
 			array(
-				'label'   => esc_html__( 'Button Text', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Button Text', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Sign In', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Sign In', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'show_password_toggle',
 			array(
-				'label'   => esc_html__( 'Show Password Toggle', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Password Toggle', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -123,7 +123,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'show_remember',
 			array(
-				'label'   => esc_html__( 'Show Remember Me', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Remember Me', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -132,9 +132,9 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'remember_text',
 			array(
-				'label'     => esc_html__( 'Remember Text', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Remember Text', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => esc_html__( 'Remember me', 'powerkit-powerful-tools-for-your-website' ),
+				'default'   => esc_html__( 'Remember me', 'powerplus-toolkit' ),
 				'condition' => array( 'show_remember' => 'yes' ),
 			)
 		);
@@ -142,7 +142,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'show_lost_password',
 			array(
-				'label'   => esc_html__( 'Show Forgot Password Link', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Forgot Password Link', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -151,9 +151,9 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'lost_password_text',
 			array(
-				'label'     => esc_html__( 'Forgot Password Text', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Forgot Password Text', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => esc_html__( 'Forgot password?', 'powerkit-powerful-tools-for-your-website' ),
+				'default'   => esc_html__( 'Forgot password?', 'powerplus-toolkit' ),
 				'condition' => array( 'show_lost_password' => 'yes' ),
 			)
 		);
@@ -161,7 +161,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'lost_password_url',
 			array(
-				'label'     => esc_html__( 'Forgot Password URL', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Forgot Password URL', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::URL,
 				'condition' => array( 'show_lost_password' => 'yes' ),
 			)
@@ -170,7 +170,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'show_register_link',
 			array(
-				'label'   => esc_html__( 'Show Register Link', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Register Link', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -179,9 +179,9 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'register_link_text',
 			array(
-				'label'     => esc_html__( 'Register Link Text', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Register Link Text', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => esc_html__( "Don't have an account? Sign up", 'powerkit-powerful-tools-for-your-website' ),
+				'default'   => esc_html__( "Don't have an account? Sign up", 'powerplus-toolkit' ),
 				'condition' => array( 'show_register_link' => 'yes' ),
 			)
 		);
@@ -189,7 +189,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'register_url',
 			array(
-				'label'     => esc_html__( 'Register URL', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Register URL', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::URL,
 				'condition' => array( 'show_register_link' => 'yes' ),
 			)
@@ -198,7 +198,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'success_redirect',
 			array(
-				'label' => esc_html__( 'Success Redirect URL', 'powerkit-powerful-tools-for-your-website' ),
+				'label' => esc_html__( 'Success Redirect URL', 'powerplus-toolkit' ),
 				'type'  => Controls_Manager::URL,
 			)
 		);
@@ -206,9 +206,9 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'error_message',
 			array(
-				'label'   => esc_html__( 'Failure Message', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Failure Message', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Incorrect username or password.', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Incorrect username or password.', 'powerplus-toolkit' ),
 			)
 		);
 
@@ -219,7 +219,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 		$settings      = $this->get_settings_for_display();
 		$lost_password = ! empty( $settings['lost_password_url']['url'] ) ? $settings['lost_password_url']['url'] : wp_lostpassword_url();
 		$success_url   = ! empty( $settings['success_redirect']['url'] ) ? $settings['success_redirect']['url'] : '';
-		$loading_text  = ! empty( $settings['loading_text'] ) ? (string) $settings['loading_text'] : esc_html__( 'Signing in…', 'powerkit-powerful-tools-for-your-website' );
+		$loading_text  = ! empty( $settings['loading_text'] ) ? (string) $settings['loading_text'] : esc_html__( 'Signing in…', 'powerplus-toolkit' );
 		$error_message = ! empty( $settings['error_message'] ) ? (string) $settings['error_message'] : '';
 
 		$this->render_form_open( 'login', 'pkwt_login', 'login_nonce', $success_url, $error_message, $loading_text );
@@ -252,7 +252,7 @@ class Class_Widget_Login_Form extends Class_Abstract_Form_Widget {
 					autocomplete="current-password"
 				/>
 				<?php if ( 'yes' === $settings['show_password_toggle'] ) : ?>
-					<button type="button" class="pkwt-password-toggle" aria-label="<?php esc_attr_e( 'Toggle password visibility', 'powerkit-powerful-tools-for-your-website' ); ?>"></button>
+					<button type="button" class="pkwt-password-toggle" aria-label="<?php esc_attr_e( 'Toggle password visibility', 'powerplus-toolkit' ); ?>"></button>
 				<?php endif; ?>
 			</div>
 		</div>

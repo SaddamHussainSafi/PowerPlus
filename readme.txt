@@ -1,10 +1,10 @@
-=== PowerKit - Powerful Tools For Your Website ===
+=== PowerPlus — All-in-One Powerful Toolkit ===
 Contributors: saddamhussainsafi, profilmi
 Donate link: https://saddamhussain.com.np/
 Tags: login, elementor, custom login, login page, register
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 3.5.5
+Stable tag: 3.5.6
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@ Power Packed Tools - Complete WordPress Management Suite.
 
 == Description ==
 
-**PowerKit - Powerful Tools For Your Website** gives you one dashboard for custom auth routing, post duplication, SVG security controls, Ghost Mode hardening, and Classic Editor control.
+**PowerPlus — All-in-One Powerful Toolkit** gives you one dashboard for custom auth routing, post duplication, SVG security controls, Ghost Mode hardening, and Classic Editor control.
 
 No more ugly default WordPress login pages. Every pixel is under your control, and all feature modules are managed from one settings experience.
 
@@ -102,7 +102,7 @@ This plugin does not collect or transmit any user data to external servers. All 
 
 1. Log in to your WordPress admin dashboard
 2. Go to Plugins > Add New
-3. Search for "PowerKit - Powerful Tools For Your Website"
+3. Search for "PowerPlus — All-in-One Powerful Toolkit"
 4. Click Install Now then Activate
 
 = Manual Installation =
@@ -115,7 +115,7 @@ This plugin does not collect or transmit any user data to external servers. All 
 = After Activation =
 
 1. The plugin will automatically create your custom login, register, and lost password pages
-2. Go to PowerKit - Powerful Tools For Your Website > Settings to assign pages and configure options
+2. Go to PowerPlus — All-in-One Powerful Toolkit > Settings to assign pages and configure options
 3. Open any page in Elementor to start designing with the login widgets
 
 = Requirements =
@@ -136,7 +136,7 @@ No. The plugin creates separate custom pages and redirects WordPress login traff
 
 = Is it compatible with WooCommerce? =
 
-Yes. The plugin includes a WooCommerce mode in settings that hooks into WooCommerce login and register endpoints instead of the WordPress core endpoints. Enable it from PowerKit - Powerful Tools For Your Website > Settings > Compatibility.
+Yes. The plugin includes a WooCommerce mode in settings that hooks into WooCommerce login and register endpoints instead of the WordPress core endpoints. Enable it from PowerPlus — All-in-One Powerful Toolkit > Settings > Compatibility.
 
 = Does it work with two-factor authentication plugins? =
 
@@ -178,12 +178,19 @@ Please report security issues directly to the author via the contact form at htt
 8. The onboarding wizard shown on first activation
 
 == Changelog ==
+= 3.5.6 =
+* Renamed: Plugin slug changed to powerplus-toolkit (approved by WordPress.org)
+* Renamed: Plugin display name changed to PowerPlus — All-in-One Powerful Toolkit
+* Updated: Text domain updated to powerplus-toolkit across all files
+* Updated: Main plugin filename renamed to powerplus-toolkit.php
+* Updated: Plugin URI updated to https://wordpress.org/plugins/powerplus-toolkit/
+
 = 3.5.5 =
-* Fix: Zip packaging — top-level folder inside archive is now "powerkit-powerful-tools-for-your-website" (no version suffix), eliminating false TextDomainMismatch errors in Plugin Check
+* Fix: Zip packaging — top-level folder inside archive is now "powerplus-toolkit" (no version suffix), eliminating false TextDomainMismatch errors in Plugin Check
 * Fix: Exclude .claude AI directory and all hidden files from release zip
 
 = 3.5.4 =
-* Fix: Rename main plugin file to match WP.org slug (powerkit-powerful-tools-for-your-website.php)
+* Fix: Rename main plugin file to match WP.org slug (powerplus-toolkit.php)
 * Fix: Update Plugin URI header to correct WP.org listing URL
 * Fix: Move inline <style> block in templates view to enqueued CSS file (pkwt-templates.css)
 * Fix: Move inline <script> block in templates view to enqueued JS file (pkwt-templates.js) with wp_localize_script for PHP values
@@ -205,7 +212,7 @@ Please report security issues directly to the author via the contact form at htt
 
 = 3.3.0 =
 * Feature: Full Elementor page template library added — 3 complete layout sets (Split Left, Centered Card, Gradient Panel Right), each with Login / Register / Forgot Password / Reset Password variants, importable in one click from the new Page Templates admin tab
-* Feature: New "Page Templates" admin tab under PowerKit settings for browsing and importing templates
+* Feature: New "Page Templates" admin tab under PowerPlus settings for browsing and importing templates
 * Improvement: Template import writes directly to _elementor_data post meta, sets edit mode to builder, and flushes CSS cache automatically
 
 = 3.2.0 =
@@ -241,7 +248,7 @@ Please report security issues directly to the author via the contact form at htt
 
 = 3.0.7 =
 * Fixed: HTML entities (Don&#039;t, &amp;amp;) appearing in Elementor live preview for text controls — switched content_template() to triple-brace syntax {{{ }}} to prevent double-encoding
-* Fixed: Frontend CSS and JS not loading on pages that contain PowerKit widgets (now detected via Elementor post meta)
+* Fixed: Frontend CSS and JS not loading on pages that contain PowerPlus widgets (now detected via Elementor post meta)
 * Fixed: Classic Editor module dequeuing wp-editor and wp-blocks on the Elementor editor screen, breaking page editing when Classic Editor was enabled
 
 = 3.0.6 =
@@ -289,10 +296,10 @@ Please report security issues directly to the author via the contact form at htt
 * Fixed: require changed to require_once for wp-login.php core file include
 * Fixed: Added == External Services == section to readme documenting reCAPTCHA and hCaptcha
 * Fixed: Added plugin owner to Contributors list in readme
-* Fixed: Text domain confirmed as powerkit-powerful-tools-for-your-website throughout
+* Fixed: Text domain confirmed as powerplus-toolkit throughout
 
 = 2.9.9 =
-* Changed: Sidebar top-level menu label is now fixed to "PowerKit"
+* Changed: Sidebar top-level menu label is now fixed to "PowerPlus"
 * Changed: Removed user-facing "CLE" wording from conflict notices, onboarding labels, widget titles, and UI help text
 * Changed: Added POWERKIT_AUTH_RECOVERY_MODE constant support (legacy CLE_AUTH_RECOVERY_MODE still works)
 
@@ -312,7 +319,7 @@ Please report security issues directly to the author via the contact form at htt
 * Changed: Moved extra root documentation file out of plugin root to improve Plugin Check packaging compliance
 
 = 2.9.5 =
-* Changed: Plugin display name updated to PowerKit - Powerful Tools For Your Website
+* Changed: Plugin display name updated to PowerPlus — All-in-One Powerful Toolkit
 * Changed: Updated admin/menu/footer and user-facing plugin naming to the new title
 
 = 2.9.4 =
@@ -320,8 +327,8 @@ Please report security issues directly to the author via the contact form at htt
 * Fixed: Eliminated unexpected output during activation caused by constant redefinition notices
 
 = 2.9.3 =
-* Changed: Plugin display name updated to PowerKit - Powerful Tools For Your Website for WordPress.org naming compliance
-* Changed: Admin/menu/footer/user-facing branding strings updated to PowerKit - Powerful Tools For Your Website
+* Changed: Plugin display name updated to PowerPlus — All-in-One Powerful Toolkit for WordPress.org naming compliance
+* Changed: Admin/menu/footer/user-facing branding strings updated to PowerPlus — All-in-One Powerful Toolkit
 
 = 2.9.2 =
 * Changed: Compliance hardening pass for WordPress.org submission prep
@@ -334,10 +341,10 @@ Please report security issues directly to the author via the contact form at htt
 * Changed: Switch input hit-area now fills the visual toggle control for consistent UX
 
 = 2.9.0 =
-* Changed: Rebranded plugin metadata and admin branding to PowerKit - Powerful Tools For Your Website
-* Changed: Updated default admin menu/page naming and overview title/subtitle for PowerKit - Powerful Tools For Your Website
+* Changed: Rebranded plugin metadata and admin branding to PowerPlus — All-in-One Powerful Toolkit
+* Changed: Updated default admin menu/page naming and overview title/subtitle for PowerPlus — All-in-One Powerful Toolkit
 * Fixed: Ghost Mode plugin name masking now rewrites plugin folder aliases reliably (including escaped inline URLs)
-* Changed: Updated save confirmation messaging and admin footer credits for PowerKit - Powerful Tools For Your Website
+* Changed: Updated save confirmation messaging and admin footer credits for PowerPlus — All-in-One Powerful Toolkit
 
 = 2.8.8 =
 * Changed: Applied unified green visual theme across plugin admin UI accents, buttons, links, focus states, and save bars
@@ -496,13 +503,13 @@ Please report security issues directly to the author via the contact form at htt
 == Upgrade Notice ==
 
 = 2.9.5 =
-Branding update: plugin display name is now PowerKit - Powerful Tools For Your Website.
+Branding update: plugin display name is now PowerPlus — All-in-One Powerful Toolkit.
 
 = 2.9.4 =
 Activation stability fix: constant definitions are now guarded to avoid duplicate-definition warnings.
 
 = 2.9.3 =
-Naming compliance update: plugin display name changed to PowerKit - Powerful Tools For Your Website.
+Naming compliance update: plugin display name changed to PowerPlus — All-in-One Powerful Toolkit.
 
 = 2.9.2 =
 Compliance prep update: i18n package alignment and safer default for Ghost plugin-name masking.
@@ -511,7 +518,7 @@ Compliance prep update: i18n package alignment and safer default for Ghost plugi
 Toggle interaction fix: switch body is now directly clickable everywhere, not only related labels/text.
 
 = 2.9.0 =
-PowerKit - Powerful Tools For Your Website rebrand update plus stronger Ghost Mode plugin folder masking for frontend asset paths.
+PowerPlus — All-in-One Powerful Toolkit rebrand update plus stronger Ghost Mode plugin folder masking for frontend asset paths.
 
 = 2.8.8 =
 Visual refresh update: global green theme and consistent rounded toggle styling across all settings screens.
@@ -597,7 +604,7 @@ No data is sent to any external service if CAPTCHA is set to "None" (the default
 
 == Privacy Policy ==
 
-PowerKit - Powerful Tools For Your Website does not collect, store, or transmit any personal data to external servers or third parties.
+PowerPlus — All-in-One Powerful Toolkit does not collect, store, or transmit any personal data to external servers or third parties.
 
 **Data stored locally on your site:**
 

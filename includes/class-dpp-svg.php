@@ -173,7 +173,7 @@ class Class_PKWT_DPP_SVG {
 		}
 
 		if ( ! $this->is_enabled() || ! $this->can_current_user_upload_svg() ) {
-			$file['error'] = __( 'SVG uploads are disabled for your account.', 'powerkit-powerful-tools-for-your-website' );
+			$file['error'] = __( 'SVG uploads are disabled for your account.', 'powerplus-toolkit' );
 			return $file;
 		}
 
@@ -183,7 +183,7 @@ class Class_PKWT_DPP_SVG {
 		if ( $size > ( $max_kb * 1024 ) ) {
 			$file['error'] = sprintf(
 				/* translators: %d size in KB */
-				__( 'SVG exceeds maximum allowed size (%d KB).', 'powerkit-powerful-tools-for-your-website' ),
+				__( 'SVG exceeds maximum allowed size (%d KB).', 'powerplus-toolkit' ),
 				$max_kb
 			);
 		}
@@ -204,13 +204,13 @@ class Class_PKWT_DPP_SVG {
 
 		$contents = file_get_contents( $file );
 		if ( false === $contents ) {
-			$upload['error'] = __( 'Could not read uploaded SVG.', 'powerkit-powerful-tools-for-your-website' );
+			$upload['error'] = __( 'Could not read uploaded SVG.', 'powerplus-toolkit' );
 			return $upload;
 		}
 
 		$result = $this->sanitize_svg_markup( $contents );
 		if ( empty( $result['safe'] ) ) {
-			$upload['error'] = __( 'SVG content is unsafe and was blocked.', 'powerkit-powerful-tools-for-your-website' );
+			$upload['error'] = __( 'SVG content is unsafe and was blocked.', 'powerplus-toolkit' );
 			return $upload;
 		}
 
@@ -344,7 +344,7 @@ class Class_PKWT_DPP_SVG {
 	 */
 	public function scan_existing_svgs(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 		check_admin_referer( 'pkwt_svg_scan' );
 
@@ -373,7 +373,7 @@ class Class_PKWT_DPP_SVG {
 			$is_flagged = ! empty( $removed );
 			$results[] = array(
 				'file'   => basename( $path ),
-				'issue'  => $is_flagged ? implode( ', ', $removed ) : __( 'No issues', 'powerkit-powerful-tools-for-your-website' ),
+				'issue'  => $is_flagged ? implode( ', ', $removed ) : __( 'No issues', 'powerplus-toolkit' ),
 				'status' => $is_flagged ? 'flagged' : 'clean',
 			);
 		}

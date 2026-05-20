@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/SaddamHussainSafi/PowerKit/main/assets/img/banner.png" alt="PowerKit Banner" width="100%" />
+<img src="https://raw.githubusercontent.com/SaddamHussainSafi/PowerPlus/main/assets/img/banner.png" alt="PowerPlus Banner" width="100%" />
 
-<h1>⚡ PowerKit — Powerful Tools For Your Website</h1>
+<h1>⚡ PowerPlus — All-in-One Powerful Toolkit</h1>
 
 <p><strong>The complete WordPress toolkit for Elementor.</strong><br/>
 Custom auth pages · Page duplicator · Template library · Security hardening · Admin branding</p>
@@ -13,14 +13,14 @@ Custom auth pages · Page duplicator · Template library · Security hardening �
 [![PHP](https://img.shields.io/badge/PHP-8.0%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![Elementor](https://img.shields.io/badge/Elementor-3.5%2B-92003B?style=for-the-badge&logo=elementor&logoColor=white)](https://elementor.com)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green?style=for-the-badge&logo=gnu&logoColor=white)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.5.5-F05032?style=for-the-badge&logo=git&logoColor=white)](https://github.com/SaddamHussainSafi/PowerKit/releases)
+[![Version](https://img.shields.io/badge/Version-3.5.6-F05032?style=for-the-badge&logo=git&logoColor=white)](https://github.com/SaddamHussainSafi/PowerPlus/releases)
 
 <br/>
 
-[![WP.org](https://img.shields.io/badge/WordPress.org-Submit%20in%20Review-21759B?style=flat-square&logo=wordpress)](https://wordpress.org/plugins/powerkit-powerful-tools-for-your-website/)
-[![GitHub stars](https://img.shields.io/github/stars/SaddamHussainSafi/PowerKit?style=flat-square&logo=github)](https://github.com/SaddamHussainSafi/PowerKit/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/SaddamHussainSafi/PowerKit?style=flat-square)](https://github.com/SaddamHussainSafi/PowerKit/issues)
-[![GitHub last commit](https://img.shields.io/github/last-commit/SaddamHussainSafi/PowerKit?style=flat-square)](https://github.com/SaddamHussainSafi/PowerKit/commits/main)
+[![WP.org](https://img.shields.io/badge/WordPress.org-Submit%20in%20Review-21759B?style=flat-square&logo=wordpress)](https://wordpress.org/plugins/powerplus-toolkit/)
+[![GitHub stars](https://img.shields.io/github/stars/SaddamHussainSafi/PowerPlus?style=flat-square&logo=github)](https://github.com/SaddamHussainSafi/PowerPlus/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/SaddamHussainSafi/PowerPlus?style=flat-square)](https://github.com/SaddamHussainSafi/PowerPlus/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/SaddamHussainSafi/PowerPlus?style=flat-square)](https://github.com/SaddamHussainSafi/PowerPlus/commits/main)
 
 </div>
 
@@ -44,7 +44,7 @@ Custom auth pages · Page duplicator · Template library · Security hardening �
 
 ## 🌟 Overview
 
-**PowerKit** replaces the default WordPress login page and gives you a complete suite of power tools — all managed from one clean admin panel. Built for Elementor sites, it lets you design stunning auth pages, duplicate content in one click, harden your site against attacks, and brand the admin area.
+**PowerPlus** replaces the default WordPress login page and gives you a complete suite of power tools — all managed from one clean admin panel. Built for Elementor sites, it lets you design stunning auth pages, duplicate content in one click, harden your site against attacks, and brand the admin area.
 
 ```
 No bloat. No subscriptions. Pure functionality.
@@ -116,14 +116,14 @@ Snapshot all plugin settings to JSON. Restore them on any site — perfect for s
 
 ### From WordPress Admin *(recommended)*
 1. **Plugins → Add New → Upload Plugin**
-2. Upload `powerkit-powerful-tools-for-your-website-X.X.X.zip`
+2. Upload `powerplus-toolkit-X.X.X.zip`
 3. Click **Activate**
-4. Follow the **PowerKit onboarding wizard**
+4. Follow the **PowerPlus onboarding wizard**
 
 ### From GitHub
 ```bash
 # Download latest release
-curl -L https://github.com/SaddamHussainSafi/PowerKit/releases/latest/download/powerkit-powerful-tools-for-your-website.zip \
+curl -L https://github.com/SaddamHussainSafi/PowerPlus/releases/latest/download/powerplus-toolkit.zip \
   -o powerkit.zip
 
 # Unzip into your plugins folder
@@ -136,10 +136,10 @@ unzip powerkit.zip -d /path/to/wp-content/plugins/
 
 ```
 Step 1 — Activate the plugin
-Step 2 — PowerKit → General Settings → assign Login / Register / Password pages
-Step 3 — PowerKit → Page Templates → pick a layout → click Import
+Step 2 — PowerPlus → General Settings → assign Login / Register / Password pages
+Step 3 — PowerPlus → Page Templates → pick a layout → click Import
 Step 4 — Open page in Elementor → customise colours, images, text
-Step 5 — PowerKit → Security → enable rate limiting + reCAPTCHA
+Step 5 — PowerPlus → Security → enable rate limiting + reCAPTCHA
 ```
 
 > **Tip:** The onboarding wizard walks you through Steps 1–2 automatically on first activation.
@@ -165,7 +165,7 @@ Each template is a full Elementor page — fully editable after import.
 
 ## 🔒 Security
 
-PowerKit follows WordPress security best practices throughout:
+PowerPlus follows WordPress security best practices throughout:
 
 - **Sanitize early** — `sanitize_text_field()`, `sanitize_email()` on all `$_POST` input at assignment
 - **Escape late** — `esc_html()`, `esc_attr()`, `esc_url()` on every output
@@ -182,9 +182,9 @@ PowerKit follows WordPress security best practices throughout:
 ## 🗂️ Architecture
 
 ```
-powerkit-powerful-tools-for-your-website/
+powerplus-toolkit/
 │
-├── powerkit-powerful-tools-for-your-website.php  ← Entry: constants, autoloader, boot
+├── powerplus-toolkit.php  ← Entry: constants, autoloader, boot
 ├── readme.txt                                     ← WordPress.org listing
 ├── uninstall.php                                  ← Cleanup on uninstall
 │
@@ -233,19 +233,19 @@ composer require --dev squizlabs/php_codesniffer wp-coding-standards/wpcs
 ./vendor/bin/phpcs --standard=WordPress .
 
 # 3. Run WP Plugin Check
-#    WP Admin → Tools → Plugin Check → Select "PowerKit - Powerful Tools For Your Website"
+#    WP Admin → Tools → Plugin Check → Select "PowerPlus - Powerful Tools For Your Website"
 
 # 4. Build release zip
 STAGING=$(mktemp -d)
-mkdir "$STAGING/powerkit-powerful-tools-for-your-website"
+mkdir "$STAGING/powerplus-toolkit"
 rsync -a \
   --exclude='.git' --exclude='.claude' --exclude='vendor' --exclude='node_modules' \
   --exclude='.DS_Store' --exclude='._*' --exclude='.gitignore' \
   --exclude='CLAUDE.md' --exclude='*.zip' --exclude='*.sh' \
-  ./ "$STAGING/powerkit-powerful-tools-for-your-website/"
+  ./ "$STAGING/powerplus-toolkit/"
 cd "$STAGING"
-zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
-  powerkit-powerful-tools-for-your-website/ -q
+zip -r powerplus-toolkit-X.X.X.zip \
+  powerplus-toolkit/ -q
 ```
 
 ---
@@ -255,7 +255,7 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 <details>
 <summary><strong>v3.5.5</strong> — Zip packaging fix</summary>
 
-- Fix: Internal zip folder is now `powerkit-powerful-tools-for-your-website` (no version suffix) — eliminates false `TextDomainMismatch` errors in Plugin Check
+- Fix: Internal zip folder is now `powerplus-toolkit` (no version suffix) — eliminates false `TextDomainMismatch` errors in Plugin Check
 - Fix: Exclude `.claude` AI directory and hidden files from release archive
 
 </details>
@@ -263,7 +263,7 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 <details>
 <summary><strong>v3.5.4</strong> — WP.org review compliance</summary>
 
-- Fix: Rename main file to `powerkit-powerful-tools-for-your-website.php` (slug match)
+- Fix: Rename main file to `powerplus-toolkit.php` (slug match)
 - Fix: Update `Plugin URI` header to correct WP.org listing URL
 - Fix: Extract inline `<style>` → `assets/css/pkwt-templates.css`, enqueued via `wp_enqueue_style()`
 - Fix: Extract inline `<script>` → `assets/js/pkwt-templates.js`, PHP values via `wp_localize_script()`
@@ -377,7 +377,7 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 <summary><strong>v3.0.7</strong></summary>
 
 - Fixed: HTML entities appearing in Elementor live preview — switched to triple-brace `{{{ }}}` syntax
-- Fixed: Frontend CSS and JS not loading on pages containing PowerKit widgets
+- Fixed: Frontend CSS and JS not loading on pages containing PowerPlus widgets
 - Fixed: Classic Editor module dequeuing `wp-editor` on the Elementor editor screen
 
 </details>
@@ -439,7 +439,7 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 - Fixed: All option keys, hooks, and transients renamed from `cle_` to `pkwt_` prefix
 - Fixed: AJAX endpoint derived via `admin_url()` instead of hardcoded path
 - Fixed: `ob_start()` in Ghost Mode paired with `shutdown` action `ob_end_flush()`
-- Fixed: Text domain confirmed as `powerkit-powerful-tools-for-your-website` throughout
+- Fixed: Text domain confirmed as `powerplus-toolkit` throughout
 - Fixed: Added `== External Services ==` section to readme documenting reCAPTCHA and hCaptcha
 
 </details>
@@ -447,7 +447,7 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 <details>
 <summary><strong>v2.9.9</strong></summary>
 
-- Changed: Sidebar top-level menu label fixed to "PowerKit"
+- Changed: Sidebar top-level menu label fixed to "PowerPlus"
 - Changed: Removed user-facing "CLE" wording from all UI
 
 </details>
@@ -465,7 +465,7 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 <details>
 <summary><strong>v2.9.5</strong></summary>
 
-- Changed: Plugin display name updated to **PowerKit - Powerful Tools For Your Website**
+- Changed: Plugin display name updated to **PowerPlus - Powerful Tools For Your Website**
 
 </details>
 
@@ -499,9 +499,9 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 </details>
 
 <details>
-<summary><strong>v2.9.0</strong> — PowerKit rebrand</summary>
+<summary><strong>v2.9.0</strong> — PowerPlus rebrand</summary>
 
-- Changed: Rebranded plugin metadata and admin branding to **PowerKit - Powerful Tools For Your Website**
+- Changed: Rebranded plugin metadata and admin branding to **PowerPlus - Powerful Tools For Your Website**
 - Fixed: Ghost Mode plugin name masking now rewrites plugin folder aliases reliably
 
 </details>
@@ -682,7 +682,7 @@ zip -r powerkit-powerful-tools-for-your-website-X.X.X.zip \
 **GNU General Public License v2.0 or later**
 
 ```
-PowerKit — Powerful Tools For Your Website
+PowerPlus — All-in-One Powerful Toolkit
 Copyright (C) 2024–2026  Saddam Hussain Safi
 
 This program is free software: you can redistribute it and/or modify
@@ -704,7 +704,7 @@ See [LICENSE](LICENSE) for the complete license text.
 
 **Built with ❤️ for the WordPress community**
 
-[Website](https://saddamhussain.com.np/) · [WordPress.org](https://wordpress.org/plugins/powerkit-powerful-tools-for-your-website/) · [Report a Bug](https://github.com/SaddamHussainSafi/PowerKit/issues) · [Request a Feature](https://github.com/SaddamHussainSafi/PowerKit/issues)
+[Website](https://saddamhussain.com.np/) · [WordPress.org](https://wordpress.org/plugins/powerplus-toolkit/) · [Report a Bug](https://github.com/SaddamHussainSafi/PowerPlus/issues) · [Request a Feature](https://github.com/SaddamHussainSafi/PowerPlus/issues)
 
 <sub>© 2024–2026 Saddam Hussain Safi · GPL v2 or later</sub>
 

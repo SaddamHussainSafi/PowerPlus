@@ -1,7 +1,0 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: PowerKit - Powerful Tools For Your Website 2.9.6\\n"
-"MIME-Version: 1.0\\n"
-"Content-Type: text/plain; charset=UTF-8\\n"
-"Content-Transfer-Encoding: 8bit\\n"
-"X-Domain: powerkit-powerful-tools-for-your-website\\n"

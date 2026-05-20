@@ -122,7 +122,7 @@ class Class_PKWT_DPP_Hooks {
 		}
 
 		$url = wp_nonce_url( admin_url( 'admin.php?action=dpp_duplicate_post&post=' . $post->ID ), 'pkwt_dpp_duplicate_' . $post->ID );
-		$actions['dpp_duplicate'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Duplicate', 'powerkit-powerful-tools-for-your-website' ) . '</a>';
+		$actions['dpp_duplicate'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Duplicate', 'powerplus-toolkit' ) . '</a>';
 
 		return $actions;
 	}
@@ -134,17 +134,17 @@ class Class_PKWT_DPP_Hooks {
 	 */
 	public function handle_duplicate_request(): void {
 		if ( ! $this->duplicator->is_enabled() ) {
-			wp_die( esc_html__( 'Post duplicator is currently disabled.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Post duplicator is currently disabled.', 'powerplus-toolkit' ) );
 		}
 
 		$post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;
 		if ( $post_id <= 0 ) {
-			wp_die( esc_html__( 'Invalid post ID.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Invalid post ID.', 'powerplus-toolkit' ) );
 		}
 
 		$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, 'pkwt_dpp_duplicate_' . $post_id ) ) {
-			wp_die( esc_html__( 'Security check failed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Security check failed.', 'powerplus-toolkit' ) );
 		}
 
 		$result = $this->duplicator->duplicate_post( $post_id );

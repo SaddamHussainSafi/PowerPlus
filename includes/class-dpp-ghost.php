@@ -49,7 +49,7 @@ class Class_PKWT_DPP_Ghost {
 		if ( ! isset( $schedules['weekly'] ) ) {
 			$schedules['weekly'] = array(
 				'interval' => WEEK_IN_SECONDS,
-				'display'  => __( 'Once Weekly', 'powerkit-powerful-tools-for-your-website' ),
+				'display'  => __( 'Once Weekly', 'powerplus-toolkit' ),
 			);
 		}
 		return $schedules;
@@ -500,7 +500,7 @@ class Class_PKWT_DPP_Ghost {
 		}
 		$route = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 		if ( false !== strpos( $route, '/wp/v2/users' ) ) {
-			return new \WP_Error( 'forbidden', __( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ), array( 'status' => 403 ) );
+			return new \WP_Error( 'forbidden', __( 'Not allowed.', 'powerplus-toolkit' ), array( 'status' => 403 ) );
 		}
 		return $result;
 	}
@@ -606,7 +606,7 @@ class Class_PKWT_DPP_Ghost {
 	 */
 	public function run_detection_test(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 		check_admin_referer( 'dpp_ghost_test' );
 		$this->perform_detection_test();
@@ -628,10 +628,10 @@ class Class_PKWT_DPP_Ghost {
 		if ( $score < $threshold ) {
 			wp_mail(
 				get_option( 'admin_email' ),
-				__( 'Ghost Mode score dropped', 'powerkit-powerful-tools-for-your-website' ),
+				__( 'Ghost Mode score dropped', 'powerplus-toolkit' ),
 				sprintf(
 					/* translators: 1: score 2: threshold */
-					__( 'Ghost Mode score is %1$d which is below threshold %2$d.', 'powerkit-powerful-tools-for-your-website' ),
+					__( 'Ghost Mode score is %1$d which is below threshold %2$d.', 'powerplus-toolkit' ),
 					$score,
 					$threshold
 				)

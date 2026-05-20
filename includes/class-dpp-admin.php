@@ -74,8 +74,8 @@ class Class_PKWT_DPP_Admin {
 	 */
 	public function register_settings_page(): void {
 		add_options_page(
-			esc_html__( 'Duplicate Post', 'powerkit-powerful-tools-for-your-website' ),
-			esc_html__( 'Duplicate Post', 'powerkit-powerful-tools-for-your-website' ),
+			esc_html__( 'Duplicate Post', 'powerplus-toolkit' ),
+			esc_html__( 'Duplicate Post', 'powerplus-toolkit' ),
 			'manage_options',
 			'pkwt-dpp-settings',
 			array( $this, 'render_settings_page' )
@@ -315,17 +315,17 @@ class Class_PKWT_DPP_Admin {
 		$notice      = $this->get_query_arg_key( 'pkwt_notice' );
 		?>
 		<div class="wrap dpp-feature-panel">
-			<h1><?php esc_html_e( 'Duplicate Page & Post Settings', 'powerkit-powerful-tools-for-your-website' ); ?></h1>
+			<h1><?php esc_html_e( 'Duplicate Page & Post Settings', 'powerplus-toolkit' ); ?></h1>
 			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab <?php echo 'duplicate' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pkwt-settings&tab=duplicate' ) ); ?>"><?php esc_html_e( 'Duplicate', 'powerkit-powerful-tools-for-your-website' ); ?></a>
-				<a class="nav-tab <?php echo 'svg-upload' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pkwt-settings&tab=svg-upload' ) ); ?>"><?php esc_html_e( 'SVG Upload', 'powerkit-powerful-tools-for-your-website' ); ?></a>
-				<a class="nav-tab <?php echo 'ghost-mode' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pkwt-settings&tab=ghost-mode' ) ); ?>"><?php esc_html_e( 'Ghost Mode', 'powerkit-powerful-tools-for-your-website' ); ?></a>
+				<a class="nav-tab <?php echo 'duplicate' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pkwt-settings&tab=duplicate' ) ); ?>"><?php esc_html_e( 'Duplicate', 'powerplus-toolkit' ); ?></a>
+				<a class="nav-tab <?php echo 'svg-upload' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pkwt-settings&tab=svg-upload' ) ); ?>"><?php esc_html_e( 'SVG Upload', 'powerplus-toolkit' ); ?></a>
+				<a class="nav-tab <?php echo 'ghost-mode' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pkwt-settings&tab=ghost-mode' ) ); ?>"><?php esc_html_e( 'Ghost Mode', 'powerplus-toolkit' ); ?></a>
 			</h2>
 
 			<?php if ( 'svg_scanned' === $notice ) : ?>
-				<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'SVG scan completed.', 'powerkit-powerful-tools-for-your-website' ); ?></p></div>
+				<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'SVG scan completed.', 'powerplus-toolkit' ); ?></p></div>
 			<?php elseif ( 'ghost_tested' === $notice ) : ?>
-				<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Ghost mode detection test completed.', 'powerkit-powerful-tools-for-your-website' ); ?></p></div>
+				<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Ghost mode detection test completed.', 'powerplus-toolkit' ); ?></p></div>
 			<?php endif; ?>
 
 			<?php if ( 'duplicate' === $tab ) : ?>
@@ -333,18 +333,18 @@ class Class_PKWT_DPP_Admin {
 				<?php settings_fields( 'pkwt_dpp_settings_group' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Enable post duplicator', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Enable post duplicator', 'powerplus-toolkit' ); ?></th>
 						<td>
 							<label>
 								<input type="checkbox" name="pkwt_dpp_settings[enabled]" value="1" <?php checked( ! empty( $settings['enabled'] ) ); ?> />
-								<?php esc_html_e( 'Turn Duplicate button on/off globally', 'powerkit-powerful-tools-for-your-website' ); ?>
+								<?php esc_html_e( 'Turn Duplicate button on/off globally', 'powerplus-toolkit' ); ?>
 							</label>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Enable post types', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Enable post types', 'powerplus-toolkit' ); ?></th>
 						<td>
-							<p class="description"><?php esc_html_e( 'If none are checked, duplication is allowed for all post types shown in admin.', 'powerkit-powerful-tools-for-your-website' ); ?></p>
+							<p class="description"><?php esc_html_e( 'If none are checked, duplication is allowed for all post types shown in admin.', 'powerplus-toolkit' ); ?></p>
 							<?php foreach ( $post_types as $post_type ) : ?>
 								<label style="display:block;margin-bottom:4px;">
 									<input type="checkbox" name="pkwt_dpp_settings[enabled_post_types][]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( in_array( $post_type->name, $settings['enabled_post_types'], true ) ); ?> />
@@ -354,24 +354,24 @@ class Class_PKWT_DPP_Admin {
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Title suffix', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Title suffix', 'powerplus-toolkit' ); ?></th>
 						<td><input class="regular-text" type="text" name="pkwt_dpp_settings[title_suffix]" value="<?php echo esc_attr( (string) $settings['title_suffix'] ); ?>" /></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Copy author', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Copy author', 'powerplus-toolkit' ); ?></th>
 						<td>
 							<select name="pkwt_dpp_settings[copy_author]">
-								<option value="current" <?php selected( $settings['copy_author'], 'current' ); ?>><?php esc_html_e( 'Current logged-in user', 'powerkit-powerful-tools-for-your-website' ); ?></option>
-								<option value="original" <?php selected( $settings['copy_author'], 'original' ); ?>><?php esc_html_e( 'Original author', 'powerkit-powerful-tools-for-your-website' ); ?></option>
+								<option value="current" <?php selected( $settings['copy_author'], 'current' ); ?>><?php esc_html_e( 'Current logged-in user', 'powerplus-toolkit' ); ?></option>
+								<option value="original" <?php selected( $settings['copy_author'], 'original' ); ?>><?php esc_html_e( 'Original author', 'powerplus-toolkit' ); ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Enable row action link', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Enable row action link', 'powerplus-toolkit' ); ?></th>
 						<td><input type="checkbox" name="pkwt_dpp_settings[enable_row_action]" value="1" <?php checked( ! empty( $settings['enable_row_action'] ) ); ?> /></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Enable Elementor editor button', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Enable Elementor editor button', 'powerplus-toolkit' ); ?></th>
 						<td><input type="checkbox" name="pkwt_dpp_settings[enable_elementor_button]" value="1" <?php checked( ! empty( $settings['enable_elementor_button'] ) ); ?> /></td>
 					</tr>
 				</table>
@@ -382,11 +382,11 @@ class Class_PKWT_DPP_Admin {
 				<?php settings_fields( 'pkwt_dpp_settings_group' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Enable SVG uploads', 'powerkit-powerful-tools-for-your-website' ); ?></th>
-						<td><label><input type="checkbox" name="pkwt_dpp_svg_settings[dpp_svg_enabled]" value="1" <?php checked( ! empty( $svg['dpp_svg_enabled'] ) ); ?> /> <?php esc_html_e( 'Safely allow SVG upload with sanitization', 'powerkit-powerful-tools-for-your-website' ); ?></label></td>
+						<th scope="row"><?php esc_html_e( 'Enable SVG uploads', 'powerplus-toolkit' ); ?></th>
+						<td><label><input type="checkbox" name="pkwt_dpp_svg_settings[dpp_svg_enabled]" value="1" <?php checked( ! empty( $svg['dpp_svg_enabled'] ) ); ?> /> <?php esc_html_e( 'Safely allow SVG upload with sanitization', 'powerplus-toolkit' ); ?></label></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Who can upload SVGs', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Who can upload SVGs', 'powerplus-toolkit' ); ?></th>
 						<td>
 							<fieldset <?php disabled( empty( $svg['dpp_svg_enabled'] ) ); ?>>
 								<?php foreach ( $all_roles as $role_key => $role_data ) : ?>
@@ -396,25 +396,25 @@ class Class_PKWT_DPP_Admin {
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Show SVG preview in Media Library', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Show SVG preview in Media Library', 'powerplus-toolkit' ); ?></th>
 						<td><input type="checkbox" name="pkwt_dpp_svg_settings[dpp_svg_preview]" value="1" <?php checked( ! empty( $svg['dpp_svg_preview'] ) ); ?> <?php disabled( empty( $svg['dpp_svg_enabled'] ) ); ?> /></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Max SVG file size (KB)', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Max SVG file size (KB)', 'powerplus-toolkit' ); ?></th>
 						<td><input type="number" min="64" max="4096" name="pkwt_dpp_svg_settings[dpp_svg_max_size_kb]" value="<?php echo esc_attr( (string) $svg['dpp_svg_max_size_kb'] ); ?>" <?php disabled( empty( $svg['dpp_svg_enabled'] ) ); ?> /></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Sanitization strictness', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Sanitization strictness', 'powerplus-toolkit' ); ?></th>
 						<td>
 							<fieldset <?php disabled( empty( $svg['dpp_svg_enabled'] ) ); ?>>
-								<label style="display:block;"><input type="radio" name="pkwt_dpp_svg_settings[dpp_svg_strictness]" value="standard" <?php checked( $svg['dpp_svg_strictness'], 'standard' ); ?> /> <?php esc_html_e( 'Standard', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="radio" name="pkwt_dpp_svg_settings[dpp_svg_strictness]" value="strict" <?php checked( $svg['dpp_svg_strictness'], 'strict' ); ?> /> <?php esc_html_e( 'Strict', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="radio" name="pkwt_dpp_svg_settings[dpp_svg_strictness]" value="paranoid" <?php checked( $svg['dpp_svg_strictness'], 'paranoid' ); ?> /> <?php esc_html_e( 'Paranoid', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+								<label style="display:block;"><input type="radio" name="pkwt_dpp_svg_settings[dpp_svg_strictness]" value="standard" <?php checked( $svg['dpp_svg_strictness'], 'standard' ); ?> /> <?php esc_html_e( 'Standard', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="radio" name="pkwt_dpp_svg_settings[dpp_svg_strictness]" value="strict" <?php checked( $svg['dpp_svg_strictness'], 'strict' ); ?> /> <?php esc_html_e( 'Strict', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="radio" name="pkwt_dpp_svg_settings[dpp_svg_strictness]" value="paranoid" <?php checked( $svg['dpp_svg_strictness'], 'paranoid' ); ?> /> <?php esc_html_e( 'Paranoid', 'powerplus-toolkit' ); ?></label>
 							</fieldset>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Blocked elements log', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Blocked elements log', 'powerplus-toolkit' ); ?></th>
 						<td><input type="checkbox" name="pkwt_dpp_svg_settings[dpp_svg_blocked_log]" value="1" <?php checked( ! empty( $svg['dpp_svg_blocked_log'] ) ); ?> <?php disabled( empty( $svg['dpp_svg_enabled'] ) ); ?> /></td>
 					</tr>
 				</table>
@@ -424,13 +424,13 @@ class Class_PKWT_DPP_Admin {
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin-top:12px;">
 				<?php wp_nonce_field( 'pkwt_svg_scan' ); ?>
 				<input type="hidden" name="action" value="pkwt_svg_scan" />
-				<button type="submit" class="button"><?php esc_html_e( 'Scan Media Library for Unsafe SVGs', 'powerkit-powerful-tools-for-your-website' ); ?></button>
+				<button type="submit" class="button"><?php esc_html_e( 'Scan Media Library for Unsafe SVGs', 'powerplus-toolkit' ); ?></button>
 			</form>
 
 			<?php if ( ! empty( $scan_results ) && is_array( $scan_results ) ) : ?>
-				<h2><?php esc_html_e( 'Scan Results', 'powerkit-powerful-tools-for-your-website' ); ?></h2>
+				<h2><?php esc_html_e( 'Scan Results', 'powerplus-toolkit' ); ?></h2>
 				<table class="widefat striped">
-					<thead><tr><th><?php esc_html_e( 'File', 'powerkit-powerful-tools-for-your-website' ); ?></th><th><?php esc_html_e( 'Issue', 'powerkit-powerful-tools-for-your-website' ); ?></th><th><?php esc_html_e( 'Status', 'powerkit-powerful-tools-for-your-website' ); ?></th></tr></thead>
+					<thead><tr><th><?php esc_html_e( 'File', 'powerplus-toolkit' ); ?></th><th><?php esc_html_e( 'Issue', 'powerplus-toolkit' ); ?></th><th><?php esc_html_e( 'Status', 'powerplus-toolkit' ); ?></th></tr></thead>
 					<tbody>
 					<?php foreach ( $scan_results as $row ) : ?>
 						<tr>
@@ -444,9 +444,9 @@ class Class_PKWT_DPP_Admin {
 			<?php endif; ?>
 
 			<?php if ( ! empty( $svg_log ) && is_array( $svg_log ) ) : ?>
-				<h2><?php esc_html_e( 'Sanitization Log', 'powerkit-powerful-tools-for-your-website' ); ?></h2>
+				<h2><?php esc_html_e( 'Sanitization Log', 'powerplus-toolkit' ); ?></h2>
 				<table class="widefat striped">
-					<thead><tr><th><?php esc_html_e( 'Time', 'powerkit-powerful-tools-for-your-website' ); ?></th><th><?php esc_html_e( 'File', 'powerkit-powerful-tools-for-your-website' ); ?></th><th><?php esc_html_e( 'Removed', 'powerkit-powerful-tools-for-your-website' ); ?></th></tr></thead>
+					<thead><tr><th><?php esc_html_e( 'Time', 'powerplus-toolkit' ); ?></th><th><?php esc_html_e( 'File', 'powerplus-toolkit' ); ?></th><th><?php esc_html_e( 'Removed', 'powerplus-toolkit' ); ?></th></tr></thead>
 					<tbody>
 					<?php foreach ( array_reverse( $svg_log ) as $entry ) : ?>
 						<tr>
@@ -463,47 +463,47 @@ class Class_PKWT_DPP_Admin {
 				<?php settings_fields( 'pkwt_dpp_settings_group' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Enable Ghost Mode', 'powerkit-powerful-tools-for-your-website' ); ?></th>
-						<td><label><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_enabled]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_enabled'] ) ); ?> /> <?php esc_html_e( 'Hide common WordPress fingerprints', 'powerkit-powerful-tools-for-your-website' ); ?></label></td>
+						<th scope="row"><?php esc_html_e( 'Enable Ghost Mode', 'powerplus-toolkit' ); ?></th>
+						<td><label><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_enabled]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_enabled'] ) ); ?> /> <?php esc_html_e( 'Hide common WordPress fingerprints', 'powerplus-toolkit' ); ?></label></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Custom CMS Name', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Custom CMS Name', 'powerplus-toolkit' ); ?></th>
 						<td><input class="regular-text" type="text" name="pkwt_dpp_ghost_settings[dpp_ghost_custom_cms_name]" value="<?php echo esc_attr( (string) $ghost['dpp_ghost_custom_cms_name'] ); ?>" <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?> /></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Source Code Signals', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Source Code Signals', 'powerplus-toolkit' ); ?></th>
 						<td>
 							<fieldset <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?>>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_generator]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_generator'] ) ); ?> /> <?php esc_html_e( 'Remove generator meta tag', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_strip_version_urls]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_strip_version_urls'] ) ); ?> /> <?php esc_html_e( 'Remove WordPress version from asset URLs', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_rsd]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_rsd'] ) ); ?> /> <?php esc_html_e( 'Remove RSD link', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_wlw]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_wlw'] ) ); ?> /> <?php esc_html_e( 'Remove WLW manifest link', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_shortlink]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_shortlink'] ) ); ?> /> <?php esc_html_e( 'Remove shortlink', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_feed_links]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_feed_links'] ) ); ?> /> <?php esc_html_e( 'Remove feed links', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_emoji]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_emoji'] ) ); ?> /> <?php esc_html_e( 'Remove emoji scripts', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_oembed]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_oembed'] ) ); ?> /> <?php esc_html_e( 'Remove oEmbed links', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_rest_link]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_rest_link'] ) ); ?> /> <?php esc_html_e( 'Remove REST API link', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_generator]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_generator'] ) ); ?> /> <?php esc_html_e( 'Remove generator meta tag', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_strip_version_urls]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_strip_version_urls'] ) ); ?> /> <?php esc_html_e( 'Remove WordPress version from asset URLs', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_rsd]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_rsd'] ) ); ?> /> <?php esc_html_e( 'Remove RSD link', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_wlw]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_wlw'] ) ); ?> /> <?php esc_html_e( 'Remove WLW manifest link', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_shortlink]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_shortlink'] ) ); ?> /> <?php esc_html_e( 'Remove shortlink', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_feed_links]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_feed_links'] ) ); ?> /> <?php esc_html_e( 'Remove feed links', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_emoji]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_emoji'] ) ); ?> /> <?php esc_html_e( 'Remove emoji scripts', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_oembed]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_oembed'] ) ); ?> /> <?php esc_html_e( 'Remove oEmbed links', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_remove_rest_link]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_remove_rest_link'] ) ); ?> /> <?php esc_html_e( 'Remove REST API link', 'powerplus-toolkit' ); ?></label>
 							</fieldset>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'API & Endpoint Signals', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'API & Endpoint Signals', 'powerplus-toolkit' ); ?></th>
 						<td>
 							<fieldset <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?>>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_disable_author_archives]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_disable_author_archives'] ) ); ?> /> <?php esc_html_e( 'Disable author archive URLs', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_disable_xmlrpc]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_disable_xmlrpc'] ) ); ?> /> <?php esc_html_e( 'Disable XML-RPC', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_hide_rest_users]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_hide_rest_users'] ) ); ?> /> <?php esc_html_e( 'Hide REST API users endpoint', 'powerkit-powerful-tools-for-your-website' ); ?></label>
-								<label style="display:block;"><?php esc_html_e( 'Custom REST base path', 'powerkit-powerful-tools-for-your-website' ); ?> <input type="text" name="pkwt_dpp_ghost_settings[dpp_ghost_rest_prefix]" value="<?php echo esc_attr( (string) $ghost['dpp_ghost_rest_prefix'] ); ?>" <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?> /></label>
-								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_block_probes]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_block_probes'] ) ); ?> /> <?php esc_html_e( 'Block common WordPress probe requests', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_disable_author_archives]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_disable_author_archives'] ) ); ?> /> <?php esc_html_e( 'Disable author archive URLs', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_disable_xmlrpc]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_disable_xmlrpc'] ) ); ?> /> <?php esc_html_e( 'Disable XML-RPC', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_hide_rest_users]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_hide_rest_users'] ) ); ?> /> <?php esc_html_e( 'Hide REST API users endpoint', 'powerplus-toolkit' ); ?></label>
+								<label style="display:block;"><?php esc_html_e( 'Custom REST base path', 'powerplus-toolkit' ); ?> <input type="text" name="pkwt_dpp_ghost_settings[dpp_ghost_rest_prefix]" value="<?php echo esc_attr( (string) $ghost['dpp_ghost_rest_prefix'] ); ?>" <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?> /></label>
+								<label style="display:block;"><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_block_probes]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_block_probes'] ) ); ?> /> <?php esc_html_e( 'Block common WordPress probe requests', 'powerplus-toolkit' ); ?></label>
 							</fieldset>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Auto-test weekly', 'powerkit-powerful-tools-for-your-website' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Auto-test weekly', 'powerplus-toolkit' ); ?></th>
 						<td>
-							<label><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_auto_test]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_auto_test'] ) ); ?> <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?> /> <?php esc_html_e( 'Email admin if score drops below threshold', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+							<label><input type="checkbox" name="pkwt_dpp_ghost_settings[dpp_ghost_auto_test]" value="1" <?php checked( ! empty( $ghost['dpp_ghost_auto_test'] ) ); ?> <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?> /> <?php esc_html_e( 'Email admin if score drops below threshold', 'powerplus-toolkit' ); ?></label>
 							<br />
-							<label><?php esc_html_e( 'Threshold', 'powerkit-powerful-tools-for-your-website' ); ?> <input type="number" min="1" max="11" name="pkwt_dpp_ghost_settings[dpp_ghost_auto_test_threshold]" value="<?php echo esc_attr( (string) $ghost['dpp_ghost_auto_test_threshold'] ); ?>" <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?> /></label>
+							<label><?php esc_html_e( 'Threshold', 'powerplus-toolkit' ); ?> <input type="number" min="1" max="11" name="pkwt_dpp_ghost_settings[dpp_ghost_auto_test_threshold]" value="<?php echo esc_attr( (string) $ghost['dpp_ghost_auto_test_threshold'] ); ?>" <?php disabled( empty( $ghost['dpp_ghost_enabled'] ) ); ?> /></label>
 						</td>
 					</tr>
 				</table>
@@ -512,14 +512,14 @@ class Class_PKWT_DPP_Admin {
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin-top:12px;">
 				<?php wp_nonce_field( 'dpp_ghost_test' ); ?>
 				<input type="hidden" name="action" value="dpp_ghost_test" />
-				<button type="submit" class="button"><?php esc_html_e( 'Test My Site Now', 'powerkit-powerful-tools-for-your-website' ); ?></button>
+				<button type="submit" class="button"><?php esc_html_e( 'Test My Site Now', 'powerplus-toolkit' ); ?></button>
 			</form>
 			<?php if ( ! empty( $ghost_last ) && is_array( $ghost_last ) ) : ?>
-				<h2><?php esc_html_e( 'Detection Test Results', 'powerkit-powerful-tools-for-your-website' ); ?></h2>
+				<h2><?php esc_html_e( 'Detection Test Results', 'powerplus-toolkit' ); ?></h2>
 				<p><?php echo esc_html( sprintf( 'Ghost Score: %1$d / %2$d', isset( $ghost_last['score'] ) ? (int) $ghost_last['score'] : 0, isset( $ghost_last['total'] ) ? (int) $ghost_last['total'] : 0 ) ); ?></p>
 				<p><?php echo esc_html( sprintf( 'Last test: %s', isset( $ghost_last['time'] ) ? wp_date( 'Y-m-d H:i', (int) $ghost_last['time'] ) : '-' ) ); ?></p>
 			<?php endif; ?>
-			<div class="notice notice-info inline"><p><?php esc_html_e( 'Ghost Mode reduces many common WordPress fingerprints, but no solution can make WordPress 100% undetectable in every scenario.', 'powerkit-powerful-tools-for-your-website' ); ?></p></div>
+			<div class="notice notice-info inline"><p><?php esc_html_e( 'Ghost Mode reduces many common WordPress fingerprints, but no solution can make WordPress 100% undetectable in every scenario.', 'powerplus-toolkit' ); ?></p></div>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -545,7 +545,7 @@ class Class_PKWT_DPP_Admin {
 		}
 
 		$edit_link = get_edit_post_link( $new_post_id, '' );
-		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Post duplicated. Edit the copy:', 'powerkit-powerful-tools-for-your-website' ) . ' <a href="' . esc_url( (string) $edit_link ) . '">' . esc_html__( 'Open draft', 'powerkit-powerful-tools-for-your-website' ) . '</a></p></div>';
+		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Post duplicated. Edit the copy:', 'powerplus-toolkit' ) . ' <a href="' . esc_url( (string) $edit_link ) . '">' . esc_html__( 'Open draft', 'powerplus-toolkit' ) . '</a></p></div>';
 	}
 
 	/**
@@ -555,7 +555,7 @@ class Class_PKWT_DPP_Admin {
 	 */
 	public function handle_apply_preset(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 		check_admin_referer( 'pkwt_apply_preset' );
 
@@ -710,7 +710,7 @@ class Class_PKWT_DPP_Admin {
 				'postId'  => $post_id,
 				'url'     => admin_url( 'admin.php?action=dpp_duplicate_post&post=' . $post_id ),
 				'nonce'   => wp_create_nonce( 'pkwt_dpp_duplicate_' . $post_id ),
-				'label'   => __( 'Duplicate Page', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => __( 'Duplicate Page', 'powerplus-toolkit' ),
 			)
 		);
 	}

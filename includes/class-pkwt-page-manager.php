@@ -37,10 +37,10 @@ class Class_PKWT_Page_Manager {
 	 */
 	public function ensure_default_pages(): array {
 		$map = array(
-			'login'          => array( 'slug' => 'pkwt-login', 'title' => __( 'Login', 'powerkit-powerful-tools-for-your-website' ) ),
-			'register'       => array( 'slug' => 'pkwt-register', 'title' => __( 'Register', 'powerkit-powerful-tools-for-your-website' ) ),
-			'lost_password'  => array( 'slug' => 'pkwt-lost-password', 'title' => __( 'Lost Password', 'powerkit-powerful-tools-for-your-website' ) ),
-			'reset_password' => array( 'slug' => 'pkwt-reset-password', 'title' => __( 'Reset Password', 'powerkit-powerful-tools-for-your-website' ) ),
+			'login'          => array( 'slug' => 'pkwt-login', 'title' => __( 'Login', 'powerplus-toolkit' ) ),
+			'register'       => array( 'slug' => 'pkwt-register', 'title' => __( 'Register', 'powerplus-toolkit' ) ),
+			'lost_password'  => array( 'slug' => 'pkwt-lost-password', 'title' => __( 'Lost Password', 'powerplus-toolkit' ) ),
+			'reset_password' => array( 'slug' => 'pkwt-reset-password', 'title' => __( 'Reset Password', 'powerplus-toolkit' ) ),
 		);
 
 		$ids = array();
@@ -60,7 +60,7 @@ class Class_PKWT_Page_Manager {
 					'post_status'  => 'publish',
 					'post_content' => sprintf(
 						'<!-- wp:paragraph --><p>%s</p><!-- /wp:paragraph -->',
-						esc_html__( 'Edit this page with Elementor and add PowerKit widgets.', 'powerkit-powerful-tools-for-your-website' )
+						esc_html__( 'Edit this page with Elementor and add PowerKit widgets.', 'powerplus-toolkit' )
 					),
 				)
 			);

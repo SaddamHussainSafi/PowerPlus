@@ -64,29 +64,29 @@ abstract class Class_Abstract_Form_Widget extends Widget_Base {
 
 		$sets = array(
 			'split-left'    => array(
-				'label'   => __( 'Split Left', 'powerkit-powerful-tools-for-your-website' ),
-				'desc'    => __( 'Dark panel + white form', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => __( 'Split Left', 'powerplus-toolkit' ),
+				'desc'    => __( 'Dark panel + white form', 'powerplus-toolkit' ),
 				'bg'      => '#0f172a',
 				'accent'  => '#6366f1',
 				'layout'  => 'split-left',
 			),
 			'centered-card' => array(
-				'label'   => __( 'Centered Card', 'powerkit-powerful-tools-for-your-website' ),
-				'desc'    => __( 'Card on gradient background', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => __( 'Centered Card', 'powerplus-toolkit' ),
+				'desc'    => __( 'Card on gradient background', 'powerplus-toolkit' ),
 				'bg'      => 'linear-gradient(135deg,#1a1a4e,#2563eb)',
 				'accent'  => '#2563eb',
 				'layout'  => 'centered',
 			),
 			'form-left'     => array(
-				'label'   => __( 'Gradient Panel Right', 'powerkit-powerful-tools-for-your-website' ),
-				'desc'    => __( 'Form left + gradient right', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => __( 'Gradient Panel Right', 'powerplus-toolkit' ),
+				'desc'    => __( 'Form left + gradient right', 'powerplus-toolkit' ),
 				'bg'      => '#fff',
 				'accent'  => '#7c3aed',
 				'layout'  => 'form-left',
 			),
 		);
 
-		$import_label = esc_html__( 'Import', 'powerkit-powerful-tools-for-your-website' );
+		$import_label = esc_html__( 'Import', 'powerplus-toolkit' );
 
 		// Helper: build mini mockup SVG for each layout
 		$cards_html = '<div class="pkwt-tpl-picker" data-page-type="' . esc_attr( $page_type ) . '">';
@@ -147,7 +147,7 @@ abstract class Class_Abstract_Form_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pkwt_template_picker',
 			array(
-				'label' => esc_html__( 'Page Templates', 'powerkit-powerful-tools-for-your-website' ),
+				'label' => esc_html__( 'Page Templates', 'powerplus-toolkit' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -161,93 +161,93 @@ abstract class Class_Abstract_Form_Widget extends Widget_Base {
 		);
 		$this->end_controls_section();
 
-		$this->start_controls_section( 'pkwt_form_container_style', array( 'label' => esc_html__( 'Form Container', 'powerkit-powerful-tools-for-your-website' ), 'tab' => Controls_Manager::TAB_STYLE ) );
+		$this->start_controls_section( 'pkwt_form_container_style', array( 'label' => esc_html__( 'Form Container', 'powerplus-toolkit' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->add_group_control( Group_Control_Background::get_type(), array( 'name' => 'form_background', 'types' => array( 'classic', 'gradient' ), 'selector' => '{{WRAPPER}} .pkwt-form-wrap' ) );
-		$this->add_responsive_control( 'form_padding', array( 'label' => esc_html__( 'Padding', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
-		$this->add_responsive_control( 'form_margin', array( 'label' => esc_html__( 'Margin', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'form_padding', array( 'label' => esc_html__( 'Padding', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'form_margin', array( 'label' => esc_html__( 'Margin', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
 		$this->add_group_control( Group_Control_Border::get_type(), array( 'name' => 'form_border', 'selector' => '{{WRAPPER}} .pkwt-form-wrap' ) );
-		$this->add_responsive_control( 'form_border_radius', array( 'label' => esc_html__( 'Border Radius', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'form_border_radius', array( 'label' => esc_html__( 'Border Radius', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
 		$this->add_group_control( Group_Control_Box_Shadow::get_type(), array( 'name' => 'form_box_shadow', 'selector' => '{{WRAPPER}} .pkwt-form-wrap' ) );
-		$this->add_responsive_control( 'form_width', array( 'label' => esc_html__( 'Width', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px', '%' ), 'range' => array( 'px' => array( 'min' => 200, 'max' => 1200 ), '%' => array( 'min' => 10, 'max' => 100 ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'width: {{SIZE}}{{UNIT}};' ) ) );
-		$this->add_responsive_control( 'form_max_width', array( 'label' => esc_html__( 'Max Width', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px', '%' ), 'range' => array( 'px' => array( 'min' => 200, 'max' => 1600 ), '%' => array( 'min' => 10, 'max' => 100 ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'max-width: {{SIZE}}{{UNIT}};' ) ) );
-		$this->add_control( 'form_z_index', array( 'label' => esc_html__( 'Z-Index', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::NUMBER, 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'z-index: {{VALUE}};' ) ) );
+		$this->add_responsive_control( 'form_width', array( 'label' => esc_html__( 'Width', 'powerplus-toolkit' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px', '%' ), 'range' => array( 'px' => array( 'min' => 200, 'max' => 1200 ), '%' => array( 'min' => 10, 'max' => 100 ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'width: {{SIZE}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'form_max_width', array( 'label' => esc_html__( 'Max Width', 'powerplus-toolkit' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px', '%' ), 'range' => array( 'px' => array( 'min' => 200, 'max' => 1600 ), '%' => array( 'min' => 10, 'max' => 100 ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'max-width: {{SIZE}}{{UNIT}};' ) ) );
+		$this->add_control( 'form_z_index', array( 'label' => esc_html__( 'Z-Index', 'powerplus-toolkit' ), 'type' => Controls_Manager::NUMBER, 'selectors' => array( '{{WRAPPER}} .pkwt-form-wrap' => 'z-index: {{VALUE}};' ) ) );
 		$this->end_controls_section();
 
-		$this->start_controls_section( 'pkwt_title_desc_style', array( 'label' => esc_html__( 'Title & Description', 'powerkit-powerful-tools-for-your-website' ), 'tab' => Controls_Manager::TAB_STYLE ) );
+		$this->start_controls_section( 'pkwt_title_desc_style', array( 'label' => esc_html__( 'Title & Description', 'powerplus-toolkit' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'title_typography', 'selector' => '{{WRAPPER}} .pkwt-form-title' ) );
-		$this->add_control( 'title_color', array( 'label' => esc_html__( 'Title Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form-title' => 'color: {{VALUE}};' ) ) );
-		$this->add_responsive_control( 'title_align', array( 'label' => esc_html__( 'Title Alignment', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::CHOOSE, 'options' => array( 'left' => array( 'title' => esc_html__( 'Left', 'powerkit-powerful-tools-for-your-website' ), 'icon' => 'eicon-text-align-left' ), 'center' => array( 'title' => esc_html__( 'Center', 'powerkit-powerful-tools-for-your-website' ), 'icon' => 'eicon-text-align-center' ), 'right' => array( 'title' => esc_html__( 'Right', 'powerkit-powerful-tools-for-your-website' ), 'icon' => 'eicon-text-align-right' ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-title' => 'text-align: {{VALUE}};' ) ) );
+		$this->add_control( 'title_color', array( 'label' => esc_html__( 'Title Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form-title' => 'color: {{VALUE}};' ) ) );
+		$this->add_responsive_control( 'title_align', array( 'label' => esc_html__( 'Title Alignment', 'powerplus-toolkit' ), 'type' => Controls_Manager::CHOOSE, 'options' => array( 'left' => array( 'title' => esc_html__( 'Left', 'powerplus-toolkit' ), 'icon' => 'eicon-text-align-left' ), 'center' => array( 'title' => esc_html__( 'Center', 'powerplus-toolkit' ), 'icon' => 'eicon-text-align-center' ), 'right' => array( 'title' => esc_html__( 'Right', 'powerplus-toolkit' ), 'icon' => 'eicon-text-align-right' ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-form-title' => 'text-align: {{VALUE}};' ) ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'desc_typography', 'selector' => '{{WRAPPER}} .pkwt-form-description' ) );
-		$this->add_control( 'desc_color', array( 'label' => esc_html__( 'Description Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form-description' => 'color: {{VALUE}};' ) ) );
+		$this->add_control( 'desc_color', array( 'label' => esc_html__( 'Description Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form-description' => 'color: {{VALUE}};' ) ) );
 		$this->end_controls_section();
 
-		$this->start_controls_section( 'pkwt_inputs_style', array( 'label' => esc_html__( 'Input Fields', 'powerkit-powerful-tools-for-your-website' ), 'tab' => Controls_Manager::TAB_STYLE ) );
+		$this->start_controls_section( 'pkwt_inputs_style', array( 'label' => esc_html__( 'Input Fields', 'powerplus-toolkit' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->start_controls_tabs( 'pkwt_input_state_tabs' );
-		$this->start_controls_tab( 'pkwt_input_state_normal', array( 'label' => esc_html__( 'Normal', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'field_background_color', array( 'label' => esc_html__( 'Field Background', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'background-color: {{VALUE}};' ) ) );
-		$this->add_control( 'field_text_color', array( 'label' => esc_html__( 'Field Text Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'color: {{VALUE}};' ) ) );
-		$this->add_control( 'field_placeholder_color', array( 'label' => esc_html__( 'Placeholder Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input::placeholder' => 'color: {{VALUE}};' ) ) );
+		$this->start_controls_tab( 'pkwt_input_state_normal', array( 'label' => esc_html__( 'Normal', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'field_background_color', array( 'label' => esc_html__( 'Field Background', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'background-color: {{VALUE}};' ) ) );
+		$this->add_control( 'field_text_color', array( 'label' => esc_html__( 'Field Text Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'color: {{VALUE}};' ) ) );
+		$this->add_control( 'field_placeholder_color', array( 'label' => esc_html__( 'Placeholder Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input::placeholder' => 'color: {{VALUE}};' ) ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'field_typography', 'selector' => '{{WRAPPER}} .pkwt-form input' ) );
 		$this->add_group_control( Group_Control_Border::get_type(), array( 'name' => 'field_border', 'selector' => '{{WRAPPER}} .pkwt-form input' ) );
 		$this->add_group_control( Group_Control_Box_Shadow::get_type(), array( 'name' => 'field_box_shadow', 'selector' => '{{WRAPPER}} .pkwt-form input' ) );
 		$this->end_controls_tab();
 
-		$this->start_controls_tab( 'pkwt_input_state_focus', array( 'label' => esc_html__( 'Focus', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'field_focus_background_color', array( 'label' => esc_html__( 'Focus Background', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input:focus' => 'background-color: {{VALUE}};' ) ) );
-		$this->add_control( 'field_focus_border_color', array( 'label' => esc_html__( 'Focus Border Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input:focus' => 'border-color: {{VALUE}};' ) ) );
+		$this->start_controls_tab( 'pkwt_input_state_focus', array( 'label' => esc_html__( 'Focus', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'field_focus_background_color', array( 'label' => esc_html__( 'Focus Background', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input:focus' => 'background-color: {{VALUE}};' ) ) );
+		$this->add_control( 'field_focus_border_color', array( 'label' => esc_html__( 'Focus Border Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input:focus' => 'border-color: {{VALUE}};' ) ) );
 		$this->add_group_control( Group_Control_Box_Shadow::get_type(), array( 'name' => 'field_focus_shadow', 'selector' => '{{WRAPPER}} .pkwt-form input:focus' ) );
 		$this->end_controls_tab();
 
-		$this->start_controls_tab( 'pkwt_input_state_error', array( 'label' => esc_html__( 'Error', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'field_error_background', array( 'label' => esc_html__( 'Error Field Background', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input.is-invalid' => 'background-color: {{VALUE}};' ) ) );
-		$this->add_control( 'field_error_border', array( 'label' => esc_html__( 'Error Border Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input.is-invalid' => 'border-color: {{VALUE}};' ) ) );
-		$this->add_control( 'field_error_message_color', array( 'label' => esc_html__( 'Error Message Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-field-error, {{WRAPPER}} .pkwt-message.is-error' => 'color: {{VALUE}};' ) ) );
+		$this->start_controls_tab( 'pkwt_input_state_error', array( 'label' => esc_html__( 'Error', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'field_error_background', array( 'label' => esc_html__( 'Error Field Background', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input.is-invalid' => 'background-color: {{VALUE}};' ) ) );
+		$this->add_control( 'field_error_border', array( 'label' => esc_html__( 'Error Border Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form input.is-invalid' => 'border-color: {{VALUE}};' ) ) );
+		$this->add_control( 'field_error_message_color', array( 'label' => esc_html__( 'Error Message Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-field-error, {{WRAPPER}} .pkwt-message.is-error' => 'color: {{VALUE}};' ) ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'field_error_message_typography', 'selector' => '{{WRAPPER}} .pkwt-field-error, {{WRAPPER}} .pkwt-message' ) );
 		$this->end_controls_tab();
 		$this->end_controls_tabs();
-		$this->add_responsive_control( 'field_padding', array( 'label' => esc_html__( 'Field Padding', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
-		$this->add_responsive_control( 'field_margin', array( 'label' => esc_html__( 'Field Margin', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
-		$this->add_responsive_control( 'field_border_radius', array( 'label' => esc_html__( 'Field Border Radius', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'field_padding', array( 'label' => esc_html__( 'Field Padding', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'field_margin', array( 'label' => esc_html__( 'Field Margin', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'field_border_radius', array( 'label' => esc_html__( 'Field Border Radius', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-form input' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
 		$this->end_controls_section();
 
-		$this->start_controls_section( 'pkwt_button_style', array( 'label' => esc_html__( 'Submit Button', 'powerkit-powerful-tools-for-your-website' ), 'tab' => Controls_Manager::TAB_STYLE ) );
+		$this->start_controls_section( 'pkwt_button_style', array( 'label' => esc_html__( 'Submit Button', 'powerplus-toolkit' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->start_controls_tabs( 'pkwt_button_state_tabs' );
-		$this->start_controls_tab( 'pkwt_button_state_normal', array( 'label' => esc_html__( 'Normal', 'powerkit-powerful-tools-for-your-website' ) ) );
+		$this->start_controls_tab( 'pkwt_button_state_normal', array( 'label' => esc_html__( 'Normal', 'powerplus-toolkit' ) ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'button_typography', 'selector' => '{{WRAPPER}} .pkwt-submit' ) );
-		$this->add_control( 'button_text_color', array( 'label' => esc_html__( 'Text Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'color: {{VALUE}};' ) ) );
+		$this->add_control( 'button_text_color', array( 'label' => esc_html__( 'Text Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'color: {{VALUE}};' ) ) );
 		$this->add_group_control( Group_Control_Background::get_type(), array( 'name' => 'button_background', 'types' => array( 'classic', 'gradient' ), 'selector' => '{{WRAPPER}} .pkwt-submit' ) );
 		$this->add_group_control( Group_Control_Border::get_type(), array( 'name' => 'button_border', 'selector' => '{{WRAPPER}} .pkwt-submit' ) );
 		$this->add_group_control( Group_Control_Box_Shadow::get_type(), array( 'name' => 'button_shadow', 'selector' => '{{WRAPPER}} .pkwt-submit' ) );
 		$this->add_group_control( Group_Control_Text_Shadow::get_type(), array( 'name' => 'button_text_shadow', 'selector' => '{{WRAPPER}} .pkwt-submit' ) );
 		$this->end_controls_tab();
-		$this->start_controls_tab( 'pkwt_button_state_hover', array( 'label' => esc_html__( 'Hover', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'button_hover_text_color', array( 'label' => esc_html__( 'Hover Text Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-submit:hover' => 'color: {{VALUE}};' ) ) );
+		$this->start_controls_tab( 'pkwt_button_state_hover', array( 'label' => esc_html__( 'Hover', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'button_hover_text_color', array( 'label' => esc_html__( 'Hover Text Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-submit:hover' => 'color: {{VALUE}};' ) ) );
 		$this->add_group_control( Group_Control_Background::get_type(), array( 'name' => 'button_hover_background', 'types' => array( 'classic', 'gradient' ), 'selector' => '{{WRAPPER}} .pkwt-submit:hover' ) );
-		$this->add_control( 'button_hover_border_color', array( 'label' => esc_html__( 'Hover Border Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-submit:hover' => 'border-color: {{VALUE}};' ) ) );
-		$this->add_control( 'button_hover_translate_y', array( 'label' => esc_html__( 'Hover Translate Y', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit:hover' => 'transform: translateY({{SIZE}}{{UNIT}});' ) ) );
-		$this->add_control( 'button_transition_duration', array( 'label' => esc_html__( 'Transition Duration (ms)', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 50, 'max' => 2000 ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'transition-duration: {{SIZE}}ms;' ) ) );
+		$this->add_control( 'button_hover_border_color', array( 'label' => esc_html__( 'Hover Border Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-submit:hover' => 'border-color: {{VALUE}};' ) ) );
+		$this->add_control( 'button_hover_translate_y', array( 'label' => esc_html__( 'Hover Translate Y', 'powerplus-toolkit' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit:hover' => 'transform: translateY({{SIZE}}{{UNIT}});' ) ) );
+		$this->add_control( 'button_transition_duration', array( 'label' => esc_html__( 'Transition Duration (ms)', 'powerplus-toolkit' ), 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 50, 'max' => 2000 ) ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'transition-duration: {{SIZE}}ms;' ) ) );
 		$this->end_controls_tab();
 		$this->end_controls_tabs();
-		$this->add_responsive_control( 'button_padding', array( 'label' => esc_html__( 'Button Padding', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
-		$this->add_responsive_control( 'button_margin', array( 'label' => esc_html__( 'Button Margin', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
-		$this->add_responsive_control( 'button_border_radius', array( 'label' => esc_html__( 'Button Border Radius', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
-		$this->add_control( 'loading_text', array( 'label' => esc_html__( 'Loading Text', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Please wait...', 'powerkit-powerful-tools-for-your-website' ) ) );
+		$this->add_responsive_control( 'button_padding', array( 'label' => esc_html__( 'Button Padding', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'button_margin', array( 'label' => esc_html__( 'Button Margin', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'button_border_radius', array( 'label' => esc_html__( 'Button Border Radius', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-submit' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_control( 'loading_text', array( 'label' => esc_html__( 'Loading Text', 'powerplus-toolkit' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Please wait...', 'powerplus-toolkit' ) ) );
 		$this->end_controls_section();
 
-		$this->start_controls_section( 'pkwt_links_style', array( 'label' => esc_html__( 'Links', 'powerkit-powerful-tools-for-your-website' ), 'tab' => Controls_Manager::TAB_STYLE ) );
+		$this->start_controls_section( 'pkwt_links_style', array( 'label' => esc_html__( 'Links', 'powerplus-toolkit' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'links_typography', 'selector' => '{{WRAPPER}} .pkwt-form a' ) );
-		$this->add_control( 'links_color', array( 'label' => esc_html__( 'Link Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form a' => 'color: {{VALUE}};' ) ) );
-		$this->add_control( 'links_hover_color', array( 'label' => esc_html__( 'Link Hover Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form a:hover' => 'color: {{VALUE}};' ) ) );
+		$this->add_control( 'links_color', array( 'label' => esc_html__( 'Link Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form a' => 'color: {{VALUE}};' ) ) );
+		$this->add_control( 'links_hover_color', array( 'label' => esc_html__( 'Link Hover Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-form a:hover' => 'color: {{VALUE}};' ) ) );
 		$this->end_controls_section();
 
-		$this->start_controls_section( 'pkwt_messages_style', array( 'label' => esc_html__( 'Messages', 'powerkit-powerful-tools-for-your-website' ), 'tab' => Controls_Manager::TAB_STYLE ) );
-		$this->add_control( 'success_background', array( 'label' => esc_html__( 'Success Background', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-success' => 'background-color: {{VALUE}};' ) ) );
-		$this->add_control( 'success_text_color', array( 'label' => esc_html__( 'Success Text Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-success' => 'color: {{VALUE}};' ) ) );
-		$this->add_control( 'error_background', array( 'label' => esc_html__( 'Error Background', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-error' => 'background-color: {{VALUE}};' ) ) );
-		$this->add_control( 'error_text_color', array( 'label' => esc_html__( 'Error Text Color', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-error' => 'color: {{VALUE}};' ) ) );
+		$this->start_controls_section( 'pkwt_messages_style', array( 'label' => esc_html__( 'Messages', 'powerplus-toolkit' ), 'tab' => Controls_Manager::TAB_STYLE ) );
+		$this->add_control( 'success_background', array( 'label' => esc_html__( 'Success Background', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-success' => 'background-color: {{VALUE}};' ) ) );
+		$this->add_control( 'success_text_color', array( 'label' => esc_html__( 'Success Text Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-success' => 'color: {{VALUE}};' ) ) );
+		$this->add_control( 'error_background', array( 'label' => esc_html__( 'Error Background', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-error' => 'background-color: {{VALUE}};' ) ) );
+		$this->add_control( 'error_text_color', array( 'label' => esc_html__( 'Error Text Color', 'powerplus-toolkit' ), 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .pkwt-message.is-error' => 'color: {{VALUE}};' ) ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'messages_typography', 'selector' => '{{WRAPPER}} .pkwt-message' ) );
 		$this->add_group_control( Group_Control_Border::get_type(), array( 'name' => 'messages_border', 'selector' => '{{WRAPPER}} .pkwt-message' ) );
-		$this->add_responsive_control( 'messages_padding', array( 'label' => esc_html__( 'Message Padding', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-message' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
+		$this->add_responsive_control( 'messages_padding', array( 'label' => esc_html__( 'Message Padding', 'powerplus-toolkit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => array( 'px', 'em', '%' ), 'selectors' => array( '{{WRAPPER}} .pkwt-message' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ) ) );
 		$this->end_controls_section();
 	}
 

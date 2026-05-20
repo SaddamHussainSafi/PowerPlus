@@ -501,7 +501,7 @@ class Class_PKWT_Redirector {
 		if ( $template && file_exists( $template ) ) {
 			include $template;
 		} else {
-			wp_die( esc_html__( 'Not found.', 'powerkit-powerful-tools-for-your-website' ), '404', array( 'response' => 404 ) );
+			wp_die( esc_html__( 'Not found.', 'powerplus-toolkit' ), '404', array( 'response' => 404 ) );
 		}
 
 		exit;

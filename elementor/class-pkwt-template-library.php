@@ -57,8 +57,8 @@ class Class_PKWT_Template_Library {
 	public function get_layout_sets(): array {
 		$sets = array(
 			'split-left'  => array(
-				'label'       => __( 'Split Left — Dark Panel + Form', 'powerkit-powerful-tools-for-your-website' ),
-				'description' => __( 'Full-height split layout. Dark image/colour panel on the left, clean white form on the right. Perfect for agency and portfolio sites.', 'powerkit-powerful-tools-for-your-website' ),
+				'label'       => __( 'Split Left — Dark Panel + Form', 'powerplus-toolkit' ),
+				'description' => __( 'Full-height split layout. Dark image/colour panel on the left, clean white form on the right. Perfect for agency and portfolio sites.', 'powerplus-toolkit' ),
 				'color'       => '#0f172a',
 				'accent'      => '#6366f1',
 				'pages'       => array(
@@ -69,8 +69,8 @@ class Class_PKWT_Template_Library {
 				),
 			),
 			'centered-card' => array(
-				'label'       => __( 'Centered Card — Gradient Background', 'powerkit-powerful-tools-for-your-website' ),
-				'description' => __( 'White card centred on a deep blue gradient full-screen background. Minimal, modern and easy to customise.', 'powerkit-powerful-tools-for-your-website' ),
+				'label'       => __( 'Centered Card — Gradient Background', 'powerplus-toolkit' ),
+				'description' => __( 'White card centred on a deep blue gradient full-screen background. Minimal, modern and easy to customise.', 'powerplus-toolkit' ),
 				'color'       => '#1a1a4e',
 				'accent'      => '#2563eb',
 				'pages'       => array(
@@ -81,8 +81,8 @@ class Class_PKWT_Template_Library {
 				),
 			),
 			'form-left'   => array(
-				'label'       => __( 'Gradient Panel Right — Form + Visual', 'powerkit-powerful-tools-for-your-website' ),
-				'description' => __( 'Clean white form on the left, bold indigo-purple gradient panel on the right. Great for SaaS and product sites.', 'powerkit-powerful-tools-for-your-website' ),
+				'label'       => __( 'Gradient Panel Right — Form + Visual', 'powerplus-toolkit' ),
+				'description' => __( 'Clean white form on the left, bold indigo-purple gradient panel on the right. Great for SaaS and product sites.', 'powerplus-toolkit' ),
 				'color'       => '#4f46e5',
 				'accent'      => '#7c3aed',
 				'pages'       => array(
@@ -93,8 +93,8 @@ class Class_PKWT_Template_Library {
 				),
 			),
 			'dreamer'     => array(
-				'label'       => __( 'Dreamer — Floating Card + 3D Character', 'powerkit-powerful-tools-for-your-website' ),
-				'description' => __( 'Soft lavender full-page background with a floating white card on the left and a 3D character illustration on the right. Fun, modern and eye-catching.', 'powerkit-powerful-tools-for-your-website' ),
+				'label'       => __( 'Dreamer — Floating Card + 3D Character', 'powerplus-toolkit' ),
+				'description' => __( 'Soft lavender full-page background with a floating white card on the left and a 3D character illustration on the right. Fun, modern and eye-catching.', 'powerplus-toolkit' ),
 				'color'       => '#e8e0f0',
 				'accent'      => '#3b5bdb',
 				'pages'       => array(
@@ -105,8 +105,8 @@ class Class_PKWT_Template_Library {
 				),
 			),
 			'uxolist'     => array(
-				'label'       => __( 'UXOLIST — White Form + Dark Image Card', 'powerkit-powerful-tools-for-your-website' ),
-				'description' => __( 'Clean white form on the left with a dark navy image panel on the right featuring a branded header and customer testimonial. Perfect for professional SaaS and agency sites.', 'powerkit-powerful-tools-for-your-website' ),
+				'label'       => __( 'UXOLIST — White Form + Dark Image Card', 'powerplus-toolkit' ),
+				'description' => __( 'Clean white form on the left with a dark navy image panel on the right featuring a branded header and customer testimonial. Perfect for professional SaaS and agency sites.', 'powerplus-toolkit' ),
 				'color'       => '#0f172a',
 				'accent'      => '#3b82f6',
 				'pages'       => array(
@@ -117,8 +117,8 @@ class Class_PKWT_Template_Library {
 				),
 			),
 			'gradient-hub' => array(
-				'label'       => __( 'Gradient Hub — Vibrant Panel + Clean Form', 'powerkit-powerful-tools-for-your-website' ),
-				'description' => __( 'Bold blue-to-purple gradient panel on the left with a tagline, and a clean white form on the right. Great for productivity apps, SaaS platforms, and startups.', 'powerkit-powerful-tools-for-your-website' ),
+				'label'       => __( 'Gradient Hub — Vibrant Panel + Clean Form', 'powerplus-toolkit' ),
+				'description' => __( 'Bold blue-to-purple gradient panel on the left with a tagline, and a clean white form on the right. Great for productivity apps, SaaS platforms, and startups.', 'powerplus-toolkit' ),
 				'color'       => '#3b4ce8',
 				'accent'      => '#7c3aed',
 				'pages'       => array(
@@ -213,7 +213,7 @@ class Class_PKWT_Template_Library {
 		// ── 1. Permission check ───────────────────────────────────────────────
 		if ( ! current_user_can( 'manage_options' ) ) {
 			ob_end_clean();
-			wp_send_json_error( array( 'message' => __( 'Permission denied. You must be an administrator to import templates.', 'powerkit-powerful-tools-for-your-website' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied. You must be an administrator to import templates.', 'powerplus-toolkit' ) ) );
 			wp_die();
 		}
 
@@ -223,7 +223,7 @@ class Class_PKWT_Template_Library {
 		$raw_nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $raw_nonce, 'pkwt_ajax_import_template' ) ) {
 			ob_end_clean();
-			wp_send_json_error( array( 'message' => __( 'Security check failed. Please refresh the page and try again.', 'powerkit-powerful-tools-for-your-website' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Security check failed. Please refresh the page and try again.', 'powerplus-toolkit' ) ) );
 			wp_die();
 		}
 
@@ -233,7 +233,7 @@ class Class_PKWT_Template_Library {
 
 		if ( empty( $set_slug ) || empty( $page_type ) ) {
 			ob_end_clean();
-			wp_send_json_error( array( 'message' => __( 'Missing required parameters (set_slug, page_type).', 'powerkit-powerful-tools-for-your-website' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Missing required parameters (set_slug, page_type).', 'powerplus-toolkit' ) ) );
 			wp_die();
 		}
 
@@ -242,7 +242,7 @@ class Class_PKWT_Template_Library {
 		if ( ! isset( $sets[ $set_slug ] ) ) {
 			ob_end_clean();
 			// translators: %s is the layout set slug name.
-			wp_send_json_error( array( 'message' => sprintf( __( 'Unknown layout set: "%s".', 'powerkit-powerful-tools-for-your-website' ), esc_html( $set_slug ) ) ) );
+			wp_send_json_error( array( 'message' => sprintf( __( 'Unknown layout set: "%s".', 'powerplus-toolkit' ), esc_html( $set_slug ) ) ) );
 			wp_die();
 		}
 
@@ -250,20 +250,20 @@ class Class_PKWT_Template_Library {
 		if ( ! in_array( $page_type, $allowed_page_types, true ) ) {
 			ob_end_clean();
 			// translators: %s is the page type identifier (e.g. login, register).
-			wp_send_json_error( array( 'message' => sprintf( __( 'Unknown page type: "%s". Must be one of: login, register, lost, reset.', 'powerkit-powerful-tools-for-your-website' ), esc_html( $page_type ) ) ) );
+			wp_send_json_error( array( 'message' => sprintf( __( 'Unknown page type: "%s". Must be one of: login, register, lost, reset.', 'powerplus-toolkit' ), esc_html( $page_type ) ) ) );
 			wp_die();
 		}
 
 		if ( ! isset( $sets[ $set_slug ]['pages'][ $page_type ] ) ) {
 			ob_end_clean();
-			wp_send_json_error( array( 'message' => __( 'No template file defined for this set and page type combination.', 'powerkit-powerful-tools-for-your-website' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No template file defined for this set and page type combination.', 'powerplus-toolkit' ) ) );
 			wp_die();
 		}
 
 		// ── 4. Elementor active check ────────────────────────────────────────
 		if ( ! class_exists( '\Elementor\Plugin' ) ) {
 			ob_end_clean();
-			wp_send_json_error( array( 'message' => __( 'Elementor is not active. Please install and activate Elementor to use templates.', 'powerkit-powerful-tools-for-your-website' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Elementor is not active. Please install and activate Elementor to use templates.', 'powerplus-toolkit' ) ) );
 			wp_die();
 		}
 
@@ -277,7 +277,7 @@ class Class_PKWT_Template_Library {
 			wp_send_json_error( array(
 				'message' => sprintf(
 					// translators: %s is the template filename.
-					__( 'Template file not found: %s. Please reinstall the plugin.', 'powerkit-powerful-tools-for-your-website' ),
+					__( 'Template file not found: %s. Please reinstall the plugin.', 'powerplus-toolkit' ),
 					esc_html( $filename )
 				),
 			) );
@@ -289,7 +289,7 @@ class Class_PKWT_Template_Library {
 			wp_send_json_error( array(
 				'message' => sprintf(
 					// translators: %s is the template filename.
-					__( 'Template file "%s" is empty or has no content. Please reinstall the plugin.', 'powerkit-powerful-tools-for-your-website' ),
+					__( 'Template file "%s" is empty or has no content. Please reinstall the plugin.', 'powerplus-toolkit' ),
 					esc_html( $filename )
 				),
 			) );
@@ -304,7 +304,7 @@ class Class_PKWT_Template_Library {
 			wp_send_json_error( array(
 				'message' => sprintf(
 					/* translators: %s: page type label */
-					__( 'No page is configured for the "%s" form. Please go to PowerKit → General settings and assign a page first.', 'powerkit-powerful-tools-for-your-website' ),
+					__( 'No page is configured for the "%s" form. Please go to PowerKit → General settings and assign a page first.', 'powerplus-toolkit' ),
 					esc_html( $page_type )
 				),
 			) );
@@ -318,7 +318,7 @@ class Class_PKWT_Template_Library {
 			wp_send_json_error( array(
 				'message' => sprintf(
 					// translators: %d is the WordPress page ID number.
-					__( 'The configured page (ID: %d) does not exist. Please update your PowerKit settings.', 'powerkit-powerful-tools-for-your-website' ),
+					__( 'The configured page (ID: %d) does not exist. Please update your PowerKit settings.', 'powerplus-toolkit' ),
 					$target_id
 				),
 			) );
@@ -330,7 +330,7 @@ class Class_PKWT_Template_Library {
 
 		if ( ! $ok ) {
 			ob_end_clean();
-			wp_send_json_error( array( 'message' => __( 'Failed to write template data to the page. Please check file permissions and try again.', 'powerkit-powerful-tools-for-your-website' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Failed to write template data to the page. Please check file permissions and try again.', 'powerplus-toolkit' ) ) );
 			wp_die();
 		}
 
@@ -343,7 +343,7 @@ class Class_PKWT_Template_Library {
 		wp_send_json_success( array(
 			'message'  => sprintf(
 				/* translators: %s: layout name */
-				__( '"%s" template imported successfully!', 'powerkit-powerful-tools-for-your-website' ),
+				__( '"%s" template imported successfully!', 'powerplus-toolkit' ),
 				esc_html( $sets[ $set_slug ]['label'] )
 			),
 			'edit_url' => $edit_url ? add_query_arg( 'action', 'elementor', $edit_url ) : '',
@@ -366,7 +366,7 @@ class Class_PKWT_Template_Library {
 	 */
 	public function handle_import(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_import_template' );

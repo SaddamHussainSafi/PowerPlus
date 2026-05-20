@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name:       PowerKit - Powerful Tools For Your Website
- * Plugin URI:        https://wordpress.org/plugins/powerkit-powerful-tools-for-your-website/
- * Description:       Power Packed Tools - Complete WordPress Management Suite
- * Version:           3.5.5
+ * Plugin Name:       PowerPlus — All-in-One Powerful Toolkit
+ * Plugin URI:        https://wordpress.org/plugins/powerplus-toolkit/
+ * Description:       All-in-One Powerful Toolkit — custom login pages, page duplicator, security hardening, admin branding, and more.
+ * Version:           3.5.6
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Saddam Hussain Safi
  * Author URI:        https://saddamhussain.com.np/
- * Text Domain:       powerkit-powerful-tools-for-your-website
+ * Text Domain:       powerplus-toolkit
  * Domain Path:       /languages
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'PKWT_VERSION' ) ) {
-	define( 'PKWT_VERSION', '3.5.5' );
+	define( 'PKWT_VERSION', '3.5.6' );
 }
 if ( ! defined( 'PKWT_PLUGIN_FILE' ) ) {
 	define( 'PKWT_PLUGIN_FILE', __FILE__ );
@@ -35,7 +35,7 @@ if ( ! defined( 'PKWT_PLUGIN_URL' ) ) {
 	define( 'PKWT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 if ( ! defined( 'PKWT_PLUGIN_SLUG' ) ) {
-	define( 'PKWT_PLUGIN_SLUG', 'powerkit-powerful-tools-for-your-website' );
+	define( 'PKWT_PLUGIN_SLUG', 'powerplus-toolkit' );
 }
 if ( ! defined( 'PKWT_MIN_PHP' ) ) {
 	define( 'PKWT_MIN_PHP', '8.0' );

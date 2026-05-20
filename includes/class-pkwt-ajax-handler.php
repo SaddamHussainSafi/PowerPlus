@@ -59,21 +59,21 @@ class Class_PKWT_AJAX_Handler {
 	public function handle_login(): void {
 		try {
 			if ( ! $this->verify_nonce_from_post( 'login_nonce' ) ) {
-				$this->send_error( __( 'Security check failed.', 'powerkit-powerful-tools-for-your-website' ), 403, 'login_nonce' );
+				$this->send_error( __( 'Security check failed.', 'powerplus-toolkit' ), 403, 'login_nonce' );
 			}
 
 			if ( $this->is_honeypot_triggered() ) {
-				$this->send_error( __( 'Request could not be processed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'login_nonce' );
+				$this->send_error( __( 'Request could not be processed.', 'powerplus-toolkit' ), 400, 'login_nonce' );
 			}
 
 			$status = $this->security->get_rate_limit_status();
 			if ( ! empty( $status['limited'] ) ) {
-				$this->send_error( __( 'Too many attempts. Please wait and try again.', 'powerkit-powerful-tools-for-your-website' ), 429, 'login_nonce', array( 'retry_after' => (int) $status['retry_after'] ) );
+				$this->send_error( __( 'Too many attempts. Please wait and try again.', 'powerplus-toolkit' ), 429, 'login_nonce', array( 'retry_after' => (int) $status['retry_after'] ) );
 			}
 
 			$captcha_token = isset( $_POST['captcha_token'] ) ? sanitize_text_field( wp_unslash( $_POST['captcha_token'] ) ) : '';
 			if ( ! $this->security->verify_captcha( $captcha_token ) ) {
-				$this->send_error( __( 'CAPTCHA verification failed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'login_nonce' );
+				$this->send_error( __( 'CAPTCHA verification failed.', 'powerplus-toolkit' ), 400, 'login_nonce' );
 			}
 
 			$username_raw = isset( $_POST['username'] ) ? sanitize_text_field( wp_unslash( $_POST['username'] ) ) : '';
@@ -83,7 +83,7 @@ class Class_PKWT_AJAX_Handler {
 			$remember     = ! empty( $_POST['remember'] );
 
 			if ( '' === $username_raw || '' === $password || false !== strpos( $username_raw, ' ' ) ) {
-				$this->send_error( __( 'Incorrect username or password.', 'powerkit-powerful-tools-for-your-website' ), 401, 'login_nonce' );
+				$this->send_error( __( 'Incorrect username or password.', 'powerplus-toolkit' ), 401, 'login_nonce' );
 			}
 
 			$username = sanitize_user( $username_raw );
@@ -100,18 +100,18 @@ class Class_PKWT_AJAX_Handler {
 
 			if ( is_wp_error( $user ) ) {
 				$this->security->increment_failed_attempt( $username );
-				$this->send_error( __( 'Incorrect username or password.', 'powerkit-powerful-tools-for-your-website' ), 401, 'login_nonce' );
+				$this->send_error( __( 'Incorrect username or password.', 'powerplus-toolkit' ), 401, 'login_nonce' );
 			}
 
 			if ( ! $user instanceof \WP_User ) {
-				$this->send_error( __( 'Additional authentication required.', 'powerkit-powerful-tools-for-your-website' ), 202, 'login_nonce' );
+				$this->send_error( __( 'Additional authentication required.', 'powerplus-toolkit' ), 202, 'login_nonce' );
 			}
 
 			$this->security->reset_failed_attempts();
 			$redirect = $this->get_redirect_for_user( $user );
 			wp_send_json_success(
 				array(
-					'message'  => __( 'Login successful.', 'powerkit-powerful-tools-for-your-website' ),
+					'message'  => __( 'Login successful.', 'powerplus-toolkit' ),
 					'redirect' => $redirect,
 					'nonce'    => Class_PKWT_Security::nonce( 'login_nonce' ),
 				)
@@ -120,7 +120,7 @@ class Class_PKWT_AJAX_Handler {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
-			$this->send_error( __( 'Login could not be completed.', 'powerkit-powerful-tools-for-your-website' ), 500, 'login_nonce' );
+			$this->send_error( __( 'Login could not be completed.', 'powerplus-toolkit' ), 500, 'login_nonce' );
 		}
 	}
 
@@ -132,16 +132,16 @@ class Class_PKWT_AJAX_Handler {
 	public function handle_register(): void {
 		try {
 			if ( ! $this->verify_nonce_from_post( 'register_nonce' ) ) {
-				$this->send_error( __( 'Security check failed.', 'powerkit-powerful-tools-for-your-website' ), 403, 'register_nonce' );
+				$this->send_error( __( 'Security check failed.', 'powerplus-toolkit' ), 403, 'register_nonce' );
 			}
 
 			if ( $this->is_honeypot_triggered() ) {
-				$this->send_error( __( 'Request could not be processed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'register_nonce' );
+				$this->send_error( __( 'Request could not be processed.', 'powerplus-toolkit' ), 400, 'register_nonce' );
 			}
 
 			$captcha_token = isset( $_POST['captcha_token'] ) ? sanitize_text_field( wp_unslash( $_POST['captcha_token'] ) ) : '';
 			if ( ! $this->security->verify_captcha( $captcha_token ) ) {
-				$this->send_error( __( 'CAPTCHA verification failed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'register_nonce' );
+				$this->send_error( __( 'CAPTCHA verification failed.', 'powerplus-toolkit' ), 400, 'register_nonce' );
 			}
 
 			$username_raw = isset( $_POST['username'] ) ? sanitize_text_field( wp_unslash( $_POST['username'] ) ) : '';
@@ -155,30 +155,30 @@ class Class_PKWT_AJAX_Handler {
 			$errors       = array();
 
 			if ( '' === $username_raw || false !== strpos( $username_raw, ' ' ) ) {
-				$errors['username'] = __( 'Username is required and cannot contain spaces.', 'powerkit-powerful-tools-for-your-website' );
+				$errors['username'] = __( 'Username is required and cannot contain spaces.', 'powerplus-toolkit' );
 			}
 
 			$username = sanitize_user( $username_raw );
 			if ( ! is_email( $email ) ) {
-				$errors['email'] = __( 'A valid email is required.', 'powerkit-powerful-tools-for-your-website' );
+				$errors['email'] = __( 'A valid email is required.', 'powerplus-toolkit' );
 			}
 			if ( strlen( $password ) < 8 || strlen( $password ) > 72 ) {
-				$errors['password'] = __( 'Password must be 8-72 characters.', 'powerkit-powerful-tools-for-your-website' );
+				$errors['password'] = __( 'Password must be 8-72 characters.', 'powerplus-toolkit' );
 			}
 			if ( $password !== $confirm ) {
-				$errors['confirm_password'] = __( 'Passwords do not match.', 'powerkit-powerful-tools-for-your-website' );
+				$errors['confirm_password'] = __( 'Passwords do not match.', 'powerplus-toolkit' );
 			}
 			if ( username_exists( $username ) ) {
-				$errors['username'] = __( 'Username already exists.', 'powerkit-powerful-tools-for-your-website' );
+				$errors['username'] = __( 'Username already exists.', 'powerplus-toolkit' );
 			}
 			if ( email_exists( $email ) ) {
-				$errors['email'] = __( 'Email already exists.', 'powerkit-powerful-tools-for-your-website' );
+				$errors['email'] = __( 'Email already exists.', 'powerplus-toolkit' );
 			}
 
 			if ( ! empty( $errors ) ) {
 				wp_send_json_error(
 					array(
-						'message'     => __( 'Please correct the highlighted fields.', 'powerkit-powerful-tools-for-your-website' ),
+						'message'     => __( 'Please correct the highlighted fields.', 'powerplus-toolkit' ),
 						'field_errors'=> $errors,
 						'nonce'       => Class_PKWT_Security::nonce( 'register_nonce' ),
 					),
@@ -191,7 +191,7 @@ class Class_PKWT_AJAX_Handler {
 			// or block registrations. This plugin's primary purpose is a custom register UI.
 			$user_id = wp_create_user( $username, $password, $email );
 			if ( is_wp_error( $user_id ) ) {
-				$this->send_error( __( 'Registration failed. Please try again.', 'powerkit-powerful-tools-for-your-website' ), 400, 'register_nonce' );
+				$this->send_error( __( 'Registration failed. Please try again.', 'powerplus-toolkit' ), 400, 'register_nonce' );
 			}
 
 			wp_new_user_notification( $user_id, null, 'both' );
@@ -203,7 +203,7 @@ class Class_PKWT_AJAX_Handler {
 
 			wp_send_json_success(
 				array(
-					'message'  => __( 'Registration successful.', 'powerkit-powerful-tools-for-your-website' ),
+					'message'  => __( 'Registration successful.', 'powerplus-toolkit' ),
 					'redirect' => $redirect,
 					'nonce'    => Class_PKWT_Security::nonce( 'register_nonce' ),
 				)
@@ -212,7 +212,7 @@ class Class_PKWT_AJAX_Handler {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
-			$this->send_error( __( 'Registration could not be completed.', 'powerkit-powerful-tools-for-your-website' ), 500, 'register_nonce' );
+			$this->send_error( __( 'Registration could not be completed.', 'powerplus-toolkit' ), 500, 'register_nonce' );
 		}
 	}
 
@@ -224,23 +224,23 @@ class Class_PKWT_AJAX_Handler {
 	public function handle_lostpw(): void {
 		try {
 			if ( ! $this->verify_nonce_from_post( 'lostpw_nonce' ) ) {
-				$this->send_error( __( 'Security check failed.', 'powerkit-powerful-tools-for-your-website' ), 403, 'lostpw_nonce' );
+				$this->send_error( __( 'Security check failed.', 'powerplus-toolkit' ), 403, 'lostpw_nonce' );
 			}
 
 			if ( $this->is_honeypot_triggered() ) {
-				$this->send_error( __( 'Request could not be processed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'lostpw_nonce' );
+				$this->send_error( __( 'Request could not be processed.', 'powerplus-toolkit' ), 400, 'lostpw_nonce' );
 			}
 
 			$status = $this->security->get_rate_limit_status();
 			if ( ! empty( $status['limited'] ) ) {
-				$this->send_error( __( 'Too many attempts. Please wait.', 'powerkit-powerful-tools-for-your-website' ), 429, 'lostpw_nonce', array( 'retry_after' => (int) $status['retry_after'] ) );
+				$this->send_error( __( 'Too many attempts. Please wait.', 'powerplus-toolkit' ), 429, 'lostpw_nonce', array( 'retry_after' => (int) $status['retry_after'] ) );
 			}
 
 			$user_login = isset( $_POST['user_login'] ) ? sanitize_text_field( wp_unslash( $_POST['user_login'] ) ) : '';
 			retrieve_password( $user_login );
 			wp_send_json_success(
 				array(
-					'message' => __( 'If the account exists, password reset instructions were sent.', 'powerkit-powerful-tools-for-your-website' ),
+					'message' => __( 'If the account exists, password reset instructions were sent.', 'powerplus-toolkit' ),
 					'nonce'   => Class_PKWT_Security::nonce( 'lostpw_nonce' ),
 				)
 			);
@@ -248,7 +248,7 @@ class Class_PKWT_AJAX_Handler {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
-			$this->send_error( __( 'Password reset request failed.', 'powerkit-powerful-tools-for-your-website' ), 500, 'lostpw_nonce' );
+			$this->send_error( __( 'Password reset request failed.', 'powerplus-toolkit' ), 500, 'lostpw_nonce' );
 		}
 	}
 
@@ -260,11 +260,11 @@ class Class_PKWT_AJAX_Handler {
 	public function handle_resetpw(): void {
 		try {
 			if ( ! $this->verify_nonce_from_post( 'resetpw_nonce' ) ) {
-				$this->send_error( __( 'Security check failed.', 'powerkit-powerful-tools-for-your-website' ), 403, 'resetpw_nonce' );
+				$this->send_error( __( 'Security check failed.', 'powerplus-toolkit' ), 403, 'resetpw_nonce' );
 			}
 
 			if ( $this->is_honeypot_triggered() ) {
-				$this->send_error( __( 'Request could not be processed.', 'powerkit-powerful-tools-for-your-website' ), 400, 'resetpw_nonce' );
+				$this->send_error( __( 'Request could not be processed.', 'powerplus-toolkit' ), 400, 'resetpw_nonce' );
 			}
 
 			$key      = isset( $_POST['rp_key'] ) ? sanitize_text_field( wp_unslash( $_POST['rp_key'] ) ) : '';
@@ -275,16 +275,16 @@ class Class_PKWT_AJAX_Handler {
 				$confirm  = isset( $_POST['confirm_password'] ) ? (string) wp_unslash( $_POST['confirm_password'] ) : '';
 
 			if ( strlen( $password ) < 8 || strlen( $password ) > 72 ) {
-				$this->send_error( __( 'Password must be 8-72 characters.', 'powerkit-powerful-tools-for-your-website' ), 400, 'resetpw_nonce' );
+				$this->send_error( __( 'Password must be 8-72 characters.', 'powerplus-toolkit' ), 400, 'resetpw_nonce' );
 			}
 
 			if ( $password !== $confirm ) {
-				$this->send_error( __( 'Passwords do not match.', 'powerkit-powerful-tools-for-your-website' ), 400, 'resetpw_nonce' );
+				$this->send_error( __( 'Passwords do not match.', 'powerplus-toolkit' ), 400, 'resetpw_nonce' );
 			}
 
 			$user = check_password_reset_key( $key, $login );
 			if ( is_wp_error( $user ) ) {
-				$this->send_error( __( 'Invalid or expired reset link.', 'powerkit-powerful-tools-for-your-website' ), 400, 'resetpw_nonce' );
+				$this->send_error( __( 'Invalid or expired reset link.', 'powerplus-toolkit' ), 400, 'resetpw_nonce' );
 			}
 
 			reset_password( $user, $password );
@@ -295,7 +295,7 @@ class Class_PKWT_AJAX_Handler {
 
 			wp_send_json_success(
 				array(
-					'message'  => __( 'Password reset successfully.', 'powerkit-powerful-tools-for-your-website' ),
+					'message'  => __( 'Password reset successfully.', 'powerplus-toolkit' ),
 					'redirect' => $redirect,
 					'nonce'    => Class_PKWT_Security::nonce( 'resetpw_nonce' ),
 				)
@@ -304,7 +304,7 @@ class Class_PKWT_AJAX_Handler {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( 'PowerKit Error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
-			$this->send_error( __( 'Password reset failed.', 'powerkit-powerful-tools-for-your-website' ), 500, 'resetpw_nonce' );
+			$this->send_error( __( 'Password reset failed.', 'powerplus-toolkit' ), 500, 'resetpw_nonce' );
 		}
 	}
 

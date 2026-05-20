@@ -78,7 +78,7 @@ class Class_PKWT_DPP_Classic {
 			'dpp_classic_kitchen_sink'        => 1,
 			'dpp_classic_default_editor_tab'  => 'visual',
 			'dpp_classic_show_notice'         => 0,
-			'dpp_classic_notice_text'         => __( 'Classic Editor is active. Contact your admin for help.', 'powerkit-powerful-tools-for-your-website' ),
+			'dpp_classic_notice_text'         => __( 'Classic Editor is active. Contact your admin for help.', 'powerplus-toolkit' ),
 			'dpp_classic_enabled_at'          => 0,
 		);
 	}
@@ -420,15 +420,15 @@ class Class_PKWT_DPP_Classic {
 		$current = get_user_meta( $user->ID, 'dpp_editor_preference', true );
 		$current = in_array( $current, array( 'classic', 'block' ), true ) ? $current : '';
 		?>
-		<h2><?php esc_html_e( 'Editor Preference', 'powerkit-powerful-tools-for-your-website' ); ?></h2>
+		<h2><?php esc_html_e( 'Editor Preference', 'powerplus-toolkit' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th><label for="dpp_editor_preference"><?php esc_html_e( 'Preferred editor', 'powerkit-powerful-tools-for-your-website' ); ?></label></th>
+				<th><label for="dpp_editor_preference"><?php esc_html_e( 'Preferred editor', 'powerplus-toolkit' ); ?></label></th>
 				<td>
 					<select name="dpp_editor_preference" id="dpp_editor_preference">
-						<option value="" <?php selected( $current, '' ); ?>><?php esc_html_e( 'Use site default', 'powerkit-powerful-tools-for-your-website' ); ?></option>
-						<option value="classic" <?php selected( $current, 'classic' ); ?>><?php esc_html_e( 'Classic', 'powerkit-powerful-tools-for-your-website' ); ?></option>
-						<option value="block" <?php selected( $current, 'block' ); ?>><?php esc_html_e( 'Block', 'powerkit-powerful-tools-for-your-website' ); ?></option>
+						<option value="" <?php selected( $current, '' ); ?>><?php esc_html_e( 'Use site default', 'powerplus-toolkit' ); ?></option>
+						<option value="classic" <?php selected( $current, 'classic' ); ?>><?php esc_html_e( 'Classic', 'powerplus-toolkit' ); ?></option>
+						<option value="block" <?php selected( $current, 'block' ); ?>><?php esc_html_e( 'Block', 'powerplus-toolkit' ); ?></option>
 					</select>
 				</td>
 			</tr>
@@ -482,7 +482,7 @@ class Class_PKWT_DPP_Classic {
 		if ( ! $screen || 'post' !== $screen->base ) {
 			return;
 		}
-		$text = ! empty( $settings['dpp_classic_notice_text'] ) ? (string) $settings['dpp_classic_notice_text'] : __( 'Classic Editor is active. Contact your admin for help.', 'powerkit-powerful-tools-for-your-website' );
+		$text = ! empty( $settings['dpp_classic_notice_text'] ) ? (string) $settings['dpp_classic_notice_text'] : __( 'Classic Editor is active. Contact your admin for help.', 'powerplus-toolkit' );
 		echo '<div class="notice notice-info is-dismissible"><p>' . esc_html( $text ) . '</p></div>';
 	}
 
@@ -498,24 +498,24 @@ class Class_PKWT_DPP_Classic {
 				$rows[] = array(
 					'status' => $this->is_classic_enabled_for_post_type( $post_type ) ? 'ok' : 'warn',
 					/* translators: %s: post type slug. */
-					'label'  => sprintf( __( 'Gutenberg disabled for %s', 'powerkit-powerful-tools-for-your-website' ), $post_type ),
+					'label'  => sprintf( __( 'Gutenberg disabled for %s', 'powerplus-toolkit' ), $post_type ),
 				);
 			}
 		$rows[] = array(
 			'status' => ! empty( $settings['dpp_classic_remove_block_css'] ) ? 'ok' : 'warn',
-			'label'  => __( 'Block editor CSS removed', 'powerkit-powerful-tools-for-your-website' ),
+			'label'  => __( 'Block editor CSS removed', 'powerplus-toolkit' ),
 		);
 		$rows[] = array(
 			'status' => ! empty( $settings['dpp_classic_remove_block_js'] ) ? 'ok' : 'warn',
-			'label'  => __( 'Block editor JS removed', 'powerkit-powerful-tools-for-your-website' ),
+			'label'  => __( 'Block editor JS removed', 'powerplus-toolkit' ),
 		);
 		$rows[] = array(
 			'status' => ! empty( $settings['dpp_classic_disable_widgets'] ) ? 'ok' : 'warn',
-			'label'  => __( 'Widget editor restored to classic', 'powerkit-powerful-tools-for-your-website' ),
+			'label'  => __( 'Widget editor restored to classic', 'powerplus-toolkit' ),
 		);
 		$rows[] = array(
 			'status' => ! empty( $settings['dpp_classic_disable_fse'] ) ? 'ok' : 'warn',
-			'label'  => __( 'Full site editor disabled', 'powerkit-powerful-tools-for-your-website' ),
+			'label'  => __( 'Full site editor disabled', 'powerplus-toolkit' ),
 		);
 
 			$user_query = new \WP_User_Query(
@@ -533,7 +533,7 @@ class Class_PKWT_DPP_Classic {
 			$rows[] = array(
 				'status' => $count > 0 ? 'warn' : 'ok',
 				/* translators: %d: number of users with block editor preference. */
-				'label'  => sprintf( __( '%d users have personal editor preference set to Block', 'powerkit-powerful-tools-for-your-website' ), $count ),
+				'label'  => sprintf( __( '%d users have personal editor preference set to Block', 'powerplus-toolkit' ), $count ),
 			);
 		return $rows;
 	}

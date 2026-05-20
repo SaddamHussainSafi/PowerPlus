@@ -16,10 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 
 	public function get_name() { return 'pkwt-register-form'; }
-	public function get_title() { return esc_html__( 'PowerKit Register Form', 'powerkit-powerful-tools-for-your-website' ); }
+	public function get_title() { return esc_html__( 'PowerKit Register Form', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-user-circle-o'; }
 	public function get_keywords() { return array( 'register', 'signup', 'auth', 'form' ); }
-	public function get_categories() { return array( 'powerkit-powerful-tools-for-your-website' ); }
+	public function get_categories() { return array( 'powerplus-toolkit' ); }
 
 	protected function get_page_type(): string { return 'register'; }
 
@@ -28,24 +28,24 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 
 		$this->start_controls_section(
 			'register_content',
-			array( 'label' => esc_html__( 'Fields & Options', 'powerkit-powerful-tools-for-your-website' ) )
+			array( 'label' => esc_html__( 'Fields & Options', 'powerplus-toolkit' ) )
 		);
 
 		$this->add_control(
 			'form_title',
 			array(
-				'label'   => esc_html__( 'Heading', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Heading', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Create your account', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Create your account', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'form_description',
 			array(
-				'label'   => esc_html__( 'Subheading', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Subheading', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXTAREA,
-				'default' => esc_html__( 'Join thousands of users. Start for free today.', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Join thousands of users. Start for free today.', 'powerplus-toolkit' ),
 				'rows'    => 2,
 			)
 		);
@@ -53,43 +53,43 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'username_placeholder',
 			array(
-				'label'   => esc_html__( 'Username Placeholder', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Username Placeholder', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Choose a username', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Choose a username', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'email_placeholder',
 			array(
-				'label'   => esc_html__( 'Email Placeholder', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Email Placeholder', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'you@example.com', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'you@example.com', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'password_placeholder',
 			array(
-				'label'   => esc_html__( 'Password Placeholder', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Password Placeholder', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Create a strong password', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Create a strong password', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'confirm_placeholder',
 			array(
-				'label'   => esc_html__( 'Confirm Password Placeholder', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Confirm Password Placeholder', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Repeat your password', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Repeat your password', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'show_password_toggle',
 			array(
-				'label'   => esc_html__( 'Show Password Toggle', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Password Toggle', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -98,7 +98,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'show_phone',
 			array(
-				'label'   => esc_html__( 'Show Phone Field', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Phone Field', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => '',
 			)
@@ -107,7 +107,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'show_terms',
 			array(
-				'label'   => esc_html__( 'Show Terms Checkbox', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Terms Checkbox', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -116,9 +116,9 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'terms_text',
 			array(
-				'label'     => esc_html__( 'Terms Text', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Terms Text', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => esc_html__( 'I agree to the Terms & Privacy Policy', 'powerkit-powerful-tools-for-your-website' ),
+				'default'   => esc_html__( 'I agree to the Terms & Privacy Policy', 'powerplus-toolkit' ),
 				'condition' => array( 'show_terms' => 'yes' ),
 			)
 		);
@@ -126,7 +126,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'terms_url',
 			array(
-				'label'     => esc_html__( 'Terms URL', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Terms URL', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::URL,
 				'condition' => array( 'show_terms' => 'yes' ),
 			)
@@ -135,16 +135,16 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'button_text',
 			array(
-				'label'   => esc_html__( 'Button Text', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Button Text', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => esc_html__( 'Create Account', 'powerkit-powerful-tools-for-your-website' ),
+				'default' => esc_html__( 'Create Account', 'powerplus-toolkit' ),
 			)
 		);
 
 		$this->add_control(
 			'show_login_link',
 			array(
-				'label'   => esc_html__( 'Show Login Link', 'powerkit-powerful-tools-for-your-website' ),
+				'label'   => esc_html__( 'Show Login Link', 'powerplus-toolkit' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			)
@@ -153,9 +153,9 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'login_link_text',
 			array(
-				'label'     => esc_html__( 'Login Link Text', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Login Link Text', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => esc_html__( 'Already have an account? Sign in', 'powerkit-powerful-tools-for-your-website' ),
+				'default'   => esc_html__( 'Already have an account? Sign in', 'powerplus-toolkit' ),
 				'condition' => array( 'show_login_link' => 'yes' ),
 			)
 		);
@@ -163,7 +163,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'login_url',
 			array(
-				'label'     => esc_html__( 'Login URL', 'powerkit-powerful-tools-for-your-website' ),
+				'label'     => esc_html__( 'Login URL', 'powerplus-toolkit' ),
 				'type'      => Controls_Manager::URL,
 				'condition' => array( 'show_login_link' => 'yes' ),
 			)
@@ -172,7 +172,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		$this->add_control(
 			'success_redirect',
 			array(
-				'label' => esc_html__( 'Success Redirect URL', 'powerkit-powerful-tools-for-your-website' ),
+				'label' => esc_html__( 'Success Redirect URL', 'powerplus-toolkit' ),
 				'type'  => Controls_Manager::URL,
 			)
 		);
@@ -183,14 +183,14 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 	protected function render() {
 		$settings     = $this->get_settings_for_display();
 		$redirect_to  = ! empty( $settings['success_redirect']['url'] ) ? $settings['success_redirect']['url'] : '';
-		$loading_text = ! empty( $settings['loading_text'] ) ? (string) $settings['loading_text'] : esc_html__( 'Creating account…', 'powerkit-powerful-tools-for-your-website' );
+		$loading_text = ! empty( $settings['loading_text'] ) ? (string) $settings['loading_text'] : esc_html__( 'Creating account…', 'powerplus-toolkit' );
 
 		$this->render_form_open( 'register', 'pkwt_register', 'register_nonce', $redirect_to, '', $loading_text );
 		$this->render_form_heading( $settings );
 		?>
 
 		<div class="pkwt-form-field">
-			<label for="pkwt-register-username"><?php esc_html_e( 'Username', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+			<label for="pkwt-register-username"><?php esc_html_e( 'Username', 'powerplus-toolkit' ); ?></label>
 			<input
 				id="pkwt-register-username"
 				type="text"
@@ -203,7 +203,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		</div>
 
 		<div class="pkwt-form-field">
-			<label for="pkwt-register-email"><?php esc_html_e( 'Email Address', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+			<label for="pkwt-register-email"><?php esc_html_e( 'Email Address', 'powerplus-toolkit' ); ?></label>
 			<input
 				id="pkwt-register-email"
 				type="email"
@@ -216,7 +216,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 		</div>
 
 		<div class="pkwt-form-field">
-			<label for="pkwt-register-password"><?php esc_html_e( 'Password', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+			<label for="pkwt-register-password"><?php esc_html_e( 'Password', 'powerplus-toolkit' ); ?></label>
 			<div class="pkwt-password-wrap">
 				<input
 					id="pkwt-register-password"
@@ -230,13 +230,13 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 					autocomplete="new-password"
 				/>
 				<?php if ( 'yes' === $settings['show_password_toggle'] ) : ?>
-					<button type="button" class="pkwt-password-toggle" aria-label="<?php esc_attr_e( 'Toggle password visibility', 'powerkit-powerful-tools-for-your-website' ); ?>"></button>
+					<button type="button" class="pkwt-password-toggle" aria-label="<?php esc_attr_e( 'Toggle password visibility', 'powerplus-toolkit' ); ?>"></button>
 				<?php endif; ?>
 			</div>
 		</div>
 
 		<div class="pkwt-form-field">
-			<label for="pkwt-register-confirm-password"><?php esc_html_e( 'Confirm Password', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+			<label for="pkwt-register-confirm-password"><?php esc_html_e( 'Confirm Password', 'powerplus-toolkit' ); ?></label>
 			<input
 				id="pkwt-register-confirm-password"
 				type="password"
@@ -252,7 +252,7 @@ class Class_Widget_Register_Form extends Class_Abstract_Form_Widget {
 
 		<?php if ( 'yes' === $settings['show_phone'] ) : ?>
 		<div class="pkwt-form-field">
-			<label for="pkwt-register-phone"><?php esc_html_e( 'Phone (optional)', 'powerkit-powerful-tools-for-your-website' ); ?></label>
+			<label for="pkwt-register-phone"><?php esc_html_e( 'Phone (optional)', 'powerplus-toolkit' ); ?></label>
 			<input
 				id="pkwt-register-phone"
 				type="tel"

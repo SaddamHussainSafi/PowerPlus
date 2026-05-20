@@ -78,19 +78,19 @@ class Class_PKWT_DPP_Duplicator {
 	public function duplicate_post( int $post_id ) {
 		$source = get_post( $post_id );
 		if ( ! $source ) {
-			return new \WP_Error( 'dpp_source_missing', __( 'Source post not found.', 'powerkit-powerful-tools-for-your-website' ) );
+			return new \WP_Error( 'dpp_source_missing', __( 'Source post not found.', 'powerplus-toolkit' ) );
 		}
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return new \WP_Error( 'dpp_permission_denied', __( 'You do not have permission to duplicate this post.', 'powerkit-powerful-tools-for-your-website' ) );
+			return new \WP_Error( 'dpp_permission_denied', __( 'You do not have permission to duplicate this post.', 'powerplus-toolkit' ) );
 		}
 
 		if ( ! $this->is_enabled() ) {
-			return new \WP_Error( 'dpp_disabled', __( 'Post duplicator is disabled.', 'powerkit-powerful-tools-for-your-website' ) );
+			return new \WP_Error( 'dpp_disabled', __( 'Post duplicator is disabled.', 'powerplus-toolkit' ) );
 		}
 
 		if ( ! $this->is_post_type_enabled( $source->post_type ) ) {
-			return new \WP_Error( 'dpp_type_disabled', __( 'Duplication is disabled for this post type.', 'powerkit-powerful-tools-for-your-website' ) );
+			return new \WP_Error( 'dpp_type_disabled', __( 'Duplication is disabled for this post type.', 'powerplus-toolkit' ) );
 		}
 
 		$settings    = $this->get_settings();

@@ -16,21 +16,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Class_Widget_Lost_Password extends Class_Abstract_Form_Widget {
 
 	public function get_name() { return 'pkwt-lost-password'; }
-	public function get_title() { return esc_html__( 'PowerKit Lost Password', 'powerkit-powerful-tools-for-your-website' ); }
+	public function get_title() { return esc_html__( 'PowerKit Lost Password', 'powerplus-toolkit' ); }
 	public function get_icon() { return 'eicon-mail'; }
 	public function get_keywords() { return array( 'lost password', 'forgot', 'auth' ); }
-	public function get_categories() { return array( 'powerkit-powerful-tools-for-your-website' ); }
+	public function get_categories() { return array( 'powerplus-toolkit' ); }
 
 	protected function get_page_type(): string { return 'lost'; }
 
 	protected function register_controls() {
 		$this->register_shared_controls();
-		$this->start_controls_section( 'lost_content', array( 'label' => esc_html__( 'Fields', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'field_label', array( 'label' => esc_html__( 'Field Label', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Username or Email', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'placeholder', array( 'label' => esc_html__( 'Placeholder', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Enter username or email', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'button_text', array( 'label' => esc_html__( 'Button Text', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Reset Password', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'back_text', array( 'label' => esc_html__( 'Back Link Text', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Back to login', 'powerkit-powerful-tools-for-your-website' ) ) );
-		$this->add_control( 'back_url', array( 'label' => esc_html__( 'Back Link URL', 'powerkit-powerful-tools-for-your-website' ), 'type' => Controls_Manager::URL ) );
+		$this->start_controls_section( 'lost_content', array( 'label' => esc_html__( 'Fields', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'field_label', array( 'label' => esc_html__( 'Field Label', 'powerplus-toolkit' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Username or Email', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'placeholder', array( 'label' => esc_html__( 'Placeholder', 'powerplus-toolkit' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Enter username or email', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'button_text', array( 'label' => esc_html__( 'Button Text', 'powerplus-toolkit' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Reset Password', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'back_text', array( 'label' => esc_html__( 'Back Link Text', 'powerplus-toolkit' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Back to login', 'powerplus-toolkit' ) ) );
+		$this->add_control( 'back_url', array( 'label' => esc_html__( 'Back Link URL', 'powerplus-toolkit' ), 'type' => Controls_Manager::URL ) );
 		$this->end_controls_section();
 	}
 

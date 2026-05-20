@@ -23,14 +23,14 @@ class Class_PKWT_Activator {
 
 		if ( version_compare( PHP_VERSION, PKWT_MIN_PHP, '<' ) || version_compare( $wp_version, PKWT_MIN_WP, '<' ) ) {
 			deactivate_plugins( plugin_basename( PKWT_PLUGIN_FILE ) );
-			wp_die( esc_html__( 'PowerKit - Powerful Tools For Your Website requires PHP 8.0+ and WordPress 6.0+.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'PowerKit - Powerful Tools For Your Website requires PHP 8.0+ and WordPress 6.0+.', 'powerplus-toolkit' ) );
 		}
 
 		$page_manager = new Class_PKWT_Page_Manager();
 		$pages        = $page_manager->ensure_default_pages();
 		if ( count( $pages ) < 3 ) {
 			deactivate_plugins( plugin_basename( PKWT_PLUGIN_FILE ) );
-			wp_die( esc_html__( 'Activation failed: required auth pages could not be created.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Activation failed: required auth pages could not be created.', 'powerplus-toolkit' ) );
 		}
 
 		$repo     = new Class_PKWT_Settings_Repository();
@@ -71,8 +71,8 @@ class Class_PKWT_Activator {
 			'hcaptcha_site_key'       => '',
 			'hcaptcha_secret_key'     => '',
 			'woocommerce_mode'        => 0,
-			'plugin_menu_name'        => __( 'PowerKit - Powerful Tools For Your Website', 'powerkit-powerful-tools-for-your-website' ),
-			'plugin_description'      => __( 'Elementor-based auth page builder.', 'powerkit-powerful-tools-for-your-website' ),
+			'plugin_menu_name'        => __( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' ),
+			'plugin_description'      => __( 'Elementor-based auth page builder.', 'powerplus-toolkit' ),
 			'support_url'             => '',
 			'hide_plugins_list'       => 0,
 			'custom_admin_menu_icon'  => 'dashicons-lock',

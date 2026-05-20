@@ -79,21 +79,21 @@ class Class_PKWT_Conflict_Detector {
 		);
 
 		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			$report['issues'][] = __( 'Elementor is not active. PowerKit widgets are disabled.', 'powerkit-powerful-tools-for-your-website' );
+			$report['issues'][] = __( 'Elementor is not active. PowerKit widgets are disabled.', 'powerplus-toolkit' );
 		} elseif ( version_compare( ELEMENTOR_VERSION, PKWT_MIN_ELEMENTOR, '<' ) ) {
-			$report['issues'][] = __( 'Elementor version is below 3.5.0.', 'powerkit-powerful-tools-for-your-website' );
+			$report['issues'][] = __( 'Elementor version is below 3.5.0.', 'powerplus-toolkit' );
 		}
 
 			foreach ( array( 'login_page_id', 'register_page_id', 'lost_password_page_id' ) as $key ) {
 				$page_id = isset( $settings[ $key ] ) ? absint( $settings[ $key ] ) : 0;
 				if ( $page_id <= 0 || 'publish' !== get_post_status( $page_id ) ) {
 					/* translators: %s: required auth page setting key. */
-					$report['issues'][] = sprintf( __( 'Required auth page missing: %s.', 'powerkit-powerful-tools-for-your-website' ), $key );
+					$report['issues'][] = sprintf( __( 'Required auth page missing: %s.', 'powerplus-toolkit' ), $key );
 				}
 			}
 
 		if ( function_exists( 'WC' ) && empty( $settings['woocommerce_mode'] ) ) {
-			$report['issues'][] = __( 'WooCommerce is active but WooCommerce mode is disabled.', 'powerkit-powerful-tools-for-your-website' );
+			$report['issues'][] = __( 'WooCommerce is active but WooCommerce mode is disabled.', 'powerplus-toolkit' );
 		}
 
 		set_transient( 'pkwt_conflict_report', $report, 12 * HOUR_IN_SECONDS );
@@ -129,7 +129,7 @@ class Class_PKWT_Conflict_Detector {
 			return;
 		}
 
-		echo '<div class="notice notice-warning is-dismissible"><p><strong>' . esc_html__( 'PowerKit Conflict Report', 'powerkit-powerful-tools-for-your-website' ) . '</strong></p><ul>';
+		echo '<div class="notice notice-warning is-dismissible"><p><strong>' . esc_html__( 'PowerKit Conflict Report', 'powerplus-toolkit' ) . '</strong></p><ul>';
 		foreach ( $issues as $issue ) {
 			echo '<li>' . esc_html( $issue ) . '</li>';
 		}

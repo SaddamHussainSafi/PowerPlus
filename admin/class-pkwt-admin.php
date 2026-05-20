@@ -55,9 +55,9 @@ class Class_PKWT_Admin {
 		}
 
 		$settings   = $this->get_cached_option( 'pkwt_settings', array() );
-		$name       = __( 'PowerKit', 'powerkit-powerful-tools-for-your-website' );
+		$name       = __( 'PowerKit', 'powerplus-toolkit' );
 		$icon       = ! empty( $settings['custom_admin_menu_icon'] ) ? (string) $settings['custom_admin_menu_icon'] : 'dashicons-lock';
-		$page_title = __( 'PowerKit - Powerful Tools For Your Website', 'powerkit-powerful-tools-for-your-website' );
+		$page_title = __( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' );
 
 		add_menu_page(
 			esc_html( $page_title ),
@@ -70,17 +70,17 @@ class Class_PKWT_Admin {
 		);
 
 		$submenu_tabs = array(
-			'overview'      => __( 'Overview', 'powerkit-powerful-tools-for-your-website' ),
-			'general'       => __( 'General', 'powerkit-powerful-tools-for-your-website' ),
-			'templates'     => __( 'Page Templates', 'powerkit-powerful-tools-for-your-website' ),
-			'redirects'     => __( 'Redirects', 'powerkit-powerful-tools-for-your-website' ),
-			'compatibility' => __( 'Compatibility', 'powerkit-powerful-tools-for-your-website' ),
-			'security'      => __( 'Security', 'powerkit-powerful-tools-for-your-website' ),
-			'duplicate'     => __( 'Duplicate', 'powerkit-powerful-tools-for-your-website' ),
-			'svg-upload'    => __( 'SVG Upload', 'powerkit-powerful-tools-for-your-website' ),
-			'ghost-mode'    => __( 'Ghost Mode', 'powerkit-powerful-tools-for-your-website' ),
-			'classic-editor'=> __( 'Classic Editor', 'powerkit-powerful-tools-for-your-website' ),
-			'import-export' => __( 'Import / Export', 'powerkit-powerful-tools-for-your-website' ),
+			'overview'      => __( 'Overview', 'powerplus-toolkit' ),
+			'general'       => __( 'General', 'powerplus-toolkit' ),
+			'templates'     => __( 'Page Templates', 'powerplus-toolkit' ),
+			'redirects'     => __( 'Redirects', 'powerplus-toolkit' ),
+			'compatibility' => __( 'Compatibility', 'powerplus-toolkit' ),
+			'security'      => __( 'Security', 'powerplus-toolkit' ),
+			'duplicate'     => __( 'Duplicate', 'powerplus-toolkit' ),
+			'svg-upload'    => __( 'SVG Upload', 'powerplus-toolkit' ),
+			'ghost-mode'    => __( 'Ghost Mode', 'powerplus-toolkit' ),
+			'classic-editor'=> __( 'Classic Editor', 'powerplus-toolkit' ),
+			'import-export' => __( 'Import / Export', 'powerplus-toolkit' ),
 		);
 
 		foreach ( $submenu_tabs as $tab => $label ) {
@@ -120,13 +120,13 @@ class Class_PKWT_Admin {
 				array(
 					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 					'i18n'    => array(
-						'importing'        => __( 'Importing…', 'powerkit-powerful-tools-for-your-website' ),
-						'imported'         => __( 'Imported!', 'powerkit-powerful-tools-for-your-website' ),
-						'openElementor'    => __( 'Open in Elementor →', 'powerkit-powerful-tools-for-your-website' ),
-						'viewPage'         => __( 'View Page →', 'powerkit-powerful-tools-for-your-website' ),
-						'importFailed'     => __( 'Import failed.', 'powerkit-powerful-tools-for-your-website' ),
-						'sessionExpired'   => __( 'Session expired — please refresh the page.', 'powerkit-powerful-tools-for-your-website' ),
-						'importFailedRetry'=> __( 'Import failed. Please try again.', 'powerkit-powerful-tools-for-your-website' ),
+						'importing'        => __( 'Importing…', 'powerplus-toolkit' ),
+						'imported'         => __( 'Imported!', 'powerplus-toolkit' ),
+						'openElementor'    => __( 'Open in Elementor →', 'powerplus-toolkit' ),
+						'viewPage'         => __( 'View Page →', 'powerplus-toolkit' ),
+						'importFailed'     => __( 'Import failed.', 'powerplus-toolkit' ),
+						'sessionExpired'   => __( 'Session expired — please refresh the page.', 'powerplus-toolkit' ),
+						'importFailedRetry'=> __( 'Import failed. Please try again.', 'powerplus-toolkit' ),
 					),
 				)
 			);
@@ -222,7 +222,7 @@ class Class_PKWT_Admin {
 
 		return sprintf(
 			/* translators: %s: current year */
-			esc_html__( '© %s PowerKit - Powerful Tools For Your Website | Developed by Saddam Hussain Safi', 'powerkit-powerful-tools-for-your-website' ),
+			esc_html__( '© %s PowerKit - Powerful Tools For Your Website | Developed by Saddam Hussain Safi', 'powerplus-toolkit' ),
 			gmdate( 'Y' )
 		) . ' | <a href="https://inceptastudio.com/" target="_blank" rel="noopener noreferrer">Incepta Studio</a> | <a href="https://saddamhussain.com.np/" target="_blank" rel="noopener noreferrer">Portfolio</a>';
 	}
@@ -239,7 +239,7 @@ class Class_PKWT_Admin {
 		if ( 0 !== strpos( $page, 'pkwt-settings' ) ) {
 			return $text;
 		}
-		return esc_html__( 'PowerKit - Powerful Tools For Your Website', 'powerkit-powerful-tools-for-your-website' );
+		return esc_html__( 'PowerKit - Powerful Tools For Your Website', 'powerplus-toolkit' );
 	}
 
 	/**
@@ -249,7 +249,7 @@ class Class_PKWT_Admin {
 	 */
 	public function handle_toggle_module(): void {
 		if ( ! $this->current_user_has_access() ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_toggle_module' );
@@ -340,7 +340,7 @@ class Class_PKWT_Admin {
 	 */
 	public function handle_create_snapshot(): void {
 		if ( ! $this->current_user_has_access() ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_create_snapshot' );
@@ -358,7 +358,7 @@ class Class_PKWT_Admin {
 	 */
 	public function handle_restore_snapshot(): void {
 		if ( ! $this->current_user_has_access() ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_restore_snapshot' );
@@ -410,7 +410,7 @@ class Class_PKWT_Admin {
 	 */
 	public function handle_run_login_test(): void {
 		if ( ! $this->current_user_has_access() ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_run_login_test' );
@@ -428,7 +428,7 @@ class Class_PKWT_Admin {
 			'url'     => (string) $url,
 			'status'  => 'failed',
 			'code'    => 0,
-			'message' => __( 'Login URL is not configured.', 'powerkit-powerful-tools-for-your-website' ),
+			'message' => __( 'Login URL is not configured.', 'powerplus-toolkit' ),
 		);
 
 		$notice = 'login_test_failed';
@@ -447,7 +447,7 @@ class Class_PKWT_Admin {
 				$code             = (int) wp_remote_retrieve_response_code( $response );
 				$result['code']   = $code;
 				$result['status'] = ( $code >= 200 && $code < 400 ) ? 'ok' : 'failed';
-				$result['message']= ( 'ok' === $result['status'] ) ? __( 'Login URL is reachable.', 'powerkit-powerful-tools-for-your-website' ) : __( 'Login URL returned an unexpected status.', 'powerkit-powerful-tools-for-your-website' );
+				$result['message']= ( 'ok' === $result['status'] ) ? __( 'Login URL is reachable.', 'powerplus-toolkit' ) : __( 'Login URL returned an unexpected status.', 'powerplus-toolkit' );
 				$notice           = ( 'ok' === $result['status'] ) ? 'login_test_ok' : 'login_test_failed';
 			}
 		}
@@ -474,7 +474,7 @@ class Class_PKWT_Admin {
 	 */
 	public function handle_run_security_scan(): void {
 		if ( ! $this->current_user_has_access() ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_run_security_scan' );
@@ -487,39 +487,39 @@ class Class_PKWT_Admin {
 		$checks = array(
 			array(
 				'key'    => 'rate_limit',
-				'label'  => __( 'Rate limiting enabled', 'powerkit-powerful-tools-for-your-website' ),
+				'label'  => __( 'Rate limiting enabled', 'powerplus-toolkit' ),
 				'pass'   => ! empty( $pkwt_settings['enable_rate_limiting'] ),
-				'fix'    => __( 'Enable rate limiting in Security tab.', 'powerkit-powerful-tools-for-your-website' ),
+				'fix'    => __( 'Enable rate limiting in Security tab.', 'powerplus-toolkit' ),
 			),
 			array(
 				'key'    => 'captcha',
-				'label'  => __( 'CAPTCHA configured', 'powerkit-powerful-tools-for-your-website' ),
+				'label'  => __( 'CAPTCHA configured', 'powerplus-toolkit' ),
 				'pass'   => ! empty( $pkwt_settings['captcha_provider'] ) && 'none' !== $pkwt_settings['captcha_provider'],
-				'fix'    => __( 'Configure CAPTCHA provider and keys.', 'powerkit-powerful-tools-for-your-website' ),
+				'fix'    => __( 'Configure CAPTCHA provider and keys.', 'powerplus-toolkit' ),
 			),
 			array(
 				'key'    => 'custom_login',
-				'label'  => __( 'Custom login URL set', 'powerkit-powerful-tools-for-your-website' ),
+				'label'  => __( 'Custom login URL set', 'powerplus-toolkit' ),
 				'pass'   => ! empty( $pkwt_settings['pkwt_custom_login_url'] ) || ! empty( $pkwt_settings['login_page_id'] ),
-				'fix'    => __( 'Set custom login slug or assign login page.', 'powerkit-powerful-tools-for-your-website' ),
+				'fix'    => __( 'Set custom login slug or assign login page.', 'powerplus-toolkit' ),
 			),
 			array(
 				'key'    => 'svg_strict',
-				'label'  => __( 'SVG strictness hardened', 'powerkit-powerful-tools-for-your-website' ),
+				'label'  => __( 'SVG strictness hardened', 'powerplus-toolkit' ),
 				'pass'   => empty( $svg['dpp_svg_enabled'] ) || ( isset( $svg['dpp_svg_strictness'] ) && in_array( $svg['dpp_svg_strictness'], array( 'strict', 'paranoid' ), true ) ),
-				'fix'    => __( 'Use Strict or Paranoid SVG sanitization.', 'powerkit-powerful-tools-for-your-website' ),
+				'fix'    => __( 'Use Strict or Paranoid SVG sanitization.', 'powerplus-toolkit' ),
 			),
 			array(
 				'key'    => 'ghost',
-				'label'  => __( 'Ghost mode protection active', 'powerkit-powerful-tools-for-your-website' ),
+				'label'  => __( 'Ghost mode protection active', 'powerplus-toolkit' ),
 				'pass'   => ! empty( $ghost['dpp_ghost_enabled'] ),
-				'fix'    => __( 'Enable Ghost Mode for endpoint and fingerprint hardening.', 'powerkit-powerful-tools-for-your-website' ),
+				'fix'    => __( 'Enable Ghost Mode for endpoint and fingerprint hardening.', 'powerplus-toolkit' ),
 			),
 			array(
 				'key'    => 'classic_scope',
-				'label'  => __( 'Classic Editor safely configured', 'powerkit-powerful-tools-for-your-website' ),
+				'label'  => __( 'Classic Editor safely configured', 'powerplus-toolkit' ),
 				'pass'   => empty( $classic['dpp_classic_enabled'] ) || ! empty( $classic['dpp_classic_post_types'] ),
-				'fix'    => __( 'Select at least one post type for Classic Editor mode.', 'powerkit-powerful-tools-for-your-website' ),
+				'fix'    => __( 'Select at least one post type for Classic Editor mode.', 'powerplus-toolkit' ),
 			),
 		);
 
@@ -559,7 +559,7 @@ class Class_PKWT_Admin {
 	 */
 	public function handle_clear_activity_log(): void {
 		if ( ! $this->current_user_has_access() ) {
-			wp_die( esc_html__( 'Not allowed.', 'powerkit-powerful-tools-for-your-website' ) );
+			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
 		check_admin_referer( 'pkwt_clear_activity_log' );

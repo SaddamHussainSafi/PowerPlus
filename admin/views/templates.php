@@ -15,11 +15,11 @@ $pkwt_notice = isset( $_GET['pkwt_notice'] ) ? sanitize_key( wp_unslash( $_GET['
 $tpl_page_id = isset( $_GET['tpl_page_id'] ) ? absint( $_GET['tpl_page_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $notice_messages = array(
-	'tpl_imported'  => __( 'Template imported successfully!', 'powerkit-powerful-tools-for-your-website' ),
-	'tpl_failed'    => __( 'Import failed. Please try again.', 'powerkit-powerful-tools-for-your-website' ),
-	'tpl_not_found' => __( 'Template file not found.', 'powerkit-powerful-tools-for-your-website' ),
-	'tpl_no_page'   => __( 'No target page found. Configure your pages in General settings first.', 'powerkit-powerful-tools-for-your-website' ),
-	'tpl_invalid'   => __( 'Invalid template selection.', 'powerkit-powerful-tools-for-your-website' ),
+	'tpl_imported'  => __( 'Template imported successfully!', 'powerplus-toolkit' ),
+	'tpl_failed'    => __( 'Import failed. Please try again.', 'powerplus-toolkit' ),
+	'tpl_not_found' => __( 'Template file not found.', 'powerplus-toolkit' ),
+	'tpl_no_page'   => __( 'No target page found. Configure your pages in General settings first.', 'powerplus-toolkit' ),
+	'tpl_invalid'   => __( 'Invalid template selection.', 'powerplus-toolkit' ),
 );
 
 $is_elementor_active = class_exists( '\Elementor\Plugin' );
@@ -28,10 +28,10 @@ $tpl_library = new \PKWT\Elementor\Class_PKWT_Template_Library();
 $layout_sets = $tpl_library->get_layout_sets();
 
 $page_type_labels = array(
-	'login'    => __( 'Login', 'powerkit-powerful-tools-for-your-website' ),
-	'register' => __( 'Register', 'powerkit-powerful-tools-for-your-website' ),
-	'lost'     => __( 'Forgot Password', 'powerkit-powerful-tools-for-your-website' ),
-	'reset'    => __( 'Reset Password', 'powerkit-powerful-tools-for-your-website' ),
+	'login'    => __( 'Login', 'powerplus-toolkit' ),
+	'register' => __( 'Register', 'powerplus-toolkit' ),
+	'lost'     => __( 'Forgot Password', 'powerplus-toolkit' ),
+	'reset'    => __( 'Reset Password', 'powerplus-toolkit' ),
 );
 
 $pkwt_settings = get_option( 'pkwt_settings', array() );
@@ -57,18 +57,18 @@ $layout_visuals = array(
 	<!-- ── Hero ──────────────────────────────────────────────────────── -->
 	<div class="pkwt-tpl-hero">
 		<div class="pkwt-tpl-hero__text">
-			<div class="pkwt-tpl-hero__badge"><?php esc_html_e( 'Template Library', 'powerkit-powerful-tools-for-your-website' ); ?></div>
-			<h1><?php esc_html_e( 'Beautiful', 'powerkit-powerful-tools-for-your-website' ); ?> <span><?php esc_html_e( 'Page Templates', 'powerkit-powerful-tools-for-your-website' ); ?></span></h1>
-			<p><?php esc_html_e( 'One-click full-page Elementor layouts for your login, register, forgot password, and reset password pages. Import any design instantly.', 'powerkit-powerful-tools-for-your-website' ); ?></p>
+			<div class="pkwt-tpl-hero__badge"><?php esc_html_e( 'Template Library', 'powerplus-toolkit' ); ?></div>
+			<h1><?php esc_html_e( 'Beautiful', 'powerplus-toolkit' ); ?> <span><?php esc_html_e( 'Page Templates', 'powerplus-toolkit' ); ?></span></h1>
+			<p><?php esc_html_e( 'One-click full-page Elementor layouts for your login, register, forgot password, and reset password pages. Import any design instantly.', 'powerplus-toolkit' ); ?></p>
 		</div>
 		<div class="pkwt-tpl-hero__actions">
 			<div class="pkwt-tpl-hero__stat">
 				<strong>3</strong>
-				<span><?php esc_html_e( 'Layouts', 'powerkit-powerful-tools-for-your-website' ); ?></span>
+				<span><?php esc_html_e( 'Layouts', 'powerplus-toolkit' ); ?></span>
 			</div>
 			<div class="pkwt-tpl-hero__stat">
 				<strong>12</strong>
-				<span><?php esc_html_e( 'Templates', 'powerkit-powerful-tools-for-your-website' ); ?></span>
+				<span><?php esc_html_e( 'Templates', 'powerplus-toolkit' ); ?></span>
 			</div>
 		</div>
 	</div>
@@ -77,8 +77,8 @@ $layout_visuals = array(
 	<div class="pkwt-tpl-alert pkwt-tpl-alert--warning">
 		<div class="pkwt-tpl-alert__icon">⚠️</div>
 		<div class="pkwt-tpl-alert__body">
-			<span class="pkwt-tpl-alert__title"><?php esc_html_e( 'Elementor Required', 'powerkit-powerful-tools-for-your-website' ); ?></span>
-			<?php esc_html_e( 'These templates require Elementor to be installed and activated.', 'powerkit-powerful-tools-for-your-website' ); ?>
+			<span class="pkwt-tpl-alert__title"><?php esc_html_e( 'Elementor Required', 'powerplus-toolkit' ); ?></span>
+			<?php esc_html_e( 'These templates require Elementor to be installed and activated.', 'powerplus-toolkit' ); ?>
 		</div>
 	</div>
 	<?php endif; ?>
@@ -91,8 +91,8 @@ $layout_visuals = array(
 		<div class="pkwt-tpl-alert__body">
 			<?php echo esc_html( $notice_messages[ $pkwt_notice ] ); ?>
 			<?php if ( $is_ok && $tpl_page_id > 0 ) : ?>
-				<a href="<?php echo esc_url( get_edit_post_link( $tpl_page_id ) . '&action=elementor' ); ?>" target="_blank" class="pkwt-dash-import-link"><?php esc_html_e( 'Open in Elementor →', 'powerkit-powerful-tools-for-your-website' ); ?></a>
-				<a href="<?php echo esc_url( get_permalink( $tpl_page_id ) ); ?>" target="_blank" class="pkwt-dash-import-link"><?php esc_html_e( 'View Page →', 'powerkit-powerful-tools-for-your-website' ); ?></a>
+				<a href="<?php echo esc_url( get_edit_post_link( $tpl_page_id ) . '&action=elementor' ); ?>" target="_blank" class="pkwt-dash-import-link"><?php esc_html_e( 'Open in Elementor →', 'powerplus-toolkit' ); ?></a>
+				<a href="<?php echo esc_url( get_permalink( $tpl_page_id ) ); ?>" target="_blank" class="pkwt-dash-import-link"><?php esc_html_e( 'View Page →', 'powerplus-toolkit' ); ?></a>
 			<?php endif; ?>
 		</div>
 	</div>
@@ -102,18 +102,18 @@ $layout_visuals = array(
 	<div class="pkwt-tpl-alert pkwt-tpl-alert--info">
 		<div class="pkwt-tpl-alert__icon">💡</div>
 		<div class="pkwt-tpl-alert__body">
-			<span class="pkwt-tpl-alert__title"><?php esc_html_e( 'Set up your pages first', 'powerkit-powerful-tools-for-your-website' ); ?></span>
+			<span class="pkwt-tpl-alert__title"><?php esc_html_e( 'Set up your pages first', 'powerplus-toolkit' ); ?></span>
 			<?php printf(
 				/* translators: %s: link */
-				esc_html__( 'Assign your login, register, and password pages in %s before importing templates.', 'powerkit-powerful-tools-for-your-website' ),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=pkwt-settings-general' ) ) . '">' . esc_html__( 'General Settings', 'powerkit-powerful-tools-for-your-website' ) . '</a>'
+				esc_html__( 'Assign your login, register, and password pages in %s before importing templates.', 'powerplus-toolkit' ),
+				'<a href="' . esc_url( admin_url( 'admin.php?page=pkwt-settings-general' ) ) . '">' . esc_html__( 'General Settings', 'powerplus-toolkit' ) . '</a>'
 			); ?>
 		</div>
 	</div>
 	<?php endif; ?>
 
 	<!-- ── Layouts grid ──────────────────────────────────────────────── -->
-	<div class="pkwt-tpl-section-label"><?php esc_html_e( 'Choose a layout', 'powerkit-powerful-tools-for-your-website' ); ?></div>
+	<div class="pkwt-tpl-section-label"><?php esc_html_e( 'Choose a layout', 'powerplus-toolkit' ); ?></div>
 
 	<div class="pkwt-tpl-grid">
 	<?php foreach ( $layout_sets as $set_slug => $set ) :
@@ -210,15 +210,15 @@ $layout_visuals = array(
 									data-page-id="<?php echo esc_attr( $target_page_id ); ?>"
 									<?php echo ! $is_elementor_active ? 'disabled' : ''; ?>>
 									<span class="dashicons dashicons-download" style="font-size:14px;width:14px;height:14px;margin-top:1px;"></span>
-									<?php esc_html_e( 'Import', 'powerkit-powerful-tools-for-your-website' ); ?>
+									<?php esc_html_e( 'Import', 'powerplus-toolkit' ); ?>
 								</button>
 								<?php if ( ! empty( $page_url ) ) : ?>
-									<a href="<?php echo esc_url( $page_url ); ?>" target="_blank" class="pkwt-tpl-btn-view" title="<?php esc_attr_e( 'View page', 'powerkit-powerful-tools-for-your-website' ); ?>">
+									<a href="<?php echo esc_url( $page_url ); ?>" target="_blank" class="pkwt-tpl-btn-view" title="<?php esc_attr_e( 'View page', 'powerplus-toolkit' ); ?>">
 										<span class="dashicons dashicons-external" style="font-size:14px;width:14px;height:14px;"></span>
 									</a>
 								<?php endif; ?>
 							<?php else : ?>
-								<span class="pkwt-tpl-no-page-note"><?php esc_html_e( 'Not configured', 'powerkit-powerful-tools-for-your-website' ); ?></span>
+								<span class="pkwt-tpl-no-page-note"><?php esc_html_e( 'Not configured', 'powerplus-toolkit' ); ?></span>
 							<?php endif; ?>
 						</div>
 					</div>
@@ -233,23 +233,23 @@ $layout_visuals = array(
 
 	<!-- ── How it works ──────────────────────────────────────────────── -->
 	<div class="pkwt-tpl-how">
-		<p class="pkwt-tpl-how__title"><?php esc_html_e( 'How to use templates', 'powerkit-powerful-tools-for-your-website' ); ?></p>
+		<p class="pkwt-tpl-how__title"><?php esc_html_e( 'How to use templates', 'powerplus-toolkit' ); ?></p>
 		<div class="pkwt-tpl-how__steps">
 			<div class="pkwt-tpl-how__step">
 				<div class="pkwt-tpl-how__num">1</div>
-				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Install Elementor', 'powerkit-powerful-tools-for-your-website' ); ?></strong><?php esc_html_e( 'Make sure Elementor is installed and active on your site.', 'powerkit-powerful-tools-for-your-website' ); ?></div>
+				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Install Elementor', 'powerplus-toolkit' ); ?></strong><?php esc_html_e( 'Make sure Elementor is installed and active on your site.', 'powerplus-toolkit' ); ?></div>
 			</div>
 			<div class="pkwt-tpl-how__step">
 				<div class="pkwt-tpl-how__num">2</div>
-				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Assign pages', 'powerkit-powerful-tools-for-your-website' ); ?></strong><?php esc_html_e( 'Go to General settings and assign pages for login, register and passwords.', 'powerkit-powerful-tools-for-your-website' ); ?></div>
+				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Assign pages', 'powerplus-toolkit' ); ?></strong><?php esc_html_e( 'Go to General settings and assign pages for login, register and passwords.', 'powerplus-toolkit' ); ?></div>
 			</div>
 			<div class="pkwt-tpl-how__step">
 				<div class="pkwt-tpl-how__num">3</div>
-				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Click Import', 'powerkit-powerful-tools-for-your-website' ); ?></strong><?php esc_html_e( 'Pick a layout and click Import next to the page type you want to apply it to.', 'powerkit-powerful-tools-for-your-website' ); ?></div>
+				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Click Import', 'powerplus-toolkit' ); ?></strong><?php esc_html_e( 'Pick a layout and click Import next to the page type you want to apply it to.', 'powerplus-toolkit' ); ?></div>
 			</div>
 			<div class="pkwt-tpl-how__step">
 				<div class="pkwt-tpl-how__num">4</div>
-				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Customise', 'powerkit-powerful-tools-for-your-website' ); ?></strong><?php esc_html_e( 'Open the page in Elementor and customise colours, images, and text to match your brand.', 'powerkit-powerful-tools-for-your-website' ); ?></div>
+				<div class="pkwt-tpl-how__text"><strong><?php esc_html_e( 'Customise', 'powerplus-toolkit' ); ?></strong><?php esc_html_e( 'Open the page in Elementor and customise colours, images, and text to match your brand.', 'powerplus-toolkit' ); ?></div>
 			</div>
 		</div>
 	</div>
