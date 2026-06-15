@@ -82,6 +82,7 @@ class Class_PKWT_Settings {
 		$output['security_dashboard_enabled'] = isset( $settings['security_dashboard_enabled'] ) ? ( empty( $settings['security_dashboard_enabled'] ) ? 0 : 1 ) : ( isset( $current['security_dashboard_enabled'] ) ? absint( $current['security_dashboard_enabled'] ) : 1 );
 		$output['settings_activity_log'] = isset( $settings['settings_activity_log'] ) ? ( empty( $settings['settings_activity_log'] ) ? 0 : 1 ) : ( isset( $current['settings_activity_log'] ) ? absint( $current['settings_activity_log'] ) : 1 );
 		$output['admin_test_mode']       = isset( $settings['admin_test_mode'] ) ? ( empty( $settings['admin_test_mode'] ) ? 0 : 1 ) : ( isset( $current['admin_test_mode'] ) ? absint( $current['admin_test_mode'] ) : 0 );
+		$output['auto_update_all_plugins'] = isset( $settings['auto_update_all_plugins'] ) ? ( empty( $settings['auto_update_all_plugins'] ) ? 0 : 1 ) : ( isset( $current['auto_update_all_plugins'] ) ? absint( $current['auto_update_all_plugins'] ) : 0 );
 		$output['login_page_id']         = isset( $settings['login_page_id'] ) ? absint( $settings['login_page_id'] ) : ( isset( $current['login_page_id'] ) ? absint( $current['login_page_id'] ) : 0 );
 		$output['register_page_id']      = isset( $settings['register_page_id'] ) ? absint( $settings['register_page_id'] ) : ( isset( $current['register_page_id'] ) ? absint( $current['register_page_id'] ) : 0 );
 		$output['lost_password_page_id'] = isset( $settings['lost_password_page_id'] ) ? absint( $settings['lost_password_page_id'] ) : ( isset( $current['lost_password_page_id'] ) ? absint( $current['lost_password_page_id'] ) : 0 );
@@ -114,6 +115,8 @@ class Class_PKWT_Settings {
 		$output['max_attempts']         = isset( $settings['max_attempts'] ) ? max( 1, min( 20, absint( $settings['max_attempts'] ) ) ) : ( isset( $current['max_attempts'] ) ? max( 1, min( 20, absint( $current['max_attempts'] ) ) ) : 5 );
 		$output['lockout_minutes']      = isset( $settings['lockout_minutes'] ) ? max( 5, min( 1440, absint( $settings['lockout_minutes'] ) ) ) : ( isset( $current['lockout_minutes'] ) ? max( 5, min( 1440, absint( $current['lockout_minutes'] ) ) ) : 15 );
 		$output['captcha_provider']     = isset( $settings['captcha_provider'] ) ? sanitize_key( $settings['captcha_provider'] ) : ( isset( $current['captcha_provider'] ) ? sanitize_key( (string) $current['captcha_provider'] ) : 'none' );
+		// IP allow-list: newline/comma separated IPs or CIDR ranges, exempt from rate limiting.
+		$output['ip_allowlist']         = isset( $settings['ip_allowlist'] ) ? sanitize_textarea_field( wp_unslash( $settings['ip_allowlist'] ) ) : ( isset( $current['ip_allowlist'] ) ? sanitize_textarea_field( (string) $current['ip_allowlist'] ) : '' );
 		foreach ( array( 'recaptcha_site_key', 'recaptcha_secret_key', 'hcaptcha_site_key', 'hcaptcha_secret_key' ) as $key ) {
 			$output[ $key ] = isset( $settings[ $key ] ) ? sanitize_text_field( wp_unslash( $settings[ $key ] ) ) : ( isset( $current[ $key ] ) ? sanitize_text_field( (string) $current[ $key ] ) : '' );
 		}
@@ -121,7 +124,7 @@ class Class_PKWT_Settings {
 		$output['plugin_menu_name']       = isset( $settings['plugin_menu_name'] ) ? sanitize_text_field( wp_unslash( $settings['plugin_menu_name'] ) ) : ( isset( $current['plugin_menu_name'] ) ? sanitize_text_field( (string) $current['plugin_menu_name'] ) : '' );
 		$output['plugin_description']     = isset( $settings['plugin_description'] ) ? sanitize_textarea_field( wp_unslash( $settings['plugin_description'] ) ) : ( isset( $current['plugin_description'] ) ? sanitize_textarea_field( (string) $current['plugin_description'] ) : '' );
 		$output['support_url']            = isset( $settings['support_url'] ) ? esc_url_raw( wp_unslash( $settings['support_url'] ) ) : ( isset( $current['support_url'] ) ? esc_url_raw( (string) $current['support_url'] ) : '' );
-		$output['custom_admin_menu_icon'] = isset( $settings['custom_admin_menu_icon'] ) ? sanitize_text_field( wp_unslash( $settings['custom_admin_menu_icon'] ) ) : ( isset( $current['custom_admin_menu_icon'] ) ? sanitize_text_field( (string) $current['custom_admin_menu_icon'] ) : 'dashicons-lock' );
+		$output['custom_admin_menu_icon'] = isset( $settings['custom_admin_menu_icon'] ) ? sanitize_text_field( wp_unslash( $settings['custom_admin_menu_icon'] ) ) : ( isset( $current['custom_admin_menu_icon'] ) ? sanitize_text_field( (string) $current['custom_admin_menu_icon'] ) : '' );
 
 		$role_redirects = array();
 		if ( isset( $settings['role_redirects'] ) && is_array( $settings['role_redirects'] ) ) {
@@ -148,6 +151,28 @@ class Class_PKWT_Settings {
 			$access_roles = array_values( array_unique( array_map( 'sanitize_key', $current['access_roles'] ) ) );
 		}
 		$output['access_roles'] = $access_roles;
+
+		// Branding module (nested array). Merge over current so partial saves are safe.
+		$brand_defaults = \PKWT\Includes\Class_PKWT_Branding::defaults();
+		$brand_current  = ( isset( $current['branding'] ) && is_array( $current['branding'] ) ) ? $current['branding'] : array();
+		$brand_in       = ( isset( $settings['branding'] ) && is_array( $settings['branding'] ) ) ? $settings['branding'] : array();
+		$brand          = wp_parse_args( $brand_in, wp_parse_args( $brand_current, $brand_defaults ) );
+
+		$output['branding'] = array(
+			'enabled'                   => empty( $brand['enabled'] ) ? 0 : 1,
+			'style_login'               => empty( $brand['style_login'] ) ? 0 : 1,
+			'logo_id'                   => absint( $brand['logo_id'] ),
+			'logo_link'                 => esc_url_raw( (string) $brand['logo_link'] ),
+			'logo_title'                => sanitize_text_field( (string) $brand['logo_title'] ),
+			'bg_color'                  => sanitize_text_field( (string) $brand['bg_color'] ),
+			'form_bg'                   => sanitize_text_field( (string) $brand['form_bg'] ),
+			'accent_color'              => sanitize_text_field( (string) $brand['accent_color'] ),
+			'welcome_message'           => wp_kses_post( (string) $brand['welcome_message'] ),
+			'hide_login_errors'         => empty( $brand['hide_login_errors'] ) ? 0 : 1,
+			'admin_footer_text'         => wp_kses_post( (string) $brand['admin_footer_text'] ),
+			'hide_admin_footer_version' => empty( $brand['hide_admin_footer_version'] ) ? 0 : 1,
+			'hide_wp_logo'              => empty( $brand['hide_wp_logo'] ) ? 0 : 1,
+		);
 
 		// Ensure legacy notification/digest keys are fully removed from saved settings.
 		foreach ( array(
@@ -257,7 +282,15 @@ class Class_PKWT_Settings {
 		}
 
 		$tmp_name = isset( $_FILES['pkwt_import_file']['tmp_name'] ) ? sanitize_text_field( wp_unslash( (string) $_FILES['pkwt_import_file']['tmp_name'] ) ) : '';
-		if ( '' === $tmp_name ) {
+		// Only read a genuine PHP upload, never an arbitrary server path.
+		if ( '' === $tmp_name || ! is_uploaded_file( $tmp_name ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=pkwt-settings&tab=import-export&pkwt_notice=import_failed' ) );
+			exit;
+		}
+
+		// Cap the size before reading so a huge upload cannot exhaust memory.
+		$size = isset( $_FILES['pkwt_import_file']['size'] ) ? absint( $_FILES['pkwt_import_file']['size'] ) : 0;
+		if ( $size > 1048576 ) { // 1 MB is far larger than any real settings export.
 			wp_safe_redirect( admin_url( 'admin.php?page=pkwt-settings&tab=import-export&pkwt_notice=import_failed' ) );
 			exit;
 		}
@@ -275,10 +308,30 @@ class Class_PKWT_Settings {
 		}
 
 		$settings = $this->sanitize_settings( $decoded['settings'] );
+
+		// Imported page IDs reference the SOURCE site and won't exist here, so re-resolve
+		// them from local pages before saving — otherwise auth routing falls back to defaults.
+		$page_manager = new \PKWT\Includes\Class_PKWT_Page_Manager();
+		$local_ids    = $page_manager->ensure_default_pages();
+		$id_map        = array(
+			'login_page_id'          => 'login',
+			'register_page_id'       => 'register',
+			'lost_password_page_id'  => 'lost_password',
+			'reset_password_page_id' => 'reset_password',
+		);
+		foreach ( $id_map as $setting_key => $type ) {
+			if ( ! empty( $local_ids[ $type ] ) ) {
+				$settings[ $setting_key ] = (int) $local_ids[ $type ];
+			}
+		}
+
 		update_option( 'pkwt_settings', $settings );
 
-		$page_manager = new \PKWT\Includes\Class_PKWT_Page_Manager();
-		$page_manager->ensure_default_pages();
+		// Rebase the custom login slug onto the local login page (the imported URL points
+		// at the source site's host).
+		if ( ! empty( $local_ids['login'] ) ) {
+			$page_manager->reconcile_login_slug( (int) $local_ids['login'] );
+		}
 
 		wp_safe_redirect( admin_url( 'admin.php?page=pkwt-settings&tab=import-export&pkwt_notice=import_ok' ) );
 		exit;

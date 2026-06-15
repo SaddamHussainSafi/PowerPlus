@@ -301,6 +301,16 @@ class Class_PKWT_Redirector {
 			return;
 		}
 
+		// Never block legitimate wp-login.php actions, or core flows break: password reset
+		// link clicks (rp/resetpass), password-protected post submissions (postpass), logout,
+		// GDPR confirm-action links, and the post-request "check your email" screen.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only routing check; these are core actions with their own nonces.
+		$action = isset( $_REQUEST['action'] ) ? sanitize_key( wp_unslash( $_REQUEST['action'] ) ) : '';
+		$allowed_actions = array( 'postpass', 'logout', 'rp', 'resetpass', 'confirmaction', 'lostpassword', 'retrievepassword' );
+		if ( in_array( $action, $allowed_actions, true ) ) {
+			return;
+		}
+
 		if ( $this->is_blocked_native_auth_path( $path ) ) {
 			$this->render_not_found();
 		}
@@ -418,12 +428,15 @@ class Class_PKWT_Redirector {
 	 */
 	private function get_login_target_url(): string {
 		$settings = $this->settings_repo->get();
-		$custom   = isset( $settings['pkwt_custom_login_url'] ) ? esc_url_raw( (string) $settings['pkwt_custom_login_url'] ) : '';
+		$custom   = isset( $settings['pkwt_custom_login_url'] ) ? (string) $settings['pkwt_custom_login_url'] : '';
 		if ( '' !== $custom ) {
-			$home_host = wp_parse_url( home_url(), PHP_URL_HOST );
-			$url_host  = wp_parse_url( $custom, PHP_URL_HOST );
-			if ( empty( $url_host ) || $url_host === $home_host ) {
-				return $custom;
+			// The stored value may be an absolute URL captured when the site lived at a
+			// different host/scheme (http↔https, www toggle, or a full site move). Treat its
+			// PATH as the source of truth and rebuild on the CURRENT home_url() so the custom
+			// login URL never silently falls back to the default after the site address changes.
+			$path = trim( (string) wp_parse_url( $custom, PHP_URL_PATH ), '/' );
+			if ( '' !== $path ) {
+				return esc_url_raw( home_url( '/' . $path . '/' ) );
 			}
 		}
 

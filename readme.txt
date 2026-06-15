@@ -4,7 +4,7 @@ Donate link: https://saddamhussain.com.np/
 Tags: login, elementor, custom login, login page, register
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 3.5.7
+Stable tag: 3.8.0
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -179,7 +179,52 @@ Please report security issues directly to the author via the contact form at htt
 
 == Changelog ==
 
-= 3.5.7 =
+= 3.8.0 =
+* Fixed: Saving settings no longer fails with a security error. A nonce-lifetime filter shortened the lifetime only during AJAX, so nonces created at page load (24h) didn't match verification (4h) — the filter has been removed and saves now succeed reliably.
+* Added: Autosave — toggles, color swatches and the logo selection now save the moment you change them; text fields save when you click away. The manual "Save" button still works for an explicit save-all.
+* Fixed: The heavy black border/outline that appeared on toggles and buttons is gone. Disabling Tailwind's global reset (so it can't affect the rest of wp-admin) had removed the dashboard's own button normalization; that is now restored, scoped to the dashboard only.
+* Added: One-click "Install Elementor" — installs and activates the latest Elementor directly from the dashboard (no trip to the Plugins screen), then reloads so widgets and templates are immediately available.
+* Added: Flagship "Auto-update all plugins" switch on the dashboard — one toggle keeps every plugin on the site updated automatically using WordPress's built-in auto-updater.
+
+= 3.7.0 =
+* WP.org compliance: The admin dashboard no longer loads React, Babel, or Tailwind from external CDNs. React 18 is now bundled locally, the JSX is precompiled to plain JS at build time, and Tailwind is compiled to a static stylesheet scoped to the dashboard (with preflight disabled so it can never restyle the rest of wp-admin).
+* Added: Branding module — white-label the native wp-login.php screen (logo, link, background, form background, accent color, welcome message, generic error messages) and the admin chrome (custom footer text, hide WordPress version, hide the admin-bar W logo). Purely hook-based; never creates pages. Login styling is skipped automatically when you redirect login to a custom Elementor page. Patterns adapted from LoginPress and White Label CMS.
+* Improved: When the custom login URL + endpoint blocking are active, the native wp-login.php now correctly allows password-reset link clicks, password-protected post submissions, logout, and GDPR confirm-action links instead of 404ing them. Adapted from WPS Hide Login's exemption list.
+
+= 3.6.3 =
+* Security: Rebuilt the SVG sanitizer as a DOM-based allowlist (was a regex blocklist that could be bypassed). It now strips DOCTYPE/entities (XXE), removes every event handler including unquoted ones, enforces an href/data-URI protocol allowlist, and removes script/foreignObject in all modes. Verified against 10 known bypass vectors. Adapted from the Safe SVG / enshrined approach.
+* Security: SVG files are now sanitized on the upload PREFILTER, before WordPress writes them to disk, so a malicious file never lands in a web-accessible location.
+* Fixed: SVG MIME detection now runs at the correct priority (75) so SVG uploads aren't silently rejected by WordPress's real-MIME check on modern installs.
+
+= 3.6.2 =
+* Fixed: Duplicating an Elementor page no longer corrupts the layout — meta values (notably _elementor_data) are now re-slashed correctly on copy (previously the JSON lost a slash level and broke), stale Elementor CSS caches are skipped and regenerated for the clone, and duplicate-key meta copies 1:1. Adapted from Yoast Duplicate Post's proven approach.
+* Added: Brute-force protection now also covers the NATIVE wp-login.php (via the authenticate filter) — previously only the plugin's custom login forms were rate-limited. Locked clients are rejected before the password is checked.
+* Added: IP allow-list (Security → IP Allow-list) — list trusted IPs or CIDR ranges that are never rate-limited or locked out, so you can't lock yourself out. Adapted from Limit Login Attempts Reloaded.
+
+= 3.6.1 =
+* Fixed: Custom login URL no longer "resets to default" after an https/www switch or site move — the saved slug is now resolved against the current site address, and the login page slug is reconciled with the setting whenever pages are (re)created or settings are imported.
+* Fixed: Settings import now re-resolves auth page IDs and the login slug to the local site instead of carrying over the source site's IDs/URLs.
+* Fixed: Imported Elementor templates now stamp the Elementor version so modern container templates render correctly (previously a backward-compat flag could break the layout); the root element type is validated before writing.
+* Added: Explicit default values for the remaining Elementor form-widget style controls — typography (title/description/field/button), borders, backgrounds, box-shadows, link/message colors, and the divider/social/redirect-timer widgets — all matching the rendered CSS so the editor shows real defaults.
+
+= 3.6.0 =
+* Security: Fixed an arbitrary file-disclosure vulnerability in Ghost Mode's aliased-asset server (path traversal could read wp-config.php); added a strict allowlist of static extensions, '..' rejection, and per-base-directory containment.
+* Security: Added rate limiting and CAPTCHA enforcement to the lost-password and reset-password endpoints; invalid reset keys now count toward lockout. Added rate limiting to registration.
+* Security: CAPTCHA secret keys are no longer printed into admin page source; configuration-changing handlers now require manage_options; settings import now validates is_uploaded_file and caps file size.
+* Security: REST user-enumeration blocking now also unsets the /wp/v2/users routes (covers ?rest_route= and other request forms).
+* Fixed: The admin menu now uses the real PowerPlus logo as a vector (SVG data URI) so it renders crisply at the correct size and is recolored to match the admin theme — no more oversized/bleeding icon.
+* Fixed: Dashboard settings (login URL, security, redirects, modules, ghost/SVG/classic/duplicator) now persist correctly; persistent object caches are invalidated on every settings write.
+* Fixed: One-click template import now publishes the page on the Elementor Canvas template and marks it editable; Login Forms and Page Templates act on the site's real auth pages.
+* Added: Explicit default values on Elementor form-widget style controls (padding, margins, colors, radii) matching the rendered CSS.
+* Improved: Onboarding now opens the modern dashboard instead of a separate unstyled wizard.
+
+= 3.5.8 =
+* Added: Premium React dashboard UI with animated stats, quick actions, and module toggles
+* Added: Plugin banner and icons on WordPress.org listing
+* Added: Lightning bolt SVG admin menu icon
+* Improved: Main admin page now loads modern dark-themed dashboard
+
+= 3.5.8 =
 * Fixed: All remaining "PowerKit" display strings replaced with "PowerPlus" across admin notices, widget titles, onboarding, conflict detector, and frontend messages
 = 3.5.6 =
 * Renamed: Plugin slug changed to powerplus-toolkit (approved by WordPress.org)

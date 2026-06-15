@@ -27,6 +27,7 @@ class Class_PKWT_DPP_Ghost {
 		add_filter( 'style_loader_src', array( $this, 'strip_version_param' ), 99 );
 		add_filter( 'xmlrpc_enabled', array( $this, 'disable_xmlrpc' ) );
 		add_filter( 'rest_authentication_errors', array( $this, 'block_rest_users_endpoint' ) );
+		add_filter( 'rest_endpoints', array( $this, 'remove_rest_users_routes' ) );
 		add_filter( 'rest_url_prefix', array( $this, 'filter_rest_prefix' ) );
 		add_filter( 'body_class', array( $this, 'strip_wordpress_body_classes' ) );
 		add_filter( 'all_plugins', array( $this, 'mask_plugin_names_admin' ) );
@@ -268,6 +269,13 @@ class Class_PKWT_DPP_Ghost {
 			$aliases['includes'] => 'wp-includes',
 		);
 
+		// Only ever serve known static asset types — never PHP or config files.
+		$allowed_ext = array(
+			'css', 'js', 'mjs', 'map', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'avif',
+			'svg', 'ico', 'woff', 'woff2', 'ttf', 'otf', 'eot', 'mp4', 'webm', 'ogg',
+			'mp3', 'wav', 'json', 'txt', 'pdf',
+		);
+
 		foreach ( $map as $alias => $real_base ) {
 			if ( '' === $alias ) {
 				continue;
@@ -277,25 +285,51 @@ class Class_PKWT_DPP_Ghost {
 				continue;
 			}
 			$relative = substr( $path, strlen( $prefix ) );
+
+			// Reject path-traversal sequences and null bytes BEFORE building the path.
+			// Without this, '/core/../wp-config.php' would resolve back inside ABSPATH
+			// and leak sensitive files through readfile().
+			if ( false !== strpos( $relative, '..' ) || false !== strpos( $relative, "\0" ) ) {
+				continue;
+			}
+
 			if ( $aliases['plugins'] === $alias ) {
 				$relative = $this->restore_real_plugin_path_from_alias( $relative );
+				if ( false !== strpos( $relative, '..' ) || false !== strpos( $relative, "\0" ) ) {
+					continue;
+				}
 			}
+
+			// Enforce a static-asset extension allowlist; this alone blocks .php/.htaccess/config reads.
+			$ext = strtolower( pathinfo( $relative, PATHINFO_EXTENSION ) );
+			if ( '' === $ext || ! in_array( $ext, $allowed_ext, true ) ) {
+				continue;
+			}
+
 			// Use trailingslashit() to safely build path without raw ABSPATH concatenation.
 			$target   = trailingslashit( ABSPATH ) . $real_base . '/' . ltrim( $relative, '/' );
 			$realpath = realpath( $target );
 			if ( ! $realpath || ! is_file( $realpath ) ) {
 				continue;
 			}
-			// Verify resolved path is still inside WordPress root to prevent path traversal.
-			$abspath_real = realpath( trailingslashit( ABSPATH ) );
-			if ( ! $abspath_real || 0 !== strpos( $realpath, $abspath_real ) ) {
-				status_header( 403 );
-				exit;
+
+			// Resolved file MUST live under the SPECIFIC mapped base directory — not merely
+			// anywhere inside ABSPATH — so it cannot reach wp-config.php or sibling roots.
+			$base_real = realpath( trailingslashit( ABSPATH ) . $real_base );
+			if ( ! $base_real || 0 !== strpos( $realpath, trailingslashit( $base_real ) ) ) {
+				continue;
 			}
 
-			$filetype = wp_check_filetype( $realpath );
+			// Belt-and-braces: WP's own filetype check must also resolve to a permitted ext.
+			$filetype = wp_check_filetype( $realpath, null );
+			$ft_ext   = isset( $filetype['ext'] ) ? strtolower( (string) $filetype['ext'] ) : '';
+			if ( '' === $ft_ext || ! in_array( $ft_ext, $allowed_ext, true ) ) {
+				continue;
+			}
+
 			if ( ! headers_sent() ) {
 				header( 'Content-Type: ' . ( ! empty( $filetype['type'] ) ? $filetype['type'] : 'application/octet-stream' ) );
+				header( 'X-Content-Type-Options: nosniff' );
 				header( 'Cache-Control: public, max-age=86400' );
 			}
 			readfile( $realpath ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
@@ -498,11 +532,40 @@ class Class_PKWT_DPP_Ghost {
 		if ( empty( $s['dpp_ghost_hide_rest_users'] ) ) {
 			return $result;
 		}
-		$route = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-		if ( false !== strpos( $route, '/wp/v2/users' ) ) {
+		// Normalize both REST request forms: /wp-json/wp/v2/users and ?rest_route=/wp/v2/users.
+		$uri   = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$route = isset( $_GET['rest_route'] ) ? sanitize_text_field( wp_unslash( $_GET['rest_route'] ) ) : (string) wp_parse_url( $uri, PHP_URL_PATH ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$route = strtolower( untrailingslashit( $route ) );
+		if ( (bool) preg_match( '#/wp/v2/users(/|$)#', $route ) ) {
 			return new \WP_Error( 'forbidden', __( 'Not allowed.', 'powerplus-toolkit' ), array( 'status' => 403 ) );
 		}
 		return $result;
+	}
+
+	/**
+	 * Remove the users REST routes entirely — the robust, non-bypassable guard.
+	 *
+	 * @param array<string,mixed> $endpoints REST endpoints.
+	 * @return array<string,mixed>
+	 */
+	public function remove_rest_users_routes( $endpoints ) {
+		if ( ! $this->is_enabled() ) {
+			return $endpoints;
+		}
+		$s = $this->get_settings();
+		if ( empty( $s['dpp_ghost_hide_rest_users'] ) ) {
+			return $endpoints;
+		}
+		// Logged-in users with list_users (admins) keep access; block only public enumeration.
+		if ( is_user_logged_in() && current_user_can( 'list_users' ) ) {
+			return $endpoints;
+		}
+		foreach ( array_keys( $endpoints ) as $route ) {
+			if ( 0 === strpos( (string) $route, '/wp/v2/users' ) ) {
+				unset( $endpoints[ $route ] );
+			}
+		}
+		return $endpoints;
 	}
 
 	/**

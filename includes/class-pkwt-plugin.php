@@ -61,6 +61,32 @@ class Class_PKWT_Plugin {
 		add_action( 'admin_init', array( $this, 'handle_onboarding_redirect' ) );
 		add_filter( 'all_plugins', array( $this, 'maybe_hide_from_plugins_page' ) );
 
+		// Invalidate the settings cache group on EVERY write path (toggle_module,
+		// snapshot restore, import, reset, Settings-API save) so sites with a persistent
+		// object cache never serve stale settings on the front end.
+		$flush_settings_cache = static function () {
+			wp_cache_delete( 'settings', 'pkwt_options' );
+		};
+		add_action( 'update_option_pkwt_settings', $flush_settings_cache );
+		add_action( 'add_option_pkwt_settings', $flush_settings_cache );
+		add_action( 'delete_option_pkwt_settings', $flush_settings_cache );
+
+		// Flagship: when the user enables it, auto-update EVERY plugin (overrides the
+		// per-plugin WordPress setting). Returning true from auto_update_plugin opts all
+		// plugins into core's existing auto-updater — no cron of our own needed.
+		add_filter(
+			'auto_update_plugin',
+			static function ( $update, $item ) {
+				$settings = get_option( 'pkwt_settings', array() );
+				if ( is_array( $settings ) && ! empty( $settings['auto_update_all_plugins'] ) ) {
+					return true;
+				}
+				return $update;
+			},
+			10,
+			2
+		);
+
 		if ( ! $this->requirements_met() ) {
 			return;
 		}
@@ -101,6 +127,9 @@ class Class_PKWT_Plugin {
 
 		$dpp = new Class_PKWT_DPP_Hooks();
 		$dpp->register();
+
+		$branding = new Class_PKWT_Branding();
+		$branding->register();
 	}
 
 	/**
@@ -154,7 +183,8 @@ class Class_PKWT_Plugin {
 		}
 
 		delete_option( 'pkwt_onboarding_redirect' );
-		wp_safe_redirect( admin_url( 'admin.php?page=pkwt-onboarding' ) );
+		// Land new users on the modern React dashboard rather than the legacy wizard.
+		wp_safe_redirect( admin_url( 'admin.php?page=pkwt-settings' ) );
 		exit;
 	}
 

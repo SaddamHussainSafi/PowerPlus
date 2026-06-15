@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PowerPlus — All-in-One Powerful Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            bg: '#0d1117', card: '#161b22', border: '#21262d',
+            sidebar: '#13181f', sub: '#8b949e',
+            brand: '#FF6500', brandDark: '#cc5200', ok: '#3fb950',
+          },
+          boxShadow: {
+            card: '0 4px 24px rgba(0,0,0,0.4)',
+            glow: '0 0 0 1px rgba(255,101,0,0.4), 0 0 32px rgba(255,101,0,0.18)',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html,body{background:#0d1117;color:#fff;font-family:'Inter',sans-serif;}
+    body{background-image:radial-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),radial-gradient(circle at 12% 0%,rgba(255,101,0,0.06),transparent 40%);background-size:22px 22px,auto;}
+    .label{letter-spacing:.08em;text-transform:uppercase;font-weight:500;}
+    .ease-out-soft{transition:all .2s cubic-bezier(.4,0,.2,1);}
+    ::-webkit-scrollbar{width:8px;height:8px;}
+    ::-webkit-scrollbar-track{background:#0d1117;}
+    ::-webkit-scrollbar-thumb{background:#FF6500;border-radius:8px;}
+    ::-webkit-scrollbar-thumb:hover{background:#cc5200;}
+    @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .anim-slide-up{animation:slideUp .5s cubic-bezier(.4,0,.2,1) both;}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,101,0,.6)}50%{box-shadow:0 0 12px 3px rgba(255,101,0,.2)}}
+    .anim-pulse{animation:pulseGlow 2.4s ease-in-out infinite;}
+    @keyframes glowPulseLine{0%,100%{opacity:.35}50%{opacity:1}}
+    .topbar-pulse{animation:glowPulseLine 3.5s ease-in-out infinite;}
+    @keyframes ripple{from{transform:scale(0);opacity:.5}to{transform:scale(4);opacity:0}}
+    .ripple{position:absolute;border-radius:9999px;background:rgba(255,255,255,.35);pointer-events:none;animation:ripple .6s linear;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+    .anim-page{animation:fadeIn .35s ease-out both;}
+    .toggle-track{transition:background .3s cubic-bezier(.4,0,.2,1),box-shadow .3s;}
+    .toggle-thumb{transition:left .3s cubic-bezier(.4,0,.2,1),box-shadow .3s;}
+    .nav-active-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#FF6500,#cc5200);border-radius:0 3px 3px 0;box-shadow:0 0 12px rgba(255,101,0,.6);}
+    @keyframes navIn{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+    .nav-active-bar{animation:navIn .25s cubic-bezier(.4,0,.2,1) both;transform-origin:center;}
+    .qa-fill{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,101,0,.18),rgba(255,101,0,.02));transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+    .qa:hover .qa-fill{transform:translateX(0);}
+    .stat-card{transition:transform .25s cubic-bezier(.4,0,.2,1),border-color .25s,box-shadow .25s;}
+    .stat-card:hover{transform:scale(1.012);border-color:rgba(255,101,0,.5);box-shadow:0 0 32px rgba(255,101,0,.18);}
+    .stat-card::after{content:'';position:absolute;left:16px;right:16px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,101,0,0),transparent);transition:background .3s;}
+    .stat-card:hover::after{background:linear-gradient(90deg,transparent,rgba(255,101,0,.7),transparent);box-shadow:0 0 16px rgba(255,101,0,.5);}
+    .nav-item:hover .nav-icon{color:#FF6500;}
+    .activity-row{transition:background .2s;}
+    .activity-row:hover{background:rgba(255,101,0,.06);}
+    .ip{background:#0d1117;border:1px solid #21262d;color:#fff;border-radius:8px;padding:10px 12px;font-size:14px;transition:all .2s;width:100%;}
+    .ip:focus{outline:none;border-color:#FF6500;box-shadow:0 0 0 3px rgba(255,101,0,.18);}
+    .btn{position:relative;overflow:hidden;transition:all .2s cubic-bezier(.4,0,.2,1);}
+    .btn-primary{background:#FF6500;color:#fff;border-radius:8px;padding:10px 16px;font-weight:600;font-size:14px;}
+    .btn-primary:hover{background:#cc5200;box-shadow:0 0 24px rgba(255,101,0,.45);transform:translateY(-1px);}
+    .btn-ghost{background:transparent;color:#FF6500;border:1px solid #FF6500;border-radius:8px;padding:9px 16px;font-weight:600;font-size:14px;}
+    .btn-ghost:hover{background:#FF6500;color:#fff;}
+    .btn-quiet{background:transparent;color:#8b949e;border:1px solid #21262d;border-radius:8px;padding:9px 14px;font-weight:500;font-size:13px;}
+    .btn-quiet:hover{color:#fff;border-color:#FF6500;}
+    .logo-mark{background:linear-gradient(135deg,#FF6500,#cc5200);}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important;}}
+    .spark path{stroke-dasharray:200;stroke-dashoffset:200;animation:drawLine 1.2s .2s ease-out forwards;}
+    @keyframes drawLine{to{stroke-dashoffset:0;}}
+    /* Coming Soon overlay */
+    .coming-soon-overlay{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(13,17,23,.85);backdrop-filter:blur(4px);border-radius:12px;}
+    /* Score ring animation */
+    @keyframes ringFill{from{stroke-dashoffset:351.86}to{stroke-dashoffset:var(--ring-offset);}}
+    .score-ring{animation:ringFill 1.5s ease-out forwards;}
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+</head>
+<body class="min-h-screen">
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useMemo } = React;
+
+/* ── ICONS ── */
+const I = ({ children, size=18, stroke=2, className='' }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" strokeWidth={stroke}
+       strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    {children}
+  </svg>
+);
+const IconDashboard  = p=><I {...p}><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></I>;
+const IconUser       = p=><I {...p}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></I>;
+const IconCopy       = p=><I {...p}><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></I>;
+const IconShield     = p=><I {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></I>;
+const IconBolt       = p=><I {...p}><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></I>;
+const IconPalette    = p=><I {...p}><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></I>;
+const IconSettings   = p=><I {...p}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></I>;
+const IconSearch     = p=><I {...p}><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></I>;
+const IconBell       = p=><I {...p}><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></I>;
+const IconHelp       = p=><I {...p}><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></I>;
+const IconChevronRight = p=><I {...p}><path d="m9 18 6-6-6-6"/></I>;
+const IconPlus       = p=><I {...p}><path d="M12 5v14M5 12h14"/></I>;
+const IconImport     = p=><I {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></I>;
+const IconScan       = p=><I {...p}><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M3 12h18"/></I>;
+const IconCheck      = p=><I {...p}><path d="M20 6 9 17l-5-5"/></I>;
+const IconX          = p=><I {...p}><path d="M18 6 6 18M6 6l12 12"/></I>;
+const IconActivity   = p=><I {...p}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></I>;
+const IconLogin      = p=><I {...p}><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></I>;
+const IconKey        = p=><I {...p}><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></I>;
+const IconLock       = p=><I {...p}><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></I>;
+const IconEye        = p=><I {...p}><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></I>;
+const IconTrash      = p=><I {...p}><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></I>;
+const IconEdit       = p=><I {...p}><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></I>;
+const IconExternal   = p=><I {...p}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></I>;
+const IconRefresh    = p=><I {...p}><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></I>;
+const IconSparkles   = p=><I {...p}><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></I>;
+const IconGhost      = p=><I {...p}><path d="M9 10h.01M15 10h.01M12 2a8 8 0 0 0-8 8v12l3-3 3 3 2-3 2 3 3-3 3 3V10a8 8 0 0 0-8-8z"/></I>;
+const IconLayers     = p=><I {...p}><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 17 9 5 9-5"/><path d="m3 12 9 5 9-5"/></I>;
+const IconGrid       = p=><I {...p}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></I>;
+const IconBox        = p=><I {...p}><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></I>;
+const IconArrowRight = p=><I {...p}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></I>;
+const IconArrowUp    = p=><I {...p}><path d="m18 15-6-6-6 6"/></I>;
+const IconFile       = p=><I {...p}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></I>;
+const IconUpload     = p=><I {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></I>;
+const IconMail       = p=><I {...p}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></I>;
+const IconGlobe      = p=><I {...p}><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20z"/></I>;
+const IconHash       = p=><I {...p}><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></I>;
+const IconWand       = p=><I {...p}><path d="m3 21 18-18"/><path d="M14 7l3 3"/><path d="M5 6V3M19 19v3M3.5 4.5h3M17.5 20.5h3"/></I>;
+const IconRocket     = p=><I {...p}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></I>;
+const IconClock      = p=><I {...p}><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></I>;
+const IconZap        = p=><I {...p}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></I>;
+
+const LogoMark = ({ size=22 }) => (
+  <div className="logo-mark inline-flex items-center justify-center"
+       style={{ width:size, height:size, borderRadius:Math.max(4,size*0.22), boxShadow:'0 4px 18px rgba(255,101,0,.45)' }}>
+    <svg viewBox="0 0 32 32" width={size*.72} height={size*.72} aria-hidden="true">
+      <path d="M11 4h12l-4 7h4L13 28l3-11H10z" fill="#fff"/>
+    </svg>
+  </div>
+);
+
+/* ── SHARED HOOKS ── */
+function useCountUp(target, duration=1200, start=true) {
+  const [val,setVal] = useState(0);
+  useEffect(()=>{
+    if(!start) return;
+    let raf,t0;
+    const tick=(t)=>{
+      if(t0==null) t0=t;
+      const p=Math.min(1,(t-t0)/duration);
+      const eased=1-Math.pow(1-p,3);
+      setVal(target*eased);
+      if(p<1) raf=requestAnimationFrame(tick);
+    };
+    raf=requestAnimationFrame(tick);
+    return ()=>cancelAnimationFrame(raf);
+  },[target,duration,start]);
+  return val;
+}
+
+/* ── SHARED COMPONENTS ── */
+function Toggle({ on, onChange, size='md' }) {
+  const w=size==='sm'?36:44, h=size==='sm'?20:24, thumb=h-6;
+  return (
+    <button onClick={()=>onChange?.(!on)} className="toggle-track relative rounded-full"
+      style={{ width:w, height:h, background:on?'#FF6500':'#21262d',
+               boxShadow:on?'0 0 16px rgba(255,101,0,.45),inset 0 0 0 1px rgba(255,255,255,.06)':'inset 0 0 0 1px rgba(255,255,255,.04)' }}
+      aria-pressed={on}>
+      <span className="toggle-thumb absolute top-1/2 -translate-y-1/2 rounded-full bg-white"
+        style={{ width:thumb, height:thumb, left:on?w-thumb-3:3,
+                 boxShadow:on?'0 0 12px rgba(255,255,255,.4),0 2px 4px rgba(0,0,0,.4)':'0 2px 4px rgba(0,0,0,.4)' }}/>
+    </button>
+  );
+}
+
+function Badge({ children, variant='orange' }) {
+  const map={
+    orange:{bg:'rgba(255,101,0,.15)',color:'#FF6500',border:'rgba(255,101,0,.35)'},
+    green :{bg:'rgba(63,185,80,.15)', color:'#3fb950',border:'rgba(63,185,80,.35)'},
+    grey  :{bg:'rgba(139,148,158,.12)',color:'#8b949e',border:'rgba(139,148,158,.25)'},
+    red   :{bg:'rgba(248,81,73,.15)', color:'#f85149',border:'rgba(248,81,73,.35)'},
+    purple:{bg:'rgba(139,92,246,.15)',color:'#8b5cf6',border:'rgba(139,92,246,.35)'},
+  };
+  const s=map[variant]||map.orange;
+  return (
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-0.5 rounded-full label"
+      style={{background:s.bg,color:s.color,border:`1px solid ${s.border}`}}>
+      {children}
+    </span>
+  );
+}
+
+function Button({ children, variant='primary', icon:Icon, onClick, type='button', className='' }) {
+  const ref=useRef(null);
+  const handle=(e)=>{
+    const el=ref.current;
+    if(el){
+      const rect=el.getBoundingClientRect();
+      const dot=document.createElement('span');
+      const sz=Math.max(rect.width,rect.height);
+      dot.className='ripple';
+      dot.style.width=dot.style.height=sz+'px';
+      dot.style.left=(e.clientX-rect.left-sz/2)+'px';
+      dot.style.top=(e.clientY-rect.top-sz/2)+'px';
+      el.appendChild(dot);
+      setTimeout(()=>dot.remove(),650);
+    }
+    onClick?.(e);
+  };
+  return (
+    <button ref={ref} type={type} onClick={handle}
+      className={`btn btn-${variant} inline-flex items-center justify-center gap-2 ${className}`}>
+      {Icon && <Icon size={16}/>}{children}
+    </button>
+  );
+}
+
+function Card({ title, subtitle, action, children, className='', delay=0 }) {
+  return (
+    <section className={`bg-card border border-border rounded-xl shadow-card anim-slide-up ${className}`}
+      style={{ animationDelay:`${delay}ms` }}>
+      {(title||action)&&(
+        <header className="flex items-center justify-between px-5 pt-5 pb-3">
+          <div>
+            {title&&<h3 className="text-[15px] font-semibold tracking-tight">{title}</h3>}
+            {subtitle&&<p className="text-xs text-sub mt-0.5">{subtitle}</p>}
+          </div>
+          {action}
+        </header>
+      )}
+      <div className="px-5 pb-5">{children}</div>
+    </section>
+  );
+}
+
+function Sparkline({ data, color='#FF6500', w=70, h=28 }) {
+  const max=Math.max(...data), min=Math.min(...data), range=max-min||1;
+  const stepX=w/(data.length-1);
+  const pts=data.map((d,i)=>`${i*stepX},${h-((d-min)/range)*h}`).join(' ');
+  const path=`M ${pts.replaceAll(' ',' L ')}`;
+  return (
+    <svg className="spark" width={w} height={h} viewBox={`0 0 ${w} ${h}`}>
+      <defs>
+        <linearGradient id="sg" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity=".35"/>
+          <stop offset="100%" stopColor={color} stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d={`${path} L ${w},${h} L 0,${h} Z`} fill="url(#sg)" stroke="none"/>
+      <path d={path} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function StatCard({ idx=0, icon:Icon, label, value, suffix='', sub, spark }) {
+  const [mounted,setMounted]=useState(false);
+  useEffect(()=>{ const t=setTimeout(()=>setMounted(true),80+idx*100); return()=>clearTimeout(t); },[idx]);
+  const v=useCountUp(value,1200,mounted);
+  const display=Number.isInteger(value)?Math.round(v):v.toFixed(1);
+  return (
+    <div className="stat-card relative bg-card border border-border rounded-xl p-5 shadow-card anim-slide-up overflow-hidden"
+         style={{ animationDelay:`${idx*100}ms` }}>
+      <div className="flex items-start justify-between mb-4">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center"
+             style={{ background:'rgba(255,101,0,.12)', color:'#FF6500', boxShadow:'inset 0 0 0 1px rgba(255,101,0,.3)' }}>
+          <Icon size={18}/>
+        </div>
+        {spark&&<Sparkline data={spark}/>}
+      </div>
+      <div className="text-[11px] label text-sub mb-1">{label}</div>
+      <div className="flex items-baseline gap-2">
+        <div className="text-3xl font-bold tracking-tight tabular-nums">{display}{suffix}</div>
+        {sub&&<div className="text-xs text-sub">{sub}</div>}
+      </div>
+    </div>
+  );
+}
+
+function PageHeader({ title, subtitle, crumbs=[], actions }) {
+  return (
+    <header className="mb-6 anim-slide-up">
+      {crumbs.length>0&&(
+        <div className="flex items-center gap-1.5 text-xs text-sub mb-3">
+          {crumbs.map((c,i)=>(
+            <React.Fragment key={i}>
+              <span className={i===crumbs.length-1?'text-white':''}>{c}</span>
+              {i<crumbs.length-1&&<IconChevronRight size={12}/>}
+            </React.Fragment>
+          ))}
+        </div>
+      )}
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+          {subtitle&&<p className="text-sm text-sub mt-1">{subtitle}</p>}
+        </div>
+        {actions&&<div className="flex items-center gap-2">{actions}</div>}
+      </div>
+    </header>
+  );
+}
+
+/* Coming Soon overlay */
+function ComingSoonOverlay({ label='Coming Soon', desc='This feature is under active development.' }) {
+  return (
+    <div className="coming-soon-overlay">
+      <div className="text-center px-6">
+        <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+             style={{ background:'rgba(255,101,0,.15)', border:'1px solid rgba(255,101,0,.3)' }}>
+          <IconRocket size={24} style={{ color:'#FF6500' }}/>
+        </div>
+        <div className="text-lg font-bold mb-1">{label}</div>
+        <div className="text-sm text-sub max-w-xs mx-auto leading-relaxed">{desc}</div>
+        <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
+             style={{ background:'rgba(255,101,0,.15)', color:'#FF6500', border:'1px solid rgba(255,101,0,.35)' }}>
+          <IconClock size={12}/> Upgrade to unlock
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── TOP BAR ── */
+function TopBar({ onSearchClick }) {
+  return (
+    <div className="sticky top-0 z-30 bg-bg/95 backdrop-blur border-b border-border">
+      <div className="flex items-center h-12 px-4">
+        <div className="flex items-center gap-1 text-sub">
+          <button className="ease-out-soft hover:text-white w-8 h-8 rounded-md flex items-center justify-center" title="WordPress">
+            <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
+              <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0zM1.43 10A8.57 8.57 0 0 1 2.94 5.2L7.05 16.5A8.58 8.58 0 0 1 1.43 10zm8.57 8.57a8.6 8.6 0 0 1-2.4-.34l2.55-7.4L12.77 18a.8.8 0 0 0 .06.12 8.59 8.59 0 0 1-2.83.45zm1.18-12.6c.51-.03.97-.08.97-.08.46-.05.4-.73-.05-.7 0 0-1.36.1-2.25.1-.83 0-2.23-.1-2.23-.1-.46-.03-.51.67-.05.7 0 0 .44.05.89.08l1.3 3.56-1.83 5.5L4.88 5.97c.5-.03.96-.08.96-.08.46-.05.4-.73-.05-.7 0 0-1.36.1-2.24.1l-.55-.01a8.57 8.57 0 0 1 12.95-1.6c-.03 0-.07 0-.1-.01-.83 0-1.42.72-1.42 1.5 0 .69.4 1.28.83 1.97.32.56.7 1.27.7 2.3 0 .72-.27 1.55-.63 2.7l-.82 2.75-2.97-8.84zM10 18.57a8.58 8.58 0 0 1-2.4-.34l2.55-7.4 2.65 7.27a.78.78 0 0 0 .07.14 8.61 8.61 0 0 1-2.87.33z"/>
+            </svg>
+          </button>
+          <button className="ease-out-soft hover:text-white w-8 h-8 rounded-md flex items-center justify-center" title="Site">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 9 12 2l9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            </svg>
+          </button>
+          <div className="text-xs text-sub px-2">My WordPress Website</div>
+        </div>
+        <div className="flex-1"/>
+        <div className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+          <LogoMark size={20}/>
+          <span className="font-semibold text-sm tracking-tight">PowerPlus</span>
+          <span className="text-[11px] label text-sub border border-border rounded-full px-2 py-0.5">v3.5.8</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <button onClick={onSearchClick}
+            className="ease-out-soft hover:text-white text-sub flex items-center gap-2 border border-border rounded-md px-2.5 h-8 mr-2">
+            <IconSearch size={14}/><span className="text-xs">Search</span>
+            <span className="text-[10px] px-1 py-0.5 border border-border rounded text-sub/80">⌘K</span>
+          </button>
+          <button className="ease-out-soft hover:text-white text-sub w-8 h-8 rounded-md flex items-center justify-center relative">
+            <IconBell size={16}/><span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-brand rounded-full anim-pulse"/>
+          </button>
+          <button className="ease-out-soft hover:text-white text-sub w-8 h-8 rounded-md flex items-center justify-center">
+            <IconHelp size={16}/>
+          </button>
+          <div className="w-px h-5 bg-border mx-1"/>
+          <div className="flex items-center gap-2 pl-1 pr-2 h-8 rounded-md hover:bg-card ease-out-soft cursor-pointer">
+            <div className="text-xs text-sub">Howdy, <span className="text-white">Admin</span></div>
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-brand to-brandDark text-white text-[10px] font-bold flex items-center justify-center">A</div>
+          </div>
+        </div>
+      </div>
+      <div className="h-px w-full relative overflow-hidden">
+        <div className="absolute inset-0 topbar-pulse"
+             style={{ background:'linear-gradient(90deg,transparent 0%,rgba(255,101,0,.35) 30%,#FF6500 50%,rgba(255,101,0,.35) 70%,transparent 100%)' }}/>
+      </div>
+    </div>
+  );
+}
+
+/* ── SIDEBAR ── */
+const NAV = [
+  { id:'dashboard',  label:'Dashboard',         icon:IconDashboard },
+  { id:'login',      label:'Login Forms',       icon:IconLogin,   badge:'3' },
+  { id:'duplicator', label:'Page Duplicator',   icon:IconCopy },
+  { id:'security',   label:'Security',          icon:IconShield,  badge:'NEW', badgeVariant:'green' },
+  { id:'widgets',    label:'Elementor Widgets', icon:IconBolt,    badge:'9' },
+  { id:'branding',   label:'Branding',          icon:IconPalette, badge:'PRO', badgeVariant:'purple', comingSoon:true },
+  { id:'settings',   label:'Settings',          icon:IconSettings },
+];
+
+function Sidebar({ current, onNavigate, collapsed }) {
+  return (
+    <aside className="border-r border-border bg-sidebar flex flex-col"
+      style={{ width:collapsed?72:220, transition:'width .25s cubic-bezier(.4,0,.2,1)', minHeight:'calc(100vh - 48px)' }}>
+      <div className="p-4 flex items-center gap-2.5">
+        <LogoMark size={32}/>
+        {!collapsed&&(
+          <div className="leading-tight min-w-0">
+            <div className="text-sm font-bold tracking-tight truncate">PowerPlus</div>
+            <div className="text-[10px] label text-sub truncate">Powerful Toolkit</div>
+          </div>
+        )}
+      </div>
+      <div className="px-3 mb-2">{!collapsed&&<div className="text-[10px] label text-sub px-2 mb-1">MAIN</div>}</div>
+      <nav className="px-3 flex flex-col gap-0.5">
+        {NAV.map((n)=>{
+          const active=current===n.id;
+          const Icon=n.icon;
+          return (
+            <button key={n.id} onClick={()=>onNavigate(n.id)}
+              className={`nav-item ease-out-soft relative flex items-center gap-3 h-10 rounded-lg ${collapsed?'justify-center':'px-3'} text-sm font-medium ${active?'text-white':'text-sub hover:text-white'}`}
+              style={{ background:active?'rgba(255,101,0,.10)':'transparent' }}
+              title={collapsed?n.label:undefined}>
+              {active&&<span key={n.id+'-bar'} className="nav-active-bar"/>}
+              <span className={`nav-icon ${active?'text-brand':''}`}><Icon size={18}/></span>
+              {!collapsed&&(
+                <>
+                  <span className="flex-1 text-left">{n.label}</span>
+                  {n.badge&&<Badge variant={n.badgeVariant||'orange'}>{n.badge}</Badge>}
+                </>
+              )}
+            </button>
+          );
+        })}
+      </nav>
+      <div className="flex-1"/>
+      {!collapsed&&(
+        <div className="px-3 pb-3">
+          <div className="relative overflow-hidden rounded-xl border border-border p-4"
+               style={{ background:'linear-gradient(135deg,rgba(255,101,0,.18),rgba(255,101,0,.04))' }}>
+            <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full"
+                 style={{ background:'radial-gradient(circle,rgba(255,101,0,.5),transparent 70%)' }}/>
+            <div className="relative">
+              <Badge variant="orange"><IconSparkles size={10}/> PRO</Badge>
+              <div className="text-sm font-semibold mt-2">Unlock everything</div>
+              <div className="text-[11px] text-sub mt-0.5 leading-relaxed">All modules, premium templates and priority support.</div>
+              <button className="btn btn-primary text-xs mt-3 w-full" style={{ padding:'7px 12px' }}>Upgrade — $99</button>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="border-t border-border px-3 py-3 relative">
+        {!collapsed?(
+          <div className="flex items-center gap-2 relative z-10">
+            <div className="relative"><LogoMark size={22}/><div className="absolute inset-0 rounded-md" style={{ boxShadow:'0 0 20px rgba(255,101,0,.6)' }}/></div>
+            <div className="text-[11px] text-sub leading-tight">
+              <div className="text-white/90 font-medium">PowerPlus</div>
+              <div>v3.5.8 · Stable</div>
+            </div>
+          </div>
+        ):(
+          <div className="flex justify-center"><LogoMark size={22}/></div>
+        )}
+        <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full pointer-events-none"
+             style={{ background:'radial-gradient(circle,rgba(255,101,0,.15),transparent 70%)' }}/>
+      </div>
+    </aside>
+  );
+}
+
+/* ── PAGES ── */
+
+function DashboardPage() {
+  const stats=[
+    { icon:IconUser,   label:'Login Forms',      value:3,  suffix:' Active', spark:[4,6,5,8,7,9,8,10] },
+    { icon:IconCopy,   label:'Pages Duplicated', value:12, suffix:' Total',  spark:[2,3,4,5,7,8,10,12] },
+    { icon:IconShield, label:'Security Score',   value:94, suffix:'/100',    spark:[70,75,78,82,85,88,92,94] },
+    { icon:IconBolt,   label:'Widgets Ready',    value:9,  suffix:' Widgets',spark:[5,5,6,7,7,8,9,9] },
+  ];
+  const [toggles,setToggles]=useState({ login_redirect:true, security_mode:true, ghost_mode:false, classic_editor:false, svg_uploads:false, duplicator:true });
+  const setT=(k)=>(v)=>setToggles(s=>({...s,[k]:v}));
+  const activity=[
+    { icon:IconShield,  text:'Security scan completed',        meta:'No threats detected · score 94/100',      time:'2 min ago',  tone:'green' },
+    { icon:IconCopy,    text:'Page duplicated',                meta:'"Pricing v3" → "Pricing v4 (Copy)"',      time:'18 min ago', tone:'orange' },
+    { icon:IconLogin,   text:'Custom login form imported',     meta:'Template: Gradient Hub',                  time:'1 hr ago',   tone:'orange' },
+    { icon:IconLock,    text:'Login lockout triggered',        meta:'IP 81.47.23.4 — 5 attempts',              time:'3 hr ago',   tone:'red' },
+    { icon:IconBolt,    text:'Elementor widget activated',     meta:'"Animated Stat Counter"',                 time:'5 hr ago',   tone:'orange' },
+    { icon:IconUpload,  text:'SVG sanitized + uploaded',       meta:'brand-mark.svg · 2.4 KB',                 time:'Yesterday',  tone:'green' },
+    { icon:IconRefresh, text:'Settings exported as JSON',      meta:'powerplus-backup-2026-05.json',           time:'Yesterday',  tone:'grey' },
+  ];
+  const quickActions=[
+    { icon:IconLogin,  label:'Create Login Page', hint:'Pick a template, customise & ship.' },
+    { icon:IconCopy,   label:'Duplicate a Page',  hint:'One-click clone with meta intact.' },
+    { icon:IconScan,   label:'Run Security Scan', hint:'Probe endpoints, malware, perms.' },
+    { icon:IconImport, label:'Import Template',   hint:'JSON or Elementor archive.' },
+  ];
+  return (
+    <div className="anim-page">
+      <PageHeader title="Dashboard" subtitle="Overview of every PowerPlus module — at a glance."
+        crumbs={['PowerPlus','Dashboard']}
+        actions={<><Button variant="quiet" icon={IconRefresh}>Refresh</Button><Button variant="primary" icon={IconPlus}>New Login Form</Button></>}/>
+      {/* Health banner */}
+      <div className="relative overflow-hidden border border-border rounded-xl px-5 py-4 mb-6 anim-slide-up flex items-center gap-4"
+           style={{ background:'linear-gradient(90deg,rgba(63,185,80,.12),rgba(255,101,0,.06) 60%,transparent)', animationDelay:'20ms' }}>
+        <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background:'rgba(63,185,80,.18)', color:'#3fb950' }}><IconCheck size={18}/></div>
+        <div className="flex-1">
+          <div className="text-sm font-semibold">All systems healthy</div>
+          <div className="text-xs text-sub">7 active modules · last sync 12s ago · Elementor v3.21 detected</div>
+        </div>
+        <div className="hidden md:flex items-center gap-6 text-xs">
+          <div className="text-sub">Uptime <span className="text-white font-semibold">99.98%</span></div>
+          <div className="text-sub">Requests <span className="text-white font-semibold">42.1k</span></div>
+          <div className="text-sub">Blocked <span className="text-brand font-semibold">217</span></div>
+        </div>
+      </div>
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {stats.map((s,i)=><StatCard key={s.label} idx={i} {...s}/>)}
+      </div>
+      {/* Quick Actions + Status */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+        <Card title="Quick Actions" subtitle="Common workflows, one tap away." className="lg:col-span-3" delay={500}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {quickActions.map((a)=>(
+              <button key={a.label} className="qa relative overflow-hidden rounded-lg border border-border bg-bg/60 px-4 py-3.5 flex items-center gap-3 ease-out-soft text-left hover:border-brand/40">
+                <span className="qa-fill"/>
+                <span className="relative w-1 h-9 rounded-full bg-brand/60"/>
+                <span className="relative w-9 h-9 rounded-md flex items-center justify-center text-brand" style={{ background:'rgba(255,101,0,.10)' }}><a.icon size={18}/></span>
+                <span className="relative flex-1">
+                  <span className="block text-sm font-semibold text-white">{a.label}</span>
+                  <span className="block text-xs text-sub mt-0.5">{a.hint}</span>
+                </span>
+                <span className="relative text-sub"><IconArrowRight size={16}/></span>
+              </button>
+            ))}
+          </div>
+        </Card>
+        <Card title="Plugin Status" subtitle="Toggle modules on the fly." className="lg:col-span-2" delay={600}>
+          <ul className="divide-y divide-border -mx-1">
+            {[
+              { k:'login_redirect', label:'Login Redirect',  sub:'Send users by role after login.' },
+              { k:'security_mode',  label:'Security Mode',   sub:'Rate-limit + endpoint blocking.' },
+              { k:'ghost_mode',     label:'Ghost Mode',      sub:'Hide WP fingerprints publicly.' },
+              { k:'classic_editor', label:'Classic Editor',  sub:'Disable Gutenberg block editor.' },
+              { k:'svg_uploads',    label:'SVG Uploads',     sub:'Sanitized vector uploads.' },
+              { k:'duplicator',     label:'Post Duplicator', sub:'Row-action clone for all posts.' },
+            ].map((row)=>(
+              <li key={row.k} className="flex items-center justify-between gap-3 py-3 px-1">
+                <div className="min-w-0">
+                  <div className="text-sm font-medium">{row.label}</div>
+                  <div className="text-xs text-sub truncate">{row.sub}</div>
+                </div>
+                <Toggle on={!!toggles[row.k]} onChange={setT(row.k)}/>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </div>
+      {/* Activity */}
+      <Card title="Recent Activity" subtitle="Every PowerPlus event from the last 24 hours."
+        action={<div className="flex items-center gap-2"><button className="btn-quiet p-2"><IconActivity size={13}/></button><button className="btn btn-quiet text-xs" style={{ padding:'6px 10px' }}>View full log</button></div>}
+        delay={700}>
+        <div className="grid grid-cols-[1fr_auto] gap-x-4 -mx-1">
+          <div className="hidden md:grid grid-cols-[1fr_140px] text-[11px] label text-sub px-3 pb-2 border-b border-border col-span-2">
+            <span>Event</span><span className="text-right">When</span>
+          </div>
+          {activity.map((row,i)=>(
+            <div key={i} className="activity-row col-span-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 px-3 py-3 border-b border-border/60 anim-slide-up"
+                 style={{ animationDelay:`${800+i*60}ms` }}>
+              <div className="w-8 h-8 rounded-md flex items-center justify-center"
+                style={{ background:row.tone==='green'?'rgba(63,185,80,.12)':row.tone==='red'?'rgba(248,81,73,.12)':row.tone==='grey'?'rgba(139,148,158,.10)':'rgba(255,101,0,.12)',
+                         color:row.tone==='green'?'#3fb950':row.tone==='red'?'#f85149':row.tone==='grey'?'#8b949e':'#FF6500' }}>
+                <row.icon size={15}/>
+              </div>
+              <div className="min-w-0">
+                <div className="text-sm font-medium truncate">{row.text}</div>
+                <div className="text-xs text-sub truncate">{row.meta}</div>
+              </div>
+              <div className="text-xs text-sub whitespace-nowrap">{row.time}</div>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function LoginFormsPage() {
+  const templates=[
+    { name:'Split Left',           sub:'Dark panel + form',       active:true,  uses:142, hue:['#0d1117','#21262d'] },
+    { name:'Centered Card',        sub:'Gradient backdrop',       active:false, uses:86,  hue:['#FF6500','#cc5200'] },
+    { name:'Gradient Panel Right', sub:'Form left, visual right', active:true,  uses:51,  hue:['#1a1f2e','#FF6500'] },
+    { name:'Dreamer',              sub:'Floating card + 3D',      active:false, uses:33,  hue:['#2a1f1a','#cc5200'], comingSoon:true },
+    { name:'UXOLIST',              sub:'White form + dark image', active:true,  uses:24,  hue:['#13181f','#FF6500'] },
+    { name:'Gradient Hub',         sub:'Vibrant panel + form',    active:false, uses:18,  hue:['#FF6500','#13181f'], comingSoon:true },
+  ];
+  return (
+    <div className="anim-page">
+      <PageHeader title="Login Forms" subtitle="One-click full-page login layouts. Pick a template and customise inside Elementor."
+        crumbs={['PowerPlus','Login Forms']}
+        actions={<><Button variant="quiet" icon={IconImport}>Import JSON</Button><Button variant="primary" icon={IconPlus}>New Form</Button></>}/>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {templates.map((t,i)=>(
+          <div key={t.name} className="bg-card border border-border rounded-xl overflow-hidden shadow-card anim-slide-up ease-out-soft hover:border-brand/50 hover:-translate-y-1 relative"
+               style={{ animationDelay:`${i*70}ms` }}>
+            {t.comingSoon&&<div className="coming-soon-overlay"><div className="text-center px-4"><div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2" style={{ background:'rgba(255,101,0,.15)', border:'1px solid rgba(255,101,0,.3)' }}><IconRocket size={18} style={{ color:'#FF6500' }}/></div><div className="text-sm font-bold">Coming Soon</div><div className="text-xs text-sub mt-1">Upgrade to Pro</div></div></div>}
+            <div className="h-40 relative overflow-hidden" style={{ background:`linear-gradient(135deg,${t.hue[0]},${t.hue[1]})` }}>
+              <div className="absolute inset-4 grid grid-cols-2 gap-3">
+                <div className="rounded-md bg-black/30 backdrop-blur-sm"/>
+                <div className="rounded-md bg-white/10 backdrop-blur-sm p-3 flex flex-col gap-1.5">
+                  <div className="h-2 w-12 rounded bg-white/40"/>
+                  <div className="h-1.5 w-20 rounded bg-white/20 mt-1"/>
+                  <div className="h-1.5 w-16 rounded bg-white/20"/>
+                  <div className="mt-auto h-3 w-14 rounded bg-brand"/>
+                </div>
+              </div>
+              {t.active&&!t.comingSoon&&<div className="absolute top-3 right-3"><Badge variant="green"><span className="w-1.5 h-1.5 rounded-full bg-ok inline-block anim-pulse"/> Live</Badge></div>}
+            </div>
+            <div className="p-4">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="text-sm font-semibold">{t.name}</div>
+                  <div className="text-xs text-sub">{t.sub}</div>
+                </div>
+                <div className="text-right text-[11px] text-sub">
+                  <div className="text-white font-semibold tabular-nums">{t.uses}</div>
+                  <div className="label">USES</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 mt-4">
+                <button className="btn btn-ghost text-xs flex-1" style={{ padding:'7px 10px' }}><IconEdit size={13}/> Edit</button>
+                <button className="btn btn-quiet text-xs" style={{ padding:'7px 10px' }}><IconExternal size={13}/></button>
+                <button className="btn btn-quiet text-xs" style={{ padding:'7px 10px' }}><IconCopy size={13}/></button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DuplicatorPage() {
+  const [enabled,setEnabled]=useState(true);
+  const [showRow,setShowRow]=useState(true);
+  const [showEditor,setShowEditor]=useState(true);
+  const [suffix,setSuffix]=useState('(Copy)');
+  const recent=[
+    { title:'Homepage v3',         type:'Page',    when:'just now',  author:'Admin' },
+    { title:'About — Team',        type:'Page',    when:'14 min',    author:'Saddam' },
+    { title:'Pricing Q4',          type:'Page',    when:'1 hr',      author:'Admin' },
+    { title:'Black Friday Promo',  type:'Product', when:'3 hr',      author:'Admin' },
+    { title:'Newsletter Block',    type:'Pattern', when:'Yesterday', author:'Editor' },
+  ];
+  return (
+    <div className="anim-page">
+      <PageHeader title="Page Duplicator" subtitle="Clone posts, pages, products and patterns with a single click."
+        crumbs={['PowerPlus','Page Duplicator']}
+        actions={<Button variant="primary" icon={IconCopy}>Duplicate Page…</Button>}/>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <Card title="Module" subtitle="Master switch." delay={0}>
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <div className="text-sm font-medium">Enable post duplicator</div>
+              <div className="text-xs text-sub mt-0.5">Adds a "Duplicate" row action across posts, pages, products and custom post types.</div>
+            </div>
+            <Toggle on={enabled} onChange={setEnabled}/>
+          </div>
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="bg-bg/60 border border-border rounded-lg p-3">
+              <div className="text-[10px] label text-sub">Duplicates</div>
+              <div className="flex items-baseline gap-2 mt-1"><div className="text-xl font-bold tabular-nums">12</div><div className="text-[11px] text-ok">+3</div></div>
+            </div>
+            <div className="bg-bg/60 border border-border rounded-lg p-3">
+              <div className="text-[10px] label text-sub">Saved</div>
+              <div className="flex items-baseline gap-2 mt-1"><div className="text-xl font-bold tabular-nums">2.4h</div><div className="text-[11px] text-sub">vs fresh</div></div>
+            </div>
+          </div>
+        </Card>
+        <Card title="Behavior" subtitle="What happens when you click Duplicate." delay={80}>
+          <label className="block text-[11px] label text-sub mb-1">Title suffix</label>
+          <input className="ip" value={suffix} onChange={(e)=>setSuffix(e.target.value)}/>
+          <label className="block text-[11px] label text-sub mb-1 mt-3">Copy author</label>
+          <select className="ip" defaultValue="current">
+            <option value="current">Current logged-in user</option>
+            <option value="original">Original author</option>
+          </select>
+          <div className="flex items-center justify-between mt-4"><span className="text-sm">Show row action link</span><Toggle on={showRow} onChange={setShowRow}/></div>
+          <div className="flex items-center justify-between mt-2"><span className="text-sm">Show Elementor editor button</span><Toggle on={showEditor} onChange={setShowEditor}/></div>
+        </Card>
+        <Card title="Allowed post types" subtitle="Empty = all visible post types." delay={160}>
+          <div className="grid grid-cols-2 gap-2">
+            {['Posts','Pages','Products','Patterns','Templates','Navigation','Reusable','Custom'].map((t,i)=>{
+              const [c,setC]=useState(i<3);
+              return (
+                <button key={t} onClick={()=>setC(!c)} className="flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-bg/60 hover:border-brand/40 ease-out-soft text-left">
+                  <span className={`w-4 h-4 rounded flex items-center justify-center border ${c?'bg-brand border-brand':'border-border'}`}>{c&&<IconCheck size={11}/>}</span>
+                  <span className="text-sm">{t}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Card>
+      </div>
+      <Card title="Recent duplications" subtitle="What you've cloned lately." delay={240}>
+        <div className="grid grid-cols-[1fr_120px_120px_140px] text-[11px] label text-sub px-3 pb-2 border-b border-border">
+          <span>Title</span><span>Type</span><span>Author</span><span className="text-right">When</span>
+        </div>
+        {recent.map((r,i)=>(
+          <div key={i} className="activity-row grid grid-cols-[1fr_120px_120px_140px] items-center px-3 py-3 border-b border-border/60 text-sm">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-md bg-brand/10 text-brand flex items-center justify-center"><IconFile size={14}/></div>
+              <div className="truncate">{r.title} <span className="text-sub">{suffix}</span></div>
+            </div>
+            <div className="text-sub text-xs">{r.type}</div>
+            <div className="text-sub text-xs">{r.author}</div>
+            <div className="text-sub text-xs text-right">{r.when}</div>
+          </div>
+        ))}
+      </Card>
+    </div>
+  );
+}
+
+function ScoreRing({ value }) {
+  const size=140, r=56, cir=2*Math.PI*r;
+  const v=useCountUp(value,1500);
+  const off=cir-(v/100)*cir;
+  return (
+    <div className="relative">
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        <circle cx={size/2} cy={size/2} r={r} stroke="#21262d" strokeWidth="10" fill="none"/>
+        <circle cx={size/2} cy={size/2} r={r} stroke="url(#g1)" strokeWidth="10" fill="none"
+                strokeLinecap="round" strokeDasharray={cir} strokeDashoffset={off}
+                transform={`rotate(-90 ${size/2} ${size/2})`} style={{ transition:'stroke-dashoffset .5s' }}/>
+        <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stopColor="#3fb950"/><stop offset="1" stopColor="#FF6500"/></linearGradient></defs>
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="text-3xl font-bold tabular-nums">{Math.round(v)}</div>
+        <div className="text-[10px] label text-sub">/ 100</div>
+      </div>
+    </div>
+  );
+}
+
+function SecurityPage() {
+  const [rate,setRate]=useState(true);
+  const [block,setBlock]=useState(true);
+  const [dash,setDash]=useState(true);
+  const [log,setLog]=useState(true);
+  const [test,setTest]=useState(false);
+  return (
+    <div className="anim-page">
+      <PageHeader title="Security" subtitle="Lockdown your login, sanitize uploads, monitor threats in real time."
+        crumbs={['PowerPlus','Security']}
+        actions={<><Button variant="quiet" icon={IconScan}>Run Scan</Button><Button variant="primary" icon={IconShield}>Save Changes</Button></>}/>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <div className="lg:col-span-1 bg-card border border-border rounded-xl p-6 shadow-card anim-slide-up flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full" style={{ background:'radial-gradient(circle,rgba(63,185,80,.18),transparent 65%)' }}/>
+          <ScoreRing value={94}/>
+          <div className="mt-3 text-sm font-semibold">Security Score</div>
+          <div className="text-xs text-sub">Excellent — keep it up.</div>
+          <div className="flex gap-2 mt-4"><Badge variant="green"><IconCheck size={10}/> Lockout armed</Badge><Badge variant="orange">2 hints</Badge></div>
+        </div>
+        <Card title="Login Protection" subtitle="Throttle brute-force attempts." className="lg:col-span-1" delay={80}>
+          <div className="flex items-center justify-between mb-4"><span className="text-sm">Enable rate limiting</span><Toggle on={rate} onChange={setRate}/></div>
+          <div className="grid grid-cols-2 gap-3">
+            <div><label className="block text-[11px] label text-sub mb-1">Max attempts</label><input className="ip" defaultValue="5"/></div>
+            <div><label className="block text-[11px] label text-sub mb-1">Lockout min.</label><input className="ip" defaultValue="15"/></div>
+          </div>
+          <div className="mt-4 text-[11px] text-sub bg-bg/60 border border-border rounded-md p-3">
+            <span className="text-brand font-medium">Live:</span> 5 of 5 attempts remaining for current IP.
+          </div>
+        </Card>
+        <Card title="Endpoint Blocking" subtitle="404 unauthenticated /wp-login + /wp-admin." className="lg:col-span-1" delay={160}>
+          <div className="flex items-center justify-between mb-4"><span className="text-sm">Block native endpoints</span><Toggle on={block} onChange={setBlock}/></div>
+          <div className="text-xs bg-brand/10 border border-brand/30 rounded-md p-3 text-white/90 leading-relaxed">
+            <div className="font-semibold text-brand mb-1 label">Emergency bypass</div>
+            Set <code className="font-mono text-brand bg-black/30 px-1 rounded">POWERPLUS_RECOVERY_MODE</code> to <code className="font-mono">true</code> in <code className="font-mono">wp-config.php</code>.
+          </div>
+        </Card>
+      </div>
+      <Card title="Security Operations" subtitle="Toggle defensive features and roles." delay={240}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+          {[
+            { icon:IconActivity, label:'Threat status',          value:'Clear',  tone:'green',  sub:'No unusual pattern' },
+            { icon:IconLock,     label:'Rate-limit monitor',     value:'0 / 5',  tone:'green',  sub:'No active lockout' },
+            { icon:IconScan,     label:'Last scan score',        value:'0 / 0',  tone:'grey',   sub:'Not yet scanned' },
+            { icon:IconRefresh,  label:'Settings changes (24h)', value:'1',      tone:'orange', sub:'admin · 127.0.0.1' },
+          ].map((t)=>{
+            const c={green:'#3fb950',orange:'#FF6500',grey:'#8b949e'}[t.tone];
+            return (
+              <div key={t.label} className="rounded-lg border border-border bg-bg/60 p-3">
+                <div className="flex items-center gap-2 text-[11px] label text-sub"><span style={{ color:c }}><t.icon size={13}/></span>{t.label}</div>
+                <div className="text-lg font-bold mt-1 tabular-nums" style={{ color:c }}>{t.value}</div>
+                <div className="text-[11px] text-sub">{t.sub}</div>
+              </div>
+            );
+          })}
+        </div>
+        <ul className="divide-y divide-border">
+          {[
+            { k:'dash', label:'Enable security dashboard',        sub:'Pin the security widget to WP Dashboard.', on:dash, set:setDash },
+            { k:'log',  label:'Settings activity logging',        sub:'Audit every settings change with IP + user.', on:log, set:setLog },
+            { k:'test', label:'Test mode (administrators only)',   sub:'Disable lockouts for site administrators.', on:test, set:setTest },
+          ].map((r)=>(
+            <li key={r.k} className="flex items-center justify-between gap-3 py-3.5">
+              <div><div className="text-sm font-medium">{r.label}</div><div className="text-xs text-sub">{r.sub}</div></div>
+              <Toggle on={r.on} onChange={r.set}/>
+            </li>
+          ))}
+        </ul>
+      </Card>
+    </div>
+  );
+}
+
+function WidgetsPage() {
+  const widgets=[
+    { name:'Login Form Pro',       icon:IconLogin,      cat:'Forms',   active:true },
+    { name:'Register Form',        icon:IconUser,       cat:'Forms',   active:true },
+    { name:'Auth Tabs',            icon:IconLayers,     cat:'Layout',  active:true },
+    { name:'Auth Logo',            icon:IconBolt,       cat:'Branding',active:true },
+    { name:'Auth Message',         icon:IconActivity,   cat:'UX',      active:true },
+    { name:'Lost Password',        icon:IconKey,        cat:'Forms',   active:true },
+    { name:'Reset Password',       icon:IconRefresh,    cat:'Forms',   active:true },
+    { name:'CAPTCHA',              icon:IconShield,     cat:'Security',active:true },
+    { name:'Redirect Timer',       icon:IconClock,      cat:'UX',      active:true },
+    { name:'Animated Counter',     icon:IconHash,       cat:'Stats',   active:false, comingSoon:true },
+    { name:'Pricing Table',        icon:IconGrid,       cat:'Layout',  active:false, comingSoon:true },
+    { name:'Modal Trigger',        icon:IconBox,        cat:'UX',      active:false, comingSoon:true },
+  ];
+  const [filter,setFilter]=useState('All');
+  const cats=['All','Forms','Layout','Branding','UX','Security','Stats'];
+  const shown=filter==='All'?widgets:widgets.filter(w=>w.cat===filter);
+  return (
+    <div className="anim-page">
+      <PageHeader title="Elementor Widgets" subtitle="9 production-ready widgets. Drop them into any Elementor page."
+        crumbs={['PowerPlus','Elementor Widgets']}
+        actions={<><Button variant="quiet" icon={IconGrid}>Categories</Button><Button variant="primary" icon={IconExternal}>Open Elementor</Button></>}/>
+      <div className="bg-card border border-border rounded-xl p-2 mb-6 anim-slide-up flex items-center gap-1 overflow-x-auto">
+        {cats.map((c,i)=>(
+          <button key={c} onClick={()=>setFilter(c)}
+            className={`px-3 h-8 rounded-md text-xs font-medium ease-out-soft whitespace-nowrap ${filter===c?'bg-brand text-white':'text-sub hover:text-white hover:bg-bg'}`}>
+            {c}{c==='All'&&<span className="opacity-80 ml-1">9</span>}
+          </button>
+        ))}
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {shown.map((w,i)=>{
+          const [on,setOn]=useState(w.active);
+          return (
+            <div key={w.name} className="stat-card relative bg-card border border-border rounded-xl p-5 anim-slide-up overflow-hidden"
+                 style={{ animationDelay:`${i*60}ms` }}>
+              {w.comingSoon&&<div className="coming-soon-overlay"><div className="text-center px-4"><div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2" style={{ background:'rgba(255,101,0,.15)', border:'1px solid rgba(255,101,0,.3)' }}><IconRocket size={18} style={{ color:'#FF6500' }}/></div><div className="text-sm font-bold">Coming Soon</div><Badge variant="purple" className="mt-2">PRO</Badge></div></div>}
+              <div className="flex items-start justify-between mb-4">
+                <div className="w-11 h-11 rounded-lg flex items-center justify-center text-brand" style={{ background:'rgba(255,101,0,.10)' }}><w.icon size={20}/></div>
+                {on?<Badge variant="green"><IconCheck size={10}/>Active</Badge>:<Badge variant="grey">Off</Badge>}
+              </div>
+              <div className="text-sm font-semibold">{w.name}</div>
+              <div className="text-xs text-sub mt-0.5">{w.cat} widget</div>
+              <div className="mt-4 flex items-center gap-2">
+                <Toggle on={on} onChange={setOn} size="sm"/>
+                <span className="text-[11px] text-sub flex-1">{on?'Available in Elementor':'Hidden from panel'}</span>
+                <button className="text-sub hover:text-white ease-out-soft"><IconSettings size={14}/></button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function BrandingPage() {
+  return (
+    <div className="anim-page">
+      <PageHeader title="Branding" subtitle="White-label PowerPlus inside the WP admin."
+        crumbs={['PowerPlus','Branding']}
+        actions={<Button variant="primary" icon={IconCheck}>Apply branding</Button>}/>
+      <div className="relative rounded-xl overflow-hidden" style={{ minHeight:400 }}>
+        {/* blurred preview */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 opacity-30 pointer-events-none select-none">
+          <Card title="Identity" subtitle="Name, mark, and admin footer." className="lg:col-span-3" delay={0}>
+            <label className="block text-[11px] label text-sub mb-1">Plugin display name</label>
+            <input className="ip mb-3" defaultValue="PowerPlus"/>
+            <label className="block text-[11px] label text-sub mb-1">Admin footer credit</label>
+            <input className="ip mb-3" defaultValue="Developed by Saddam Hussain Safi"/>
+            <label className="block text-[11px] label text-sub mb-2">Primary color</label>
+            <div className="flex gap-3">
+              {['#FF6500','#3fb950','#6366f1','#ec4899','#06b6d4'].map(c=>(
+                <div key={c} className="w-7 h-7 rounded-full" style={{ background:c }}/>
+              ))}
+            </div>
+          </Card>
+          <Card title="Live preview" subtitle="How the admin will look." className="lg:col-span-2" delay={120}>
+            <div className="rounded-lg border border-border overflow-hidden">
+              <div className="h-9 flex items-center px-3 gap-2" style={{ background:'#0d1117', borderBottom:'1px solid #21262d' }}>
+                <LogoMark size={18}/><span className="text-xs font-semibold">PowerPlus</span>
+              </div>
+              <div className="p-4 bg-bg/60">
+                <button className="rounded-md text-xs font-semibold text-white px-3 py-2" style={{ background:'#FF6500' }}>Primary CTA</button>
+              </div>
+            </div>
+          </Card>
+        </div>
+        <ComingSoonOverlay label="Branding — Coming Soon" desc="White-label the admin, upload your logo, pick custom colors, and rebrand PowerPlus entirely. Available in Pro."/>
+      </div>
+    </div>
+  );
+}
+
+function SettingsPage() {
+  return (
+    <div className="anim-page">
+      <PageHeader title="Settings" subtitle="General preferences, import/export and dangerous zone."
+        crumbs={['PowerPlus','Settings']}
+        actions={<><Button variant="quiet" icon={IconImport}>Import JSON</Button><Button variant="primary" icon={IconCheck}>Save</Button></>}/>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <Card title="Export" subtitle="Download all PowerPlus settings as JSON." delay={0}>
+          <div className="text-xs text-sub mb-3">Snapshot of every module, toggle and template.</div>
+          <Button variant="primary" icon={IconImport}>Export JSON</Button>
+        </Card>
+        <Card title="Import" subtitle="Upload a previously exported JSON." delay={80}>
+          <div className="rounded-lg border border-dashed border-border p-5 text-center text-sub text-sm hover:border-brand/40 ease-out-soft cursor-pointer">
+            <IconUpload size={22} className="mx-auto mb-2" style={{ color:'#FF6500' }}/>
+            Drop file here, or <span className="text-brand font-medium">browse</span>
+          </div>
+        </Card>
+        <Card title="Reset" subtitle="Recreate defaults — irreversible." delay={160}>
+          <div className="text-xs text-sub mb-3">Wipes all settings and replaces them with factory defaults.</div>
+          <Button variant="ghost" icon={IconTrash}>Reset to defaults</Button>
+        </Card>
+      </div>
+      <Card title="General" subtitle="Site-wide PowerPlus behavior." delay={240}>
+        <ul className="divide-y divide-border">
+          {[
+            { l:'Auto-update modules',         s:'Pull patch versions automatically.',         on:true },
+            { l:'Anonymous usage stats',        s:'Help us prioritize what to build.',          on:false },
+            { l:'Email digest',                 s:'Weekly summary of activity & threats.',      on:true },
+            { l:'Show changelog after update',  s:'Open release notes on next admin load.',     on:false },
+          ].map((r)=>{
+            const [v,setV]=useState(r.on);
+            return (
+              <li key={r.l} className="flex items-center justify-between py-3.5">
+                <div><div className="text-sm font-medium">{r.l}</div><div className="text-xs text-sub">{r.s}</div></div>
+                <Toggle on={v} onChange={setV}/>
+              </li>
+            );
+          })}
+        </ul>
+      </Card>
+    </div>
+  );
+}
+
+/* ── APP SHELL ── */
+const PAGES = { dashboard:DashboardPage, login:LoginFormsPage, duplicator:DuplicatorPage, security:SecurityPage, widgets:WidgetsPage, branding:BrandingPage, settings:SettingsPage };
+
+function App() {
+  const [route,setRoute]=useState('dashboard');
+  const [collapsed,setCollapsed]=useState(window.innerWidth<900);
+  useEffect(()=>{
+    const onResize=()=>{ if(window.innerWidth<768) setCollapsed(true); };
+    window.addEventListener('resize',onResize);
+    return()=>window.removeEventListener('resize',onResize);
+  },[]);
+  const Page=PAGES[route]||DashboardPage;
+  return (
+    <div className="min-h-screen text-white">
+      <TopBar onSearchClick={()=>setCollapsed(c=>!c)}/>
+      <div className="flex">
+        <Sidebar current={route} onNavigate={setRoute} collapsed={collapsed}/>
+        <main className="flex-1 min-w-0 p-8" key={route}>
+          <Page/>
+          <footer className="mt-12 pt-6 border-t border-border flex flex-wrap items-center justify-between gap-2 text-xs text-sub">
+            <div>© 2026 PowerPlus — All-in-One Powerful Toolkit · Developed by Saddam Hussain Safi</div>
+            <div className="flex items-center gap-3">
+              <a className="hover:text-brand ease-out-soft" href="#">saddamhussain.com.np</a>
+              <span>·</span>
+              <a className="hover:text-brand ease-out-soft" href="https://wordpress.org/plugins/powerplus-toolkit/" target="_blank">WordPress.org</a>
+              <span>·</span>
+              <a className="hover:text-brand ease-out-soft" href="#">Docs</a>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

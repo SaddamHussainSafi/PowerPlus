@@ -29,8 +29,9 @@ class Class_PKWT_Onboarding {
 	 * @return void
 	 */
 	public function register_page(): void {
+		// Empty parent registers a hidden page; passing null is deprecated on PHP 8.1+.
 		add_submenu_page(
-			null,
+			'',
 			esc_html__( 'PowerPlus Onboarding', 'powerplus-toolkit' ),
 			esc_html__( 'PowerPlus Onboarding', 'powerplus-toolkit' ),
 			'manage_options',
@@ -61,6 +62,23 @@ class Class_PKWT_Onboarding {
 	 * @return void
 	 */
 	public function render(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// The standalone wizard has been superseded by the React dashboard, which shows
+		// setup state (auth pages, Elementor status, template importer) in the new design.
+		// Redirect here so bookmarked/legacy onboarding links land on the modern UI.
+		wp_safe_redirect( admin_url( 'admin.php?page=pkwt-settings' ) );
+		exit;
+	}
+
+	/**
+	 * Legacy wizard renderer (retained for reference; no longer routed to).
+	 *
+	 * @return void
+	 */
+	public function render_legacy(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}

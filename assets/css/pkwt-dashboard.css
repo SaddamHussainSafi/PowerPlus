@@ -1,0 +1,179 @@
+
+/* ===== PowerPlus Dashboard — Themed UI ===== */
+
+/* Scoped element resets.
+   Tailwind's preflight is disabled (so it can't restyle the rest of wp-admin), so we
+   restore the few normalizations the dashboard relies on — only inside the dashboard root.
+   This removes the heavy native <button> borders and the black focus ring that otherwise
+   appeared on toggles and action buttons. */
+#pkwt-dashboard-root button {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+#pkwt-dashboard-root button:focus { outline: none; }
+#pkwt-dashboard-root button:focus-visible,
+#pkwt-dashboard-root a:focus-visible,
+#pkwt-dashboard-root input:focus-visible,
+#pkwt-dashboard-root textarea:focus-visible,
+#pkwt-dashboard-root select:focus-visible {
+  outline: 2px solid #FF6500;
+  outline-offset: 2px;
+}
+#pkwt-dashboard-root input,
+#pkwt-dashboard-root textarea,
+#pkwt-dashboard-root select {
+  font: inherit;
+  color: inherit;
+}
+#pkwt-dashboard-root *,
+#pkwt-dashboard-root *::before,
+#pkwt-dashboard-root *::after { box-sizing: border-box; }
+
+/* Light mode defaults */
+#pkwt-dashboard-root {
+  --c-bg:      245 247 250;
+  --c-card:    255 255 255;
+  --c-border:  220 226 235;
+  --c-sidebar: 255 255 255;
+  --c-sub:     71 85 105;
+  --c-fg:      15 23 42;
+  --shadow-card: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.06);
+  --dot-color: rgba(15,23,42,.06);
+  --scroll-track: #eef2f7;
+  --input-bg: #f8fafc;
+  background: rgb(var(--c-bg));
+  color: rgb(var(--c-fg));
+  font-family: 'Inter', sans-serif;
+  min-height: calc(100vh - 32px); /* 32px = WP admin bar */
+}
+
+/* Dark mode */
+#pkwt-dashboard-root.dark {
+  --c-bg:      13 17 23;
+  --c-card:    22 27 34;
+  --c-border:  33 38 45;
+  --c-sidebar: 19 24 31;
+  --c-sub:     139 148 158;
+  --c-fg:      255 255 255;
+  --shadow-card: 0 4px 24px rgba(0,0,0,.4);
+  --dot-color: rgba(255,255,255,.035);
+  --scroll-track: #0d1117;
+  --input-bg: #0d1117;
+}
+
+/* Dot-grid background on main body */
+#pkwt-dashboard-root .pp-dotbg {
+  background-image:
+    radial-gradient(var(--dot-color) 1px, transparent 1px),
+    radial-gradient(circle at 12% 0%, rgba(255,101,0,.06), transparent 40%);
+  background-size: 22px 22px, auto;
+}
+
+/* Scrollbar */
+#pkwt-dashboard-root ::-webkit-scrollbar { width:8px; height:8px; }
+#pkwt-dashboard-root ::-webkit-scrollbar-track { background: var(--scroll-track); }
+#pkwt-dashboard-root ::-webkit-scrollbar-thumb { background:#FF6500; border-radius:8px; }
+#pkwt-dashboard-root ::-webkit-scrollbar-thumb:hover { background:#cc5200; }
+
+/* Typography helpers */
+.label { letter-spacing:.08em; text-transform:uppercase; font-weight:500; }
+.ease-out-soft { transition:all .2s cubic-bezier(.4,0,.2,1); }
+
+/* Animations */
+@keyframes slideUp  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn   { from{opacity:0;transform:translateY(4px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes pulseGlow{ 0%,100%{box-shadow:0 0 0 0 rgba(255,101,0,.6)} 50%{box-shadow:0 0 12px 3px rgba(255,101,0,.2)} }
+@keyframes glowLine { 0%,100%{opacity:.35} 50%{opacity:1} }
+@keyframes ripple   { from{transform:scale(0);opacity:.5} to{transform:scale(4);opacity:0} }
+@keyframes navIn    { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+@keyframes drawLine { to{stroke-dashoffset:0;} }
+
+.anim-slide-up  { animation:slideUp .5s cubic-bezier(.4,0,.2,1) both; }
+.anim-page      { animation:fadeIn .35s ease-out both; }
+.anim-pulse     { animation:pulseGlow 2.4s ease-in-out infinite; }
+.topbar-pulse   { animation:glowLine 3.5s ease-in-out infinite; }
+.ripple { position:absolute; border-radius:9999px; background:rgba(255,255,255,.35); pointer-events:none; animation:ripple .6s linear; }
+
+/* Toggle */
+.toggle-track { transition:background .3s cubic-bezier(.4,0,.2,1),box-shadow .3s; }
+.toggle-thumb { transition:left .3s cubic-bezier(.4,0,.2,1),box-shadow .3s; }
+
+/* Sidebar nav active bar */
+.nav-active-bar {
+  position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg,#FF6500,#cc5200);
+  border-radius:0 3px 3px 0;
+  box-shadow:0 0 12px rgba(255,101,0,.6);
+  animation:navIn .25s cubic-bezier(.4,0,.2,1) both;
+  transform-origin:center;
+}
+
+/* Quick action fill */
+.qa-fill { position:absolute; inset:0; background:linear-gradient(90deg,rgba(255,101,0,.18),rgba(255,101,0,.02)); transform:translateX(-100%); transition:transform .35s cubic-bezier(.4,0,.2,1); }
+.qa:hover .qa-fill { transform:translateX(0); }
+
+/* Stat card hover */
+.stat-card { transition:transform .25s cubic-bezier(.4,0,.2,1),border-color .25s,box-shadow .25s; }
+.stat-card:hover { transform:scale(1.012); border-color:rgba(255,101,0,.5); box-shadow:0 0 32px rgba(255,101,0,.18); }
+.stat-card::after { content:''; position:absolute; left:16px; right:16px; bottom:0; height:1px; background:linear-gradient(90deg,transparent,rgba(255,101,0,0),transparent); transition:background .3s; }
+.stat-card:hover::after { background:linear-gradient(90deg,transparent,rgba(255,101,0,.7),transparent); box-shadow:0 0 16px rgba(255,101,0,.5); }
+
+/* Nav icon hover */
+.nav-item:hover .nav-icon { color:#FF6500; }
+
+/* Activity row hover */
+.activity-row { transition:background .2s; }
+.activity-row:hover { background:rgba(255,101,0,.06); }
+
+/* Inputs */
+.ip {
+  background: var(--input-bg);
+  border: 1px solid rgb(var(--c-border));
+  color: rgb(var(--c-fg));
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: all .2s;
+  width: 100%;
+}
+.ip:focus { outline:none; border-color:#FF6500; box-shadow:0 0 0 3px rgba(255,101,0,.18); }
+
+/* Buttons */
+.btn { position:relative; overflow:hidden; transition:all .2s cubic-bezier(.4,0,.2,1); }
+.btn-primary  { background:#FF6500; color:#fff; border-radius:8px; padding:10px 16px; font-weight:600; font-size:14px; }
+.btn-primary:hover { background:#cc5200; box-shadow:0 0 24px rgba(255,101,0,.45); transform:translateY(-1px); }
+.btn-ghost  { background:transparent; color:#FF6500; border:1px solid #FF6500; border-radius:8px; padding:9px 16px; font-weight:600; font-size:14px; }
+.btn-ghost:hover { background:#FF6500; color:#fff; }
+.btn-quiet  {
+  background:transparent;
+  color: rgb(var(--c-sub));
+  border: 1px solid rgb(var(--c-border));
+  border-radius:8px; padding:9px 14px; font-weight:500; font-size:13px;
+}
+.btn-quiet:hover { color:rgb(var(--c-fg)); border-color:#FF6500; }
+
+/* Logo */
+.logo-mark { background:linear-gradient(135deg,#FF6500,#cc5200); }
+
+/* Spark line */
+.spark path { stroke-dasharray:200; stroke-dashoffset:200; animation:drawLine 1.2s .2s ease-out forwards; }
+
+/* Coming Soon overlay */
+.coming-soon-overlay {
+  position:absolute; inset:0; z-index:10;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:rgba(var(--c-bg),.88);
+  backdrop-filter:blur(4px);
+  border-radius:12px;
+}
+
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important;} }

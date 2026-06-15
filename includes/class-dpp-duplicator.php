@@ -165,6 +165,11 @@ class Class_PKWT_DPP_Duplicator {
 			'_wc_rating_count',
 			'_wc_review_count',
 			'_sku',
+			// Elementor caches keyed to the SOURCE post ID — copying them yields stale
+			// styling on the clone. Elementor regenerates them for the new ID on render.
+			'_elementor_css',
+			'_elementor_page_assets',
+			'_elementor_inline_svg',
 		);
 
 		foreach ( $meta as $meta_key => $values ) {
@@ -172,10 +177,50 @@ class Class_PKWT_DPP_Duplicator {
 				continue;
 			}
 
+			// Clear any value wp_insert_post may have seeded so non-unique keys copy 1:1.
+			delete_post_meta( $target_id, $meta_key );
+
 			foreach ( (array) $values as $value ) {
-				add_post_meta( $target_id, $meta_key, maybe_unserialize( $value ) );
+				// get_post_meta() returns DB-slashed values. add_post_meta() runs
+				// stripslashes_deep() on its input, so we must unserialize then re-slash
+				// STRINGS ONLY before adding — otherwise slashed JSON like _elementor_data
+				// loses a slash level and the stored JSON is corrupted. Plain wp_slash() on
+				// nested arrays would mangle non-string scalars, so use a string-only slasher.
+				$unserialized = maybe_unserialize( $value );
+				add_post_meta( $target_id, $meta_key, $this->slash_strings_deep( $unserialized ) );
 			}
 		}
+
+		// Record provenance so we can show an "Original" column / relink later.
+		add_post_meta( $target_id, '_dpp_original', $source_id );
+
+		// Give the clone its own Elementor CSS keyed to the new post ID.
+		if ( class_exists( '\Elementor\Plugin' ) && get_post_meta( $target_id, '_elementor_edit_mode', true ) ) {
+			delete_post_meta( $target_id, '_elementor_css' );
+			\Elementor\Plugin::$instance->files_manager->clear_cache();
+		}
+	}
+
+	/**
+	 * Recursively re-add slashes to STRING values only, preserving non-string scalars.
+	 * Mirrors Yoast Duplicate Post's slasher so add_post_meta()'s stripslashes_deep()
+	 * round-trips slashed meta (e.g. _elementor_data JSON) without corruption.
+	 *
+	 * @param mixed $value Value to slash.
+	 *
+	 * @return mixed
+	 */
+	private function slash_strings_deep( $value ) {
+		if ( is_array( $value ) ) {
+			return array_map( array( $this, 'slash_strings_deep' ), $value );
+		}
+		if ( is_object( $value ) ) {
+			foreach ( get_object_vars( $value ) as $k => $v ) {
+				$value->$k = $this->slash_strings_deep( $v );
+			}
+			return $value;
+		}
+		return is_string( $value ) ? addslashes( $value ) : $value;
 	}
 
 	/**

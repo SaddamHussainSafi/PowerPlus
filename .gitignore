@@ -1,6 +1,12 @@
 # === Dependencies ===
-vendor/
+# Anchored so it only ignores the root Composer vendor, NOT assets/vendor/ (bundled React).
+/vendor/
 node_modules/
+
+# === Claude session data & local-only dirs (never publish) ===
+.claude/
+final-product/
+backups/
 
 # === Build / dist ===
 dist/

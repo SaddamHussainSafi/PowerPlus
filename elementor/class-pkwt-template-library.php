@@ -165,6 +165,13 @@ class Class_PKWT_Template_Library {
 			return false;
 		}
 
+		// Validate the root element type before writing so malformed JSON can't brick the editor.
+		$root = isset( $template['content'][0] ) && is_array( $template['content'][0] ) ? $template['content'][0] : array();
+		$root_type = isset( $root['elType'] ) ? (string) $root['elType'] : '';
+		if ( ! in_array( $root_type, array( 'container', 'section', 'widget' ), true ) ) {
+			return false;
+		}
+
 		// Write the Elementor data.
 		$elementor_data = wp_json_encode( $template['content'] );
 		if ( false === $elementor_data ) {
@@ -173,6 +180,24 @@ class Class_PKWT_Template_Library {
 
 		update_post_meta( $post_id, '_elementor_data', wp_slash( $elementor_data ) );
 		update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
+		update_post_meta( $post_id, '_elementor_template_type', 'wp-page' );
+
+		// Stamp the Elementor version. Without this, Elementor applies legacy
+		// backward-compat flags (e.g. the elementor-bc-flex-widget class) that break
+		// modern container-based templates so the page imports but renders broken.
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			update_post_meta( $post_id, '_elementor_version', ELEMENTOR_VERSION );
+		}
+
+		// Full-bleed canvas: auth pages must render without the theme header/footer,
+		// otherwise the layout looks broken/generic inside the theme chrome.
+		update_post_meta( $post_id, '_wp_page_template', 'elementor_canvas' );
+
+		// Make sure the page is published and therefore visible after import.
+		$target = get_post( $post_id );
+		if ( $target && 'publish' !== $target->post_status ) {
+			wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) );
+		}
 
 		// Delete cached CSS so Elementor regenerates it on next load.
 		delete_post_meta( $post_id, '_elementor_css' );

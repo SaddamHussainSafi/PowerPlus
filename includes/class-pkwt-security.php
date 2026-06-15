@@ -20,7 +20,114 @@ class Class_PKWT_Security {
 	 */
 	public function register(): void {
 		add_action( 'admin_init', array( $this, 'register_privacy_policy' ) );
-		add_filter( 'nonce_life', array( $this, 'filter_nonce_life' ) );
+		// NOTE: We intentionally do NOT filter nonce_life. A previous version shortened it to
+		// 4h only during AJAX requests, but nonces are CREATED at page render (not AJAX) with
+		// the default 24h life and VERIFIED during AJAX with the 4h life — the mismatched
+		// lifetimes produce different nonce ticks, so verification failed on every save.
+		// Protect the NATIVE wp-login.php too (not just the custom AJAX forms): block locked
+		// clients before credential checking, count native failures, and clear on success.
+		add_filter( 'authenticate', array( $this, 'block_locked_login' ), 30, 3 );
+		add_action( 'wp_login_failed', array( $this, 'record_native_login_failure' ) );
+		add_action( 'wp_login', array( $this, 'reset_failed_attempts' ) );
+	}
+
+	/**
+	 * authenticate filter: reject a login from a locked client before the password is checked.
+	 *
+	 * @param mixed  $user     WP_User, WP_Error, or null from earlier filters.
+	 * @param string $username Submitted username.
+	 * @param string $password Submitted password.
+	 *
+	 * @return mixed
+	 */
+	public function block_locked_login( $user, $username, $password ) {
+		// Let empty submissions and already-errored chains pass through untouched.
+		if ( '' === (string) $username || '' === (string) $password ) {
+			return $user;
+		}
+		if ( $this->should_skip_rate_limit() || $this->is_ip_allowlisted() ) {
+			return $user;
+		}
+		$status = $this->get_rate_limit_status();
+		if ( ! empty( $status['limited'] ) ) {
+			return new \WP_Error(
+				'pkwt_locked',
+				sprintf(
+					/* translators: %d: minutes remaining */
+					esc_html__( 'Too many failed attempts. Please try again in about %d minute(s).', 'powerplus-toolkit' ),
+					max( 1, (int) ceil( (int) $status['retry_after'] / 60 ) )
+				)
+			);
+		}
+		return $user;
+	}
+
+	/**
+	 * Count a failed NATIVE wp-login.php attempt.
+	 *
+	 * @param string $username Attempted username.
+	 *
+	 * @return void
+	 */
+	public function record_native_login_failure( $username = '' ): void {
+		if ( $this->is_ip_allowlisted() ) {
+			return;
+		}
+		$this->increment_failed_attempt( (string) $username );
+	}
+
+	/**
+	 * Whether the current request IP is on the admin-configured allow-list.
+	 * Allow-listed clients are fully exempt from counting AND blocking — the standard
+	 * escape hatch so trusted office/admin IPs can never be locked out.
+	 *
+	 * @return bool
+	 */
+	private function is_ip_allowlisted(): bool {
+		$settings = get_option( 'pkwt_settings', array() );
+		$raw      = isset( $settings['ip_allowlist'] ) ? (string) $settings['ip_allowlist'] : '';
+		if ( '' === trim( $raw ) ) {
+			return false;
+		}
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		if ( '' === $ip ) {
+			return false;
+		}
+		$entries = preg_split( '/[\s,]+/', $raw, -1, PREG_SPLIT_NO_EMPTY );
+		foreach ( (array) $entries as $entry ) {
+			if ( $this->ip_matches( $ip, $entry ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Match an IP against a single allow-list entry (exact IP or CIDR range).
+	 *
+	 * @param string $ip    Client IP.
+	 * @param string $entry Allow-list entry.
+	 *
+	 * @return bool
+	 */
+	private function ip_matches( string $ip, string $entry ): bool {
+		$entry = trim( $entry );
+		if ( '' === $entry ) {
+			return false;
+		}
+		if ( false === strpos( $entry, '/' ) ) {
+			return $ip === $entry;
+		}
+		// CIDR match (IPv4 only — sufficient for the common office-IP use case).
+		list( $subnet, $bits ) = explode( '/', $entry, 2 );
+		$ip_long     = ip2long( $ip );
+		$subnet_long = ip2long( $subnet );
+		$bits        = (int) $bits;
+		if ( false === $ip_long || false === $subnet_long || $bits < 0 || $bits > 32 ) {
+			return false;
+		}
+		$mask = -1 << ( 32 - $bits );
+		return ( $ip_long & $mask ) === ( $subnet_long & $mask );
 	}
 
 	/**
@@ -189,7 +296,7 @@ class Class_PKWT_Security {
 	 * @return void
 	 */
 	public function increment_failed_attempt( string $username_attempted = '' ): void {
-		if ( $this->should_skip_rate_limit() ) {
+		if ( $this->should_skip_rate_limit() || $this->is_ip_allowlisted() ) {
 			return;
 		}
 

@@ -71,7 +71,40 @@ class Class_PKWT_Page_Manager {
 			}
 		}
 
+		// Keep the login page slug in lockstep with a saved custom login URL. Without this,
+		// a freshly-minted default-slug page (after trash/restore, meta loss, or import) would
+		// desync from pkwt_custom_login_url and the custom address would 404 / "reset to default".
+		if ( ! empty( $ids['login'] ) ) {
+			$this->reconcile_login_slug( (int) $ids['login'] );
+		}
+
 		return $ids;
+	}
+
+	/**
+	 * Rename the login page slug to match the saved custom login URL path, if any.
+	 *
+	 * @param int $login_page_id Login page ID.
+	 *
+	 * @return void
+	 */
+	public function reconcile_login_slug( int $login_page_id ): void {
+		if ( $login_page_id <= 0 ) {
+			return;
+		}
+		$settings = get_option( 'pkwt_settings', array() );
+		$custom   = isset( $settings['pkwt_custom_login_url'] ) ? (string) $settings['pkwt_custom_login_url'] : '';
+		if ( '' === $custom ) {
+			return;
+		}
+		$slug = sanitize_title( trim( (string) wp_parse_url( $custom, PHP_URL_PATH ), '/' ) );
+		if ( '' === $slug || in_array( $slug, array( 'wp-login', 'wp-login.php' ), true ) ) {
+			return;
+		}
+		$current_slug = get_post_field( 'post_name', $login_page_id );
+		if ( $current_slug !== $slug ) {
+			wp_update_post( array( 'ID' => $login_page_id, 'post_name' => $slug ) );
+		}
 	}
 
 	/**

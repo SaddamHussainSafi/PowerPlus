@@ -75,7 +75,7 @@ class Class_PKWT_Activator {
 			'plugin_description'      => __( 'Elementor-based auth page builder.', 'powerplus-toolkit' ),
 			'support_url'             => '',
 			'hide_plugins_list'       => 0,
-			'custom_admin_menu_icon'  => 'dashicons-lock',
+			'custom_admin_menu_icon'  => '',
 			'role_redirects'          => array(),
 		);
 	}

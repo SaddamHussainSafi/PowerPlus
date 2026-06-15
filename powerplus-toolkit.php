@@ -3,7 +3,7 @@
  * Plugin Name:       PowerPlus — All-in-One Powerful Toolkit
  * Plugin URI:        https://wordpress.org/plugins/powerplus-toolkit/
  * Description:       All-in-One Powerful Toolkit — custom login pages, page duplicator, security hardening, admin branding, and more.
- * Version:           3.5.7
+ * Version:           3.8.0
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Saddam Hussain Safi
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'PKWT_VERSION' ) ) {
-	define( 'PKWT_VERSION', '3.5.7' );
+	define( 'PKWT_VERSION', '3.8.0' );
 }
 if ( ! defined( 'PKWT_PLUGIN_FILE' ) ) {
 	define( 'PKWT_PLUGIN_FILE', __FILE__ );

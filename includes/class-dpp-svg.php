@@ -34,9 +34,12 @@ class Class_PKWT_DPP_SVG {
 		}
 
 		add_filter( 'upload_mimes', array( $this, 'allow_svg_mime' ) );
-		add_filter( 'wp_check_filetype_and_ext', array( $this, 'fix_svg_filetype' ), 10, 5 );
+		// Priority 75 so our forced type/ext wins over core's late real-MIME reset (which
+		// sniffs SVG as text/plain and would otherwise block the upload).
+		add_filter( 'wp_check_filetype_and_ext', array( $this, 'fix_svg_filetype' ), 75, 5 );
+		// Validate AND sanitize on the prefilter so a malicious SVG never reaches disk.
 		add_filter( 'wp_handle_upload_prefilter', array( $this, 'validate_svg_upload' ) );
-		add_filter( 'wp_handle_upload', array( $this, 'sanitize_uploaded_svg' ) );
+		add_filter( 'wp_handle_sideload_prefilter', array( $this, 'validate_svg_upload' ) );
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'prepare_svg_preview' ), 10, 3 );
 	}
 
@@ -186,120 +189,170 @@ class Class_PKWT_DPP_SVG {
 				__( 'SVG exceeds maximum allowed size (%d KB).', 'powerplus-toolkit' ),
 				$max_kb
 			);
+			return $file;
 		}
+
+		// Sanitize the temp file IN PLACE before WordPress moves it into the uploads dir,
+		// so a malicious SVG is never written to a web-accessible location.
+		$tmp = isset( $file['tmp_name'] ) ? (string) $file['tmp_name'] : '';
+		if ( '' === $tmp || ! is_uploaded_file( $tmp ) ) {
+			$file['error'] = __( 'Could not read uploaded SVG.', 'powerplus-toolkit' );
+			return $file;
+		}
+		$contents = file_get_contents( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		if ( false === $contents ) {
+			$file['error'] = __( 'Could not read uploaded SVG.', 'powerplus-toolkit' );
+			return $file;
+		}
+		$result = $this->sanitize_svg_markup( $contents );
+		if ( empty( $result['safe'] ) ) {
+			$file['error'] = __( 'SVG content is unsafe and was blocked.', 'powerplus-toolkit' );
+			return $file;
+		}
+		file_put_contents( $tmp, (string) $result['safe'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		$this->maybe_log_blocked( $filename, isset( $result['removed'] ) ? (array) $result['removed'] : array() );
+
 		return $file;
 	}
 
 	/**
-	 * Sanitize uploaded SVG file.
+	 * Sanitize SVG markup server-side using a DOM-based ALLOWLIST.
 	 *
-	 * @param array<string,mixed> $upload Upload info.
-	 * @return array<string,mixed>
-	 */
-	public function sanitize_uploaded_svg( array $upload ): array {
-		$file = isset( $upload['file'] ) ? (string) $upload['file'] : '';
-		if ( '' === $file || 'svg' !== strtolower( (string) pathinfo( $file, PATHINFO_EXTENSION ) ) ) {
-			return $upload;
-		}
-
-		$contents = file_get_contents( $file );
-		if ( false === $contents ) {
-			$upload['error'] = __( 'Could not read uploaded SVG.', 'powerplus-toolkit' );
-			return $upload;
-		}
-
-		$result = $this->sanitize_svg_markup( $contents );
-		if ( empty( $result['safe'] ) ) {
-			$upload['error'] = __( 'SVG content is unsafe and was blocked.', 'powerplus-toolkit' );
-			return $upload;
-		}
-
-		file_put_contents( $file, (string) $result['safe'] );
-		$this->maybe_log_blocked( basename( $file ), isset( $result['removed'] ) ? (array) $result['removed'] : array() );
-
-		return $upload;
-	}
-
-	/**
-	 * Sanitize SVG markup server-side.
+	 * A regex blocklist fails open (unquoted handlers, data: URIs, CDATA, entity tricks),
+	 * so this parses the document and keeps only known-safe elements/attributes, strips the
+	 * DOCTYPE (XXE), removes every event handler, and enforces an href protocol allowlist.
 	 *
 	 * @param string $svg Raw svg.
-	 * @return array<string,mixed>
+	 * @return array<string,mixed>  array{ safe:string, removed:string[] }
 	 */
 	private function sanitize_svg_markup( string $svg ): array {
 		$settings   = $this->get_settings();
 		$strictness = isset( $settings['dpp_svg_strictness'] ) ? sanitize_key( (string) $settings['dpp_svg_strictness'] ) : 'standard';
 		$removed    = array();
 
-		$before = $svg;
-		$svg    = preg_replace( '/<\?(?:php|=).*?\?>/is', '', $svg );
-		if ( $before !== $svg ) {
-			$removed[] = 'php_tag';
+		// Strip UTF-8 BOM and any stray PHP tags up front.
+		$svg = preg_replace( '/^\xEF\xBB\xBF/', '', (string) $svg );
+		$svg = preg_replace( '/<\?(?:php|=).*?\?>/is', '', (string) $svg );
+
+		// Reject any DOCTYPE / internal subset outright — it is the XXE vector and has no
+		// legitimate use in an uploaded asset. Catch entity declarations too.
+		if ( preg_match( '/<!DOCTYPE/i', $svg ) || preg_match( '/<!ENTITY/i', $svg ) ) {
+			return array( 'safe' => '', 'removed' => array( 'doctype_or_entity' ) );
 		}
 
-		$before = $svg;
-		$svg    = preg_replace( '/<script\b[^>]*>.*?<\/script>/is', '', $svg );
-		if ( $before !== $svg ) {
-			$removed[] = 'script_tag';
+		if ( '' === trim( $svg ) ) {
+			return array( 'safe' => '', 'removed' => array( 'empty' ) );
 		}
 
-		$before = $svg;
-		$svg    = preg_replace( '/\son[a-z]+\s*=\s*(["\']).*?\1/is', '', $svg );
-		if ( $before !== $svg ) {
-			$removed[] = 'event_handler';
+		// Disable external entity loading on libxml < 2.9 (no-op/deprecated after, where it
+		// is already the default). Suppresses XXE on older stacks.
+		if ( \LIBXML_VERSION < 20900 && function_exists( 'libxml_disable_entity_loader' ) ) {
+			libxml_disable_entity_loader( true ); // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated
+		}
+		$prev_errors = libxml_use_internal_errors( true );
+
+		$dom                     = new \DOMDocument();
+		$dom->preserveWhiteSpace = false;
+		// NEVER pass LIBXML_NOENT (that would expand entities). LIBXML_NONET blocks network.
+		$loaded = $dom->loadXML( $svg, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING );
+		libxml_clear_errors();
+		libxml_use_internal_errors( $prev_errors );
+
+		if ( ! $loaded || ! $dom->documentElement || 'svg' !== strtolower( $dom->documentElement->nodeName ) ) {
+			return array( 'safe' => '', 'removed' => array( 'unparseable' ) );
 		}
 
-		$before = $svg;
-		$svg    = preg_replace( '/\s(?:href|xlink:href)\s*=\s*(["\'])\s*javascript:.*?\1/is', '', $svg );
-		if ( $before !== $svg ) {
-			$removed[] = 'javascript_url';
+		// Tag allowlist. 'standard' permits the common presentational set; 'strict'/'paranoid'
+		// narrow it. Dangerous elements (script, foreignObject, etc.) are never listed.
+		$base_tags = array(
+			'svg', 'g', 'title', 'desc', 'defs', 'symbol', 'use', 'metadata',
+			'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon',
+			'text', 'tspan', 'textpath', 'clippath', 'mask', 'pattern',
+			'lineargradient', 'radialgradient', 'stop', 'marker',
+			'filter', 'fegaussianblur', 'feoffset', 'feblend', 'fecolormatrix',
+			'femerge', 'femergenode', 'fecomposite', 'feflood', 'switch',
+		);
+		$narrow_tags = array(
+			'svg', 'g', 'title', 'desc', 'defs', 'symbol', 'path', 'rect', 'circle',
+			'ellipse', 'line', 'polyline', 'polygon', 'clippath', 'mask',
+			'lineargradient', 'radialgradient', 'stop',
+		);
+		$allowed_tags = in_array( $strictness, array( 'strict', 'paranoid' ), true ) ? $narrow_tags : $base_tags;
+		// <use> can pull in external content; only allow it in the permissive 'standard' mode
+		// and only with same-document fragment refs (enforced in the attribute pass below).
+		$allow_use = ( 'standard' === $strictness );
+
+		$href_attrs   = array( 'href', 'xlink:href' );
+		$walker_remove = array();
+
+		$all = $dom->getElementsByTagName( '*' );
+		// Snapshot into an array because the live NodeList mutates as we remove nodes.
+		$elements = array();
+		foreach ( $all as $el ) {
+			$elements[] = $el;
 		}
 
-		$before = $svg;
-		$svg    = preg_replace( '/\s(?:href|xlink:href|src)\s*=\s*(["\'])https?:\/\/.*?\1/is', '', $svg );
-		if ( $before !== $svg ) {
-			$removed[] = 'external_ref';
-		}
-
-		if ( in_array( $strictness, array( 'strict', 'paranoid' ), true ) ) {
-			$before = $svg;
-			$svg    = preg_replace( '/<foreignObject\b[^>]*>.*?<\/foreignObject>/is', '', $svg );
-			if ( $before !== $svg ) {
-				$removed[] = 'foreign_object';
+		foreach ( $elements as $el ) {
+			$tag = strtolower( $el->nodeName );
+			if ( ! in_array( $tag, $allowed_tags, true ) || ( 'use' === $tag && ! $allow_use ) ) {
+				$walker_remove[] = $el;
+				$removed[]       = 'tag:' . $tag;
+				continue;
 			}
 
-			$before = $svg;
-			$svg    = preg_replace( '/<use\b([^>]*?)>/is', '<use$1>', $svg );
-			$svg    = preg_replace( '/<use\b[^>]*(?:href|xlink:href)\s*=\s*(["\'])https?:\/\/.*?\1[^>]*>/is', '', $svg );
-			if ( $before !== $svg ) {
-				$removed[] = 'external_use';
+			if ( ! $el->hasAttributes() ) {
+				continue;
 			}
-		}
+			// Collect first (live NamedNodeMap mutates during removal).
+			$attrs = array();
+			foreach ( $el->attributes as $attr ) {
+				$attrs[] = $attr;
+			}
+			foreach ( $attrs as $attr ) {
+				$name  = strtolower( $attr->nodeName );
+				$value = (string) $attr->nodeValue;
 
-		if ( 'paranoid' === $strictness ) {
-			libxml_use_internal_errors( true );
-			$dom = new \DOMDocument();
-			if ( $dom->loadXML( $svg, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING ) ) {
-				$allowed = array( 'svg', 'g', 'path', 'circle', 'rect', 'polygon', 'polyline', 'line', 'ellipse', 'defs', 'symbol', 'clipPath', 'mask', 'linearGradient', 'radialGradient', 'stop', 'title', 'desc' );
-				$nodes   = $dom->getElementsByTagName( '*' );
-				$remove  = array();
-				foreach ( $nodes as $node ) {
-					if ( ! in_array( $node->nodeName, $allowed, true ) ) {
-						$remove[] = $node;
+				// 1) Strip ALL event handlers (covers unquoted/obfuscated cases since the DOM
+				//    already parsed them into discrete attributes).
+				if ( 0 === strpos( $name, 'on' ) ) {
+					$el->removeAttribute( $attr->nodeName );
+					$removed[] = 'event_handler';
+					continue;
+				}
+				// 2) Block style values that smuggle url()/expression()/javascript.
+				if ( 'style' === $name && preg_match( '/url\s*\(|expression\s*\(|javascript:|@import/i', $value ) ) {
+					$el->removeAttribute( $attr->nodeName );
+					$removed[] = 'unsafe_style';
+					continue;
+				}
+				// 3) href/xlink:href value allowlist: same-doc fragment, site-relative, http(s),
+				//    or data:image/(png|gif|jpeg|webp). Everything else (javascript:, data:text,
+				//    vbscript:, protocol-relative //host) is dropped.
+				if ( in_array( $name, $href_attrs, true ) ) {
+					$decoded = html_entity_decode( $value, ENT_QUOTES | ENT_HTML5 );
+					$decoded = preg_replace( '/\s+/', '', $decoded ); // defeat "java\nscript:".
+					$ok      = (bool) preg_match( '#^(?:\#|/(?!/)|https?:/|data:image/(?:png|gif|jpe?g|webp);base64,)#i', (string) $decoded );
+					if ( 'use' === $tag ) {
+						// <use> may only reference an in-document fragment.
+						$ok = (bool) preg_match( '/^#/', (string) $decoded );
+					}
+					if ( ! $ok ) {
+						$el->removeAttribute( $attr->nodeName );
+						$removed[] = 'unsafe_href';
 					}
 				}
-				foreach ( $remove as $node ) {
-					if ( $node->parentNode ) {
-						$node->parentNode->removeChild( $node );
-					}
-				}
-				$svg      = (string) $dom->saveXML();
-				$removed[] = 'paranoid_disallowed_tags';
 			}
-			libxml_clear_errors();
 		}
 
-		$safe = trim( (string) $svg );
+		foreach ( $walker_remove as $node ) {
+			if ( $node->parentNode ) {
+				$node->parentNode->removeChild( $node );
+			}
+		}
+
+		$safe = (string) $dom->saveXML( $dom->documentElement );
+		$safe = trim( $safe );
+
 		return array(
 			'safe'    => $safe,
 			'removed' => array_values( array_unique( $removed ) ),

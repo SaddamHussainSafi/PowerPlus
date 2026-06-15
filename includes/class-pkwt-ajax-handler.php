@@ -139,6 +139,18 @@ class Class_PKWT_AJAX_Handler {
 				$this->send_error( __( 'Request could not be processed.', 'powerplus-toolkit' ), 400, 'register_nonce' );
 			}
 
+			// Respect the site's membership setting — without this check the endpoint
+			// would allow account creation even when registration is disabled.
+			if ( ! get_option( 'users_can_register' ) ) {
+				$this->send_error( __( 'Registration is currently disabled on this site.', 'powerplus-toolkit' ), 403, 'register_nonce' );
+			}
+
+			// Throttle account-creation spam even when no CAPTCHA provider is configured.
+			$status = $this->security->get_rate_limit_status();
+			if ( ! empty( $status['limited'] ) ) {
+				$this->send_error( __( 'Too many attempts. Please wait.', 'powerplus-toolkit' ), 429, 'register_nonce', array( 'retry_after' => (int) $status['retry_after'] ) );
+			}
+
 			$captcha_token = isset( $_POST['captcha_token'] ) ? sanitize_text_field( wp_unslash( $_POST['captcha_token'] ) ) : '';
 			if ( ! $this->security->verify_captcha( $captcha_token ) ) {
 				$this->send_error( __( 'CAPTCHA verification failed.', 'powerplus-toolkit' ), 400, 'register_nonce' );
@@ -236,6 +248,13 @@ class Class_PKWT_AJAX_Handler {
 				$this->send_error( __( 'Too many attempts. Please wait.', 'powerplus-toolkit' ), 429, 'lostpw_nonce', array( 'retry_after' => (int) $status['retry_after'] ) );
 			}
 
+			// CAPTCHA must guard every public auth endpoint, not just login/register —
+			// otherwise reset emails can be flooded to arbitrary accounts.
+			$captcha_token = isset( $_POST['captcha_token'] ) ? sanitize_text_field( wp_unslash( $_POST['captcha_token'] ) ) : '';
+			if ( ! $this->security->verify_captcha( $captcha_token ) ) {
+				$this->send_error( __( 'CAPTCHA verification failed.', 'powerplus-toolkit' ), 400, 'lostpw_nonce' );
+			}
+
 			$user_login = isset( $_POST['user_login'] ) ? sanitize_text_field( wp_unslash( $_POST['user_login'] ) ) : '';
 			retrieve_password( $user_login );
 			wp_send_json_success(
@@ -267,6 +286,18 @@ class Class_PKWT_AJAX_Handler {
 				$this->send_error( __( 'Request could not be processed.', 'powerplus-toolkit' ), 400, 'resetpw_nonce' );
 			}
 
+			// Throttle + CAPTCHA so reset-key values cannot be brute-forced or the
+			// endpoint hammered. Mirrors handle_login's protections.
+			$status = $this->security->get_rate_limit_status();
+			if ( ! empty( $status['limited'] ) ) {
+				$this->send_error( __( 'Too many attempts. Please wait.', 'powerplus-toolkit' ), 429, 'resetpw_nonce', array( 'retry_after' => (int) $status['retry_after'] ) );
+			}
+
+			$captcha_token = isset( $_POST['captcha_token'] ) ? sanitize_text_field( wp_unslash( $_POST['captcha_token'] ) ) : '';
+			if ( ! $this->security->verify_captcha( $captcha_token ) ) {
+				$this->send_error( __( 'CAPTCHA verification failed.', 'powerplus-toolkit' ), 400, 'resetpw_nonce' );
+			}
+
 			$key      = isset( $_POST['rp_key'] ) ? sanitize_text_field( wp_unslash( $_POST['rp_key'] ) ) : '';
 			$login    = isset( $_POST['rp_login'] ) ? sanitize_text_field( wp_unslash( $_POST['rp_login'] ) ) : '';
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Password must remain raw for reset.
@@ -284,6 +315,8 @@ class Class_PKWT_AJAX_Handler {
 
 			$user = check_password_reset_key( $key, $login );
 			if ( is_wp_error( $user ) ) {
+				// Count invalid keys toward the lockout so guessing is bounded.
+				$this->security->increment_failed_attempt( $login );
 				$this->send_error( __( 'Invalid or expired reset link.', 'powerplus-toolkit' ), 400, 'resetpw_nonce' );
 			}
 

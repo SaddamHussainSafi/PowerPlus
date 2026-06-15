@@ -29,6 +29,8 @@ class Class_PKWT_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_filter( 'admin_body_class', array( $this, 'add_admin_body_class' ) );
 		add_filter( 'script_loader_tag', array( $this, 'defer_admin_scripts' ), 10, 3 );
+		add_action( 'wp_ajax_pkwt_dash_save', array( $this, 'handle_dash_save' ) );
+		add_action( 'wp_ajax_pkwt_install_elementor', array( $this, 'handle_install_elementor' ) );
 		add_action( 'admin_post_pkwt_toggle_module', array( $this, 'handle_toggle_module' ) );
 		add_action( 'admin_post_pkwt_run_login_test', array( $this, 'handle_run_login_test' ) );
 		add_action( 'admin_post_pkwt_run_security_scan', array( $this, 'handle_run_security_scan' ) );
@@ -56,7 +58,12 @@ class Class_PKWT_Admin {
 
 		$settings   = $this->get_cached_option( 'pkwt_settings', array() );
 		$name       = __( 'PowerPlus', 'powerplus-toolkit' );
-		$icon       = ! empty( $settings['custom_admin_menu_icon'] ) ? (string) $settings['custom_admin_menu_icon'] : 'dashicons-lock';
+		// The real PowerPlus P-bolt logo, vectorized, as a monochrome SVG data URI.
+		// WP renders data-URI SVG menu icons at 20px and recolors them via svg-painter.js
+		// to match the admin colour scheme (grey at rest, white when active/hovered).
+		// A plain PNG URL would render as an unconstrained <img> and overflow the menu slot.
+		$icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g transform="scale(0.019692) translate(0.000000,1625.000000) scale(0.100000,-0.100000)" fill="#a7aaad"><path d="M5827 14393 c-3 -5 -743 -1974 -1645 -4378 -902 -2403 -1954 -5205 -2337 -6225 -383 -1020 -703 -1872 -711 -1892 l-13 -38 1667 0 1667 1 868 1477 c477 812 1388 2364 2026 3447 l1158 1970 -1068 5 -1068 5 2687 2749 c2571 2631 2759 2827 2762 2879 0 9 -5987 9 -5993 0z"/><path d="M11348 12030 c-698 -1193 -1268 -2171 -1268 -2174 0 -4 478 -6 1062 -6 l1062 0 -80 -82 c-1242 -1285 -5152 -5283 -5166 -5282 -10 0 -18 -3 -18 -8 0 -4 1147 -8 2549 -8 l2549 0 1541 2683 c848 1475 1541 2687 1542 2692 0 12 -2493 4355 -2501 4355 -3 0 -575 -976 -1272 -2170z"/></g></svg>';
+		$icon       = 'data:image/svg+xml;base64,' . base64_encode( $icon_svg ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Inlining a static SVG icon, the documented WP pattern for menu icons.
 		$page_title = __( 'PowerPlus — All-in-One Powerful Toolkit', 'powerplus-toolkit' );
 
 		add_menu_page(
@@ -69,30 +76,17 @@ class Class_PKWT_Admin {
 			58
 		);
 
-		$submenu_tabs = array(
-			'overview'      => __( 'Overview', 'powerplus-toolkit' ),
-			'general'       => __( 'General', 'powerplus-toolkit' ),
-			'templates'     => __( 'Page Templates', 'powerplus-toolkit' ),
-			'redirects'     => __( 'Redirects', 'powerplus-toolkit' ),
-			'compatibility' => __( 'Compatibility', 'powerplus-toolkit' ),
-			'security'      => __( 'Security', 'powerplus-toolkit' ),
-			'duplicate'     => __( 'Duplicate', 'powerplus-toolkit' ),
-			'svg-upload'    => __( 'SVG Upload', 'powerplus-toolkit' ),
-			'ghost-mode'    => __( 'Ghost Mode', 'powerplus-toolkit' ),
-			'classic-editor'=> __( 'Classic Editor', 'powerplus-toolkit' ),
-			'import-export' => __( 'Import / Export', 'powerplus-toolkit' ),
+		// Register the modern React dashboard as the first submenu item.
+		add_submenu_page(
+			'pkwt-settings',
+			esc_html__( 'Dashboard', 'powerplus-toolkit' ),
+			'✦ ' . esc_html__( 'Dashboard', 'powerplus-toolkit' ),
+			'read',
+			'pkwt-settings',
+			array( $this, 'render_settings_page' )
 		);
 
-		foreach ( $submenu_tabs as $tab => $label ) {
-			add_submenu_page(
-				'pkwt-settings',
-				esc_html( $label ),
-				esc_html( $label ),
-				'read',
-				'pkwt-settings-' . $tab,
-				array( $this, 'render_settings_page' )
-			);
-		}
+		// All sub-pages are handled inside the React SPA — no WP submenu items needed.
 	}
 
 	/**
@@ -110,6 +104,25 @@ class Class_PKWT_Admin {
 
 		wp_enqueue_style( 'pkwt-admin', PKWT_PLUGIN_URL . 'assets/css/pkwt-admin.css', array(), PKWT_VERSION );
 		wp_enqueue_script( 'pkwt-admin', PKWT_PLUGIN_URL . 'assets/js/pkwt-admin.js', array(), PKWT_VERSION, true );
+
+		// React dashboard loads on every PowerPlus admin page. Everything is bundled
+		// locally — no external CDNs, no in-browser Babel (WP.org compliant).
+		$is_dashboard = 0 === strpos( $page, 'pkwt-settings' );
+		if ( $is_dashboard ) {
+			// The Branding page uses the media picker to choose a login logo.
+			wp_enqueue_media();
+			// Compiled Tailwind utilities (preflight disabled, scoped to #pkwt-dashboard-root)
+			// plus the hand-written dashboard theme CSS.
+			wp_enqueue_style( 'pkwt-tailwind', PKWT_PLUGIN_URL . 'assets/css/pkwt-tailwind.css', array(), PKWT_VERSION );
+			wp_enqueue_style( 'pkwt-dashboard', PKWT_PLUGIN_URL . 'assets/css/pkwt-dashboard.css', array( 'pkwt-tailwind' ), PKWT_VERSION );
+
+			// Vendored React 18 production builds (UMD globals window.React / window.ReactDOM).
+			wp_enqueue_script( 'pkwt-react',     PKWT_PLUGIN_URL . 'assets/vendor/react.min.js',     array(),               '18.3.1', true );
+			wp_enqueue_script( 'pkwt-react-dom', PKWT_PLUGIN_URL . 'assets/vendor/react-dom.min.js', array( 'pkwt-react' ), '18.3.1', true );
+
+			// Precompiled dashboard app (JSX already transpiled to plain JS at build time).
+			wp_enqueue_script( 'pkwt-dashboard', PKWT_PLUGIN_URL . 'assets/js/pkwt-dashboard.min.js', array( 'pkwt-react', 'pkwt-react-dom' ), PKWT_VERSION, true );
+		}
 
 		if ( false !== strpos( $hook, 'pkwt-settings-templates' ) || 'pkwt-settings-templates' === $page ) {
 			wp_enqueue_style( 'pkwt-templates', PKWT_PLUGIN_URL . 'assets/css/pkwt-templates.css', array(), PKWT_VERSION );
@@ -153,6 +166,213 @@ class Class_PKWT_Admin {
 	}
 
 	/**
+	 * AJAX: save settings from the React dashboard.
+	 *
+	 * POST: nonce (pkwt_dashboard_nonce), settings (JSON object of changed fields).
+	 * Only the provided fields are changed — sanitize_settings() merges the rest
+	 * from the currently saved option.
+	 *
+	 * @return void
+	 */
+	public function handle_dash_save(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'powerplus-toolkit' ) ) );
+		}
+
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'pkwt_dashboard_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed. Please reload the page.', 'powerplus-toolkit' ) ) );
+		}
+
+		$raw = isset( $_POST['settings'] ) ? wp_unslash( $_POST['settings'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON decoded and sanitized below.
+		$patch = json_decode( (string) $raw, true );
+		if ( ! is_array( $patch ) || empty( $patch ) ) {
+			wp_send_json_error( array( 'message' => __( 'No settings provided.', 'powerplus-toolkit' ) ) );
+		}
+
+		$group = isset( $_POST['group'] ) ? sanitize_key( wp_unslash( $_POST['group'] ) ) : 'core';
+
+		// ── Module option groups (booleans/ints only, merged into the saved option) ──
+		$module_groups = array(
+			'ghost'      => array(
+				'option' => 'pkwt_dpp_ghost_settings',
+				'bool'   => array( 'dpp_ghost_enabled', 'dpp_ghost_remove_generator', 'dpp_ghost_strip_version_urls', 'dpp_ghost_remove_emoji', 'dpp_ghost_disable_xmlrpc', 'dpp_ghost_hide_rest_users', 'dpp_ghost_disable_author_archives' ),
+				'int'    => array(),
+				'text'   => array( 'dpp_ghost_custom_cms_name' ),
+			),
+			'svg'        => array(
+				'option' => 'pkwt_dpp_svg_settings',
+				'bool'   => array( 'dpp_svg_enabled', 'dpp_svg_preview', 'dpp_svg_blocked_log' ),
+				'int'    => array( 'dpp_svg_max_size_kb' ),
+				'text'   => array(),
+			),
+			'classic'    => array(
+				'option' => 'pkwt_dpp_classic_settings',
+				'bool'   => array( 'dpp_classic_enabled', 'dpp_classic_allow_user_choice', 'dpp_classic_allow_admin_bypass' ),
+				'int'    => array(),
+				'text'   => array(),
+			),
+			'duplicator' => array(
+				'option' => 'pkwt_dpp_settings',
+				'bool'   => array( 'enabled', 'enable_row_action', 'enable_elementor_button' ),
+				'int'    => array(),
+				'text'   => array( 'title_suffix' ),
+			),
+		);
+
+		if ( isset( $module_groups[ $group ] ) ) {
+			$spec    = $module_groups[ $group ];
+			$current = get_option( $spec['option'], array() );
+			$current = is_array( $current ) ? $current : array();
+			// Min/max clamps for specific integer fields (mirror the legacy sanitizers).
+			$int_clamps = array( 'dpp_svg_max_size_kb' => array( 64, 4096 ) );
+			$changed    = false;
+			foreach ( $patch as $key => $value ) {
+				if ( in_array( $key, $spec['bool'], true ) ) {
+					$current[ $key ] = empty( $value ) ? 0 : 1;
+					$changed = true;
+				} elseif ( in_array( $key, $spec['int'], true ) ) {
+					$int = absint( $value );
+					if ( isset( $int_clamps[ $key ] ) ) {
+						$int = max( $int_clamps[ $key ][0], min( $int_clamps[ $key ][1], $int ) );
+					}
+					$current[ $key ] = $int;
+					$changed = true;
+				} elseif ( in_array( $key, $spec['text'], true ) ) {
+					$current[ $key ] = sanitize_text_field( (string) $value );
+					$changed = true;
+				}
+			}
+			if ( ! $changed ) {
+				wp_send_json_error( array( 'message' => __( 'No valid settings provided.', 'powerplus-toolkit' ) ) );
+			}
+			update_option( $spec['option'], $current );
+			wp_send_json_success( array(
+				'message'  => __( 'Settings saved.', 'powerplus-toolkit' ),
+				'settings' => $current,
+				'group'    => $group,
+			) );
+		}
+
+		// ── Core pkwt_settings ──
+		$allowed = array(
+			'enabled', 'woocommerce_mode', 'enable_rate_limiting', 'hide_plugins_list',
+			'block_default_wp_auth', 'security_dashboard_enabled', 'settings_activity_log',
+			'admin_test_mode', 'auto_update_all_plugins', 'login_page_id', 'register_page_id', 'lost_password_page_id',
+			'reset_password_page_id', 'after_login_redirect', 'after_login_redirect_page_id',
+			'pkwt_custom_login_url', 'max_attempts', 'lockout_minutes', 'captcha_provider',
+			'recaptcha_site_key', 'recaptcha_secret_key', 'hcaptcha_site_key', 'hcaptcha_secret_key',
+			'plugin_menu_name', 'plugin_description', 'support_url', 'role_redirects', 'ip_allowlist',
+			'branding',
+		);
+		$patch = array_intersect_key( $patch, array_flip( $allowed ) );
+
+		// A blank CAPTCHA secret means "unchanged" (the field is never preloaded with the
+		// real secret), so never let an empty value wipe a stored key.
+		foreach ( array( 'recaptcha_secret_key', 'hcaptcha_secret_key' ) as $secret ) {
+			if ( isset( $patch[ $secret ] ) && '' === trim( (string) $patch[ $secret ] ) ) {
+				unset( $patch[ $secret ] );
+			}
+		}
+
+		if ( empty( $patch ) ) {
+			wp_send_json_error( array( 'message' => __( 'No valid settings provided.', 'powerplus-toolkit' ) ) );
+		}
+
+		// sanitize_settings() wp_unslash()es each field; the JSON payload was already
+		// unslashed before json_decode(), so re-slash here to keep the two balanced and
+		// avoid stripping legitimate backslashes from values.
+		$patch = wp_slash( $patch );
+
+		$sanitizer = new Class_PKWT_Settings();
+		$sanitized = $sanitizer->sanitize_settings( $patch );
+
+		update_option( 'pkwt_settings', $sanitized );
+		wp_cache_delete( 'settings', 'pkwt_options' );
+		$this->option_cache = array();
+
+		// Don't echo secrets back to the client.
+		foreach ( array( 'recaptcha_secret_key', 'hcaptcha_secret_key' ) as $secret ) {
+			if ( isset( $sanitized[ $secret ] ) ) {
+				$sanitized[ $secret . '_set' ] = ( '' !== (string) $sanitized[ $secret ] );
+				$sanitized[ $secret ]          = '';
+			}
+		}
+
+		wp_send_json_success( array(
+			'message'  => __( 'Settings saved.', 'powerplus-toolkit' ),
+			'settings' => $sanitized,
+		) );
+	}
+
+	/**
+	 * AJAX: install and activate the latest Elementor from wordpress.org in one click.
+	 *
+	 * @return void
+	 */
+	public function handle_install_elementor(): void {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to install plugins.', 'powerplus-toolkit' ) ) );
+		}
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'pkwt_dashboard_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed. Please reload the page.', 'powerplus-toolkit' ) ) );
+		}
+
+		$basename = 'elementor/elementor.php';
+
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		// Already active?
+		if ( is_plugin_active( $basename ) ) {
+			wp_send_json_success( array( 'message' => __( 'Elementor is already active.', 'powerplus-toolkit' ), 'active' => true ) );
+		}
+
+		// Installed but inactive — just activate.
+		if ( file_exists( WP_PLUGIN_DIR . '/' . $basename ) ) {
+			$activated = activate_plugin( $basename );
+			if ( is_wp_error( $activated ) ) {
+				wp_send_json_error( array( 'message' => $activated->get_error_message() ) );
+			}
+			wp_send_json_success( array( 'message' => __( 'Elementor activated.', 'powerplus-toolkit' ), 'active' => true ) );
+		}
+
+		// Not installed — download + install from the wp.org repository, then activate.
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/misc.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+		$api = plugins_api( 'plugin_information', array( 'slug' => 'elementor', 'fields' => array( 'sections' => false ) ) );
+		if ( is_wp_error( $api ) ) {
+			wp_send_json_error( array( 'message' => __( 'Could not reach the WordPress.org plugin directory.', 'powerplus-toolkit' ) ) );
+		}
+
+		$skin     = new \WP_Ajax_Upgrader_Skin();
+		$upgrader = new \Plugin_Upgrader( $skin );
+		$result   = $upgrader->install( $api->download_link );
+
+		if ( is_wp_error( $result ) ) {
+			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+		}
+		if ( is_wp_error( $skin->result ) ) {
+			wp_send_json_error( array( 'message' => $skin->result->get_error_message() ) );
+		}
+		if ( ! $result ) {
+			$errors = $skin->get_errors();
+			$msg    = ( is_wp_error( $errors ) && $errors->has_errors() ) ? $errors->get_error_message() : __( 'Elementor installation failed.', 'powerplus-toolkit' );
+			wp_send_json_error( array( 'message' => $msg ) );
+		}
+
+		$activated = activate_plugin( $basename );
+		if ( is_wp_error( $activated ) ) {
+			wp_send_json_error( array( 'message' => __( 'Elementor installed but could not be activated automatically.', 'powerplus-toolkit' ) ) );
+		}
+
+		wp_send_json_success( array( 'message' => __( 'Elementor installed and activated.', 'powerplus-toolkit' ), 'active' => true ) );
+	}
+
+	/**
 	 * Render settings page.
 	 *
 	 * @return void
@@ -162,34 +382,8 @@ class Class_PKWT_Admin {
 			return;
 		}
 
-		$tab_map = array(
-			'pkwt-settings'                 => 'overview',
-			'pkwt-settings-overview'        => 'overview',
-			'pkwt-settings-general'         => 'general',
-			'pkwt-settings-templates'       => 'templates',
-			'pkwt-settings-redirects'       => 'redirects',
-			'pkwt-settings-compatibility'   => 'compatibility',
-			'pkwt-settings-security'        => 'security',
-			'pkwt-settings-duplicate'       => 'duplicate',
-			'pkwt-settings-svg-upload'      => 'svg-upload',
-			'pkwt-settings-ghost-mode'      => 'ghost-mode',
-			'pkwt-settings-classic-editor'  => 'classic-editor',
-			'pkwt-settings-import-export'   => 'import-export',
-		);
-
-		$page = $this->get_query_arg_key( 'page', 'pkwt-settings' );
-		$tab  = isset( $tab_map[ $page ] ) ? $tab_map[ $page ] : 'overview';
-
-		// Backward compatibility for old links using ?tab=.
-		$fallback = $this->get_query_arg_key( 'tab' );
-		if ( '' !== $fallback ) {
-			if ( in_array( $fallback, array( 'overview', 'general', 'templates', 'redirects', 'compatibility', 'security', 'duplicate', 'svg-upload', 'ghost-mode', 'classic-editor', 'import-export' ), true ) ) {
-				$tab = $fallback;
-			}
-		}
-
-		$settings = $this->get_cached_option( 'pkwt_settings', array() );
-		include PKWT_PLUGIN_DIR . 'admin/views/' . $tab . '.php';
+		// All routes are handled by the React SPA.
+		include PKWT_PLUGIN_DIR . 'admin/views/powerplus-ui.php';
 	}
 
 	/**
@@ -248,7 +442,8 @@ class Class_PKWT_Admin {
 	 * @return void
 	 */
 	public function handle_toggle_module(): void {
-		if ( ! $this->current_user_has_access() ) {
+		// Configuration changes require full admin capability, not merely dashboard view access.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
@@ -339,7 +534,7 @@ class Class_PKWT_Admin {
 	 * @return void
 	 */
 	public function handle_create_snapshot(): void {
-		if ( ! $this->current_user_has_access() ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
@@ -357,7 +552,7 @@ class Class_PKWT_Admin {
 	 * @return void
 	 */
 	public function handle_restore_snapshot(): void {
-		if ( ! $this->current_user_has_access() ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
@@ -409,7 +604,7 @@ class Class_PKWT_Admin {
 	 * @return void
 	 */
 	public function handle_run_login_test(): void {
-		if ( ! $this->current_user_has_access() ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
@@ -473,7 +668,7 @@ class Class_PKWT_Admin {
 	 * @return void
 	 */
 	public function handle_run_security_scan(): void {
-		if ( ! $this->current_user_has_access() ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
@@ -558,7 +753,7 @@ class Class_PKWT_Admin {
 	 * @return void
 	 */
 	public function handle_clear_activity_log(): void {
-		if ( ! $this->current_user_has_access() ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Not allowed.', 'powerplus-toolkit' ) );
 		}
 
