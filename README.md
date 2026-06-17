@@ -13,7 +13,7 @@ Custom auth pages · Page duplicator · Template library · Security hardening �
 [![PHP](https://img.shields.io/badge/PHP-8.0%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![Elementor](https://img.shields.io/badge/Elementor-3.5%2B-92003B?style=for-the-badge&logo=elementor&logoColor=white)](https://elementor.com)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green?style=for-the-badge&logo=gnu&logoColor=white)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.5.6-F05032?style=for-the-badge&logo=git&logoColor=white)](https://github.com/SaddamHussainSafi/PowerPlus/releases)
+[![Version](https://img.shields.io/badge/Version-3.8.0-F05032?style=for-the-badge&logo=git&logoColor=white)](https://github.com/SaddamHussainSafi/PowerPlus/releases)
 
 <br/>
 
@@ -86,14 +86,42 @@ Rate limiting, brute-force protection, honeypot fields, Google reCAPTCHA v3, and
 <tr>
 <td width="50%">
 
-### 🎨 Admin Branding
-Customise the WP admin login logo, background colour, and page styling to match your brand — zero code required.
+### 🎨 Branding & White-Label
+White-label the **native wp-login.php** (logo, colours, background, welcome/error messages) and the admin chrome (footer text, hide WP version & logo) — zero code.
 
 </td>
 <td width="50%">
 
 ### ⚙️ Settings Import / Export
 Snapshot all plugin settings to JSON. Restore them on any site — perfect for staging → production workflows.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### ⚛️ Modern React Dashboard
+A fast single-page admin built on React 18 — **bundled locally** (no CDNs), light/dark themes, autosave, and a unified sidebar for every module.
+
+</td>
+<td width="50%">
+
+### 🖼️ SVG Uploads (hardened)
+Allow SVG uploads with a **DOM-allowlist sanitizer** that strips XXE, scripts, event handlers and unsafe URLs — sanitized before the file ever touches disk.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🚀 One-Click Power Tools
+Install + activate Elementor from the dashboard in one click, and a flagship **auto-update-all-plugins** switch to keep the whole site current.
+
+</td>
+<td width="50%">
+
+### 🕵️ Ghost Mode
+Reduce WordPress fingerprints — strip the generator tag and `?ver=` strings, block REST user enumeration, disable XML-RPC, and hide author archives.
 
 </td>
 </tr>
@@ -124,10 +152,10 @@ Snapshot all plugin settings to JSON. Restore them on any site — perfect for s
 ```bash
 # Download latest release
 curl -L https://github.com/SaddamHussainSafi/PowerPlus/releases/latest/download/powerplus-toolkit.zip \
-  -o powerkit.zip
+  -o powerplus-toolkit.zip
 
 # Unzip into your plugins folder
-unzip powerkit.zip -d /path/to/wp-content/plugins/
+unzip powerplus-toolkit.zip -d /path/to/wp-content/plugins/
 ```
 
 ---
@@ -201,20 +229,24 @@ powerplus-toolkit/
 ├── includes/
 │   ├── class-pkwt-plugin.php              ← Core singleton orchestrator
 │   ├── class-pkwt-ajax-handler.php        ← Login / register AJAX endpoints
-│   ├── class-pkwt-security.php            ← Rate limiting & brute-force
-│   ├── class-pkwt-redirector.php          ← Login URL redirect logic
-│   ├── class-pkwt-page-manager.php        ← Page creation & slug management
+│   ├── class-pkwt-security.php            ← Rate limiting, brute-force, IP allow-list
+│   ├── class-pkwt-redirector.php          ← Login URL redirect & wp-login blocking
+│   ├── class-pkwt-login-renderer.php      ← Elementor-template-at-secret-URL login mode
+│   ├── class-pkwt-branding.php            ← Login + admin white-label
+│   ├── class-pkwt-page-manager.php        ← Page creation & slug reconciliation
 │   ├── class-pkwt-settings-repository.php ← Cached options layer
 │   ├── class-pkwt-activator.php           ← Activation hook handler
 │   ├── class-pkwt-deactivator.php         ← Deactivation hook handler
-│   ├── class-pkwt-onboarding.php          ← First-run wizard
+│   ├── class-pkwt-onboarding.php          ← First-run redirect into the dashboard
 │   ├── class-pkwt-compatibility.php       ← Plugin conflict resolution
 │   ├── class-pkwt-conflict-detector.php   ← Conflict detection
-│   └── class-dpp-*.php                    ← Page duplicator feature
+│   └── class-dpp-*.php                    ← Duplicator · SVG · Ghost Mode · Classic Editor
 │
 └── assets/
-    ├── css/  pkwt-admin.css · pkwt-frontend.css · pkwt-templates.css · pkwt-editor-tpl.css
-    └── js/   pkwt-admin.js  · pkwt-frontend.js  · pkwt-templates.js  · pkwt-editor-tpl.js
+    ├── css/     pkwt-dashboard.css · pkwt-tailwind.css (compiled) · pkwt-frontend.css · …
+    ├── js/      pkwt-dashboard.js (JSX source) · pkwt-dashboard.min.js (compiled) · …
+    ├── vendor/  react.min.js · react-dom.min.js (React 18, bundled — no CDN)
+    └── img/     banner.png
 ```
 
 **Namespaces:** `PKWT\Includes\` · `PKWT\Admin\` · `PKWT\Elementor\`
@@ -224,33 +256,73 @@ powerplus-toolkit/
 ## 🛠️ Development
 
 ```bash
-# No build step — pure PHP / CSS / JS
-
 # 1. Install linting tools
 composer require --dev squizlabs/php_codesniffer wp-coding-standards/wpcs
-
-# 2. Lint against WordPress Coding Standards
 ./vendor/bin/phpcs --standard=WordPress .
 
-# 3. Run WP Plugin Check
-#    WP Admin → Tools → Plugin Check → Select "PowerPlus - Powerful Tools For Your Website"
+# 2. Run WP Plugin Check
+#    WP Admin → Tools → Plugin Check → Select "PowerPlus — All-in-One Powerful Toolkit"
+```
 
-# 4. Build release zip
-STAGING=$(mktemp -d)
-mkdir "$STAGING/powerplus-toolkit"
-rsync -a \
-  --exclude='.git' --exclude='.claude' --exclude='vendor' --exclude='node_modules' \
-  --exclude='.DS_Store' --exclude='._*' --exclude='.gitignore' \
-  --exclude='CLAUDE.md' --exclude='*.zip' --exclude='*.sh' \
-  ./ "$STAGING/powerplus-toolkit/"
-cd "$STAGING"
-zip -r powerplus-toolkit-X.X.X.zip \
-  powerplus-toolkit/ -q
+### Dashboard build
+
+The React admin dashboard ships **precompiled** — React 18 is vendored locally in
+`assets/vendor/`, the JSX is transpiled to plain JS, and Tailwind is compiled to a static,
+dashboard-scoped stylesheet (no external CDNs). Rebuild only when you edit the JSX source
+(`assets/js/pkwt-dashboard.js`):
+
+```bash
+npm install @babel/core @babel/cli @babel/preset-react tailwindcss@3.4.17
+
+# JSX -> plain JS (classic runtime; uses the vendored global React)
+babel --config-file .build/babelrc.json \
+  assets/js/pkwt-dashboard.js -o assets/js/pkwt-dashboard.min.js
+
+# Tailwind -> static CSS (preflight off, scoped to #pkwt-dashboard-root)
+tailwindcss -c .build/tailwind.config.js -i in.css -o assets/css/pkwt-tailwind.css --minify
+```
+
+See [`.build/BUILD.md`](.build/BUILD.md) for details.
+
+```bash
+# Build the release zip (anchor /vendor/ so bundled React in assets/vendor/ is kept)
+rsync -a --exclude='.*' --exclude='node_modules/' --exclude='/vendor/' \
+  ./ /tmp/powerplus-toolkit/
+( cd /tmp && zip -r powerplus-toolkit-X.X.X.zip powerplus-toolkit/ -q )
 ```
 
 ---
 
 ## 📋 Changelog
+
+<details open>
+<summary><strong>v3.8.0</strong> — Bundling, branding, flagship power tools</summary>
+
+- WP.org compliance: React 18, Babel and Tailwind no longer load from CDNs — React is vendored locally, JSX is precompiled, Tailwind is compiled to a dashboard-scoped stylesheet (preflight off)
+- Added: **Branding** module — white-label the native `wp-login.php` (logo, colours, background, welcome/error messages) and the admin chrome (footer text, hide WP version & logo)
+- Added: **One-click Install Elementor** (install + activate from the dashboard) and a flagship **Auto-update all plugins** switch
+- Added: Autosave across the dashboard; manual save kept
+- Fixed: Save failures caused by a nonce-lifetime mismatch; native button/focus borders; one-click flows
+
+</details>
+
+<details>
+<summary><strong>v3.6.x – 3.7.0</strong> — Security hardening & market-research integrations</summary>
+
+- Security: fixed a **critical Ghost Mode arbitrary-file-disclosure** (path traversal); rebuilt the **SVG sanitizer** as a DOM allowlist (XXE / scripts / event-handlers / unsafe URLs), sanitizing on the upload prefilter
+- Security: brute-force protection now covers **native wp-login.php** (authenticate filter) with an **IP allow-list**; CAPTCHA + throttling on reset/lost-password; registration gating; capability tightening; CAPTCHA secret-key exposure fixed
+- Fixed: Elementor **duplication slash corruption** (`_elementor_data`), the custom-login-URL "resets to default" bug, template-import `_elementor_version`, and ~35 missing Elementor control defaults
+- Integrations adapted from WPS Hide Login, Yoast Duplicate Post, Limit Login Attempts Reloaded, Safe SVG, LoginPress and White Label CMS
+
+</details>
+
+<details>
+<summary><strong>v3.5.6 – 3.5.8</strong> — PowerPlus rename & React dashboard</summary>
+
+- Renamed to **PowerPlus** (slug `powerplus-toolkit`, approved by WP.org); all display strings updated
+- Added the modern React admin dashboard with a single unified sidebar, light/dark themes, and real settings persistence
+
+</details>
 
 <details>
 <summary><strong>v3.5.5</strong> — Zip packaging fix</summary>
