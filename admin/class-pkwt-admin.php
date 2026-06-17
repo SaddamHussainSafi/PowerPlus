@@ -31,6 +31,8 @@ class Class_PKWT_Admin {
 		add_filter( 'script_loader_tag', array( $this, 'defer_admin_scripts' ), 10, 3 );
 		add_action( 'wp_ajax_pkwt_dash_save', array( $this, 'handle_dash_save' ) );
 		add_action( 'wp_ajax_pkwt_install_elementor', array( $this, 'handle_install_elementor' ) );
+		add_action( 'wp_ajax_pkwt_apply_onboarding', array( $this, 'handle_apply_onboarding' ) );
+		add_action( 'wp_ajax_pkwt_reset_onboarding', array( $this, 'handle_reset_onboarding' ) );
 		add_action( 'admin_post_pkwt_toggle_module', array( $this, 'handle_toggle_module' ) );
 		add_action( 'admin_post_pkwt_run_login_test', array( $this, 'handle_run_login_test' ) );
 		add_action( 'admin_post_pkwt_run_security_scan', array( $this, 'handle_run_security_scan' ) );
@@ -260,6 +262,7 @@ class Class_PKWT_Admin {
 			'block_default_wp_auth', 'security_dashboard_enabled', 'settings_activity_log',
 			'admin_test_mode', 'auto_update_all_plugins', 'login_page_id', 'register_page_id', 'lost_password_page_id',
 			'reset_password_page_id', 'after_login_redirect', 'after_login_redirect_page_id',
+			'login_mode', 'login_template_id', 'login_blocked_redirect',
 			'pkwt_custom_login_url', 'max_attempts', 'lockout_minutes', 'captcha_provider',
 			'recaptcha_site_key', 'recaptcha_secret_key', 'hcaptcha_site_key', 'hcaptcha_secret_key',
 			'plugin_menu_name', 'plugin_description', 'support_url', 'role_redirects', 'ip_allowlist',
@@ -370,6 +373,99 @@ class Class_PKWT_Admin {
 		}
 
 		wp_send_json_success( array( 'message' => __( 'Elementor installed and activated.', 'powerplus-toolkit' ), 'active' => true ) );
+	}
+
+	/**
+	 * AJAX: apply the onboarding wizard's selections.
+	 *
+	 * Maps the wizard toggles onto real settings, ensures the auth pages exist (no duplicates),
+	 * and marks the wizard complete. Everything is sanitized and merged through the canonical
+	 * settings sanitizer; page IDs are resolved dynamically (never hardcoded).
+	 *
+	 * @return void
+	 */
+	public function handle_apply_onboarding(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'powerplus-toolkit' ) ) );
+		}
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'pkwt_dashboard_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed. Please reload the page.', 'powerplus-toolkit' ) ) );
+		}
+
+		$raw     = isset( $_POST['choices'] ) ? wp_unslash( $_POST['choices'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON decoded + each field sanitized below.
+		$choices = json_decode( (string) $raw, true );
+		$choices = is_array( $choices ) ? $choices : array();
+		$on      = static function ( $key ) use ( $choices ) {
+			return ! empty( $choices[ $key ] );
+		};
+
+		// Always make sure the four auth pages exist (idempotent — never duplicates).
+		$page_manager = new \PKWT\Includes\Class_PKWT_Page_Manager();
+		$page_ids     = $page_manager->ensure_default_pages();
+
+		$repo     = new \PKWT\Includes\Class_PKWT_Settings_Repository();
+		$current  = $repo->get();
+		$branding = ( isset( $current['branding'] ) && is_array( $current['branding'] ) ) ? $current['branding'] : array();
+
+		// Map wizard choices → real settings.
+		$patch = array(
+			'enabled'                => $on( 'login_customization' ) ? 1 : ( isset( $current['enabled'] ) ? (int) $current['enabled'] : 1 ),
+			'login_page_id'          => isset( $page_ids['login'] ) ? (int) $page_ids['login'] : 0,
+			'register_page_id'       => isset( $page_ids['register'] ) ? (int) $page_ids['register'] : 0,
+			'lost_password_page_id'  => isset( $page_ids['lost_password'] ) ? (int) $page_ids['lost_password'] : 0,
+			'reset_password_page_id' => isset( $page_ids['reset_password'] ) ? (int) $page_ids['reset_password'] : 0,
+			'enable_rate_limiting'   => $on( 'anti_spam' ) ? 1 : ( isset( $current['enable_rate_limiting'] ) ? (int) $current['enable_rate_limiting'] : 1 ),
+			'woocommerce_mode'       => $on( 'woocommerce' ) ? 1 : 0,
+			'branding'               => array_merge( $branding, array(
+				'enabled'           => ( $on( 'login_logo' ) || $on( 'login_background' ) || $on( 'disable_default_styling' ) || $on( 'custom_errors' ) ) ? 1 : ( ! empty( $branding['enabled'] ) ? 1 : 0 ),
+				'style_login'       => $on( 'disable_default_styling' ) ? 1 : ( isset( $branding['style_login'] ) ? (int) $branding['style_login'] : 1 ),
+				'hide_login_errors' => $on( 'custom_errors' ) ? 1 : ( ! empty( $branding['hide_login_errors'] ) ? 1 : 0 ),
+			) ),
+		);
+
+		// If the user wants registration enabled, honor the site membership option.
+		if ( $on( 'register_page' ) && ! get_option( 'users_can_register' ) ) {
+			update_option( 'users_can_register', 1 );
+		}
+
+		$sanitizer = new Class_PKWT_Settings();
+		$sanitized = $sanitizer->sanitize_settings( wp_slash( $patch ) );
+		update_option( 'pkwt_settings', $sanitized );
+		wp_cache_delete( 'settings', 'pkwt_options' );
+
+		// Persist the raw choices (for the "review/rerun" experience) and mark complete.
+		$clean_choices = array();
+		foreach ( $choices as $k => $v ) {
+			$clean_choices[ sanitize_key( (string) $k ) ] = empty( $v ) ? 0 : 1;
+		}
+		update_option( 'pkwt_onboarding_choices', $clean_choices, false );
+		update_option( 'pkwt_wizard_complete', 1 );
+		delete_option( 'pkwt_onboarding_redirect' );
+
+		$login = get_post( (int) $patch['login_page_id'] );
+		wp_send_json_success( array(
+			'message'      => __( 'Setup complete.', 'powerplus-toolkit' ),
+			'login_view'   => $login ? get_permalink( $login->ID ) : '',
+			'login_edit'   => ( $login && class_exists( '\Elementor\Plugin' ) ) ? add_query_arg( array( 'post' => $login->ID, 'action' => 'elementor' ), admin_url( 'post.php' ) ) : '',
+		) );
+	}
+
+	/**
+	 * AJAX: reset onboarding so the wizard runs again.
+	 *
+	 * @return void
+	 */
+	public function handle_reset_onboarding(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'powerplus-toolkit' ) ) );
+		}
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'pkwt_dashboard_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'powerplus-toolkit' ) ) );
+		}
+		delete_option( 'pkwt_wizard_complete' );
+		wp_send_json_success( array( 'message' => __( 'Setup wizard reset.', 'powerplus-toolkit' ) ) );
 	}
 
 	/**

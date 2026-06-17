@@ -4,7 +4,7 @@ Donate link: https://saddamhussain.com.np/
 Tags: login, elementor, custom login, login page, register
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 3.8.0
+Stable tag: 3.10.2
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -178,6 +178,20 @@ Please report security issues directly to the author via the contact form at htt
 8. The onboarding wizard shown on first activation
 
 == Changelog ==
+
+= 3.10.1 =
+* Fixed: The Login URL kept appending the site's path (e.g. "scope:.../") to the slug on every save, especially on subdirectory / WordPress Playground installs. The login URL is now stored as a clean bare slug and rebuilt against the live site address at runtime, so it no longer accumulates. Existing values with their structure intact auto-heal on the next save.
+
+= 3.10.0 =
+* Fixed: The Login URL slug field lost focus after every keystroke. The field component was being redefined on each render, remounting the input — it's now hoisted so you can type continuously like a normal field.
+* Added: A premium SaaS-style onboarding wizard. After activation you're welcomed with the plugin logo, name and a polished animated screen, then guided step-by-step through enabling login customization, branding, behavior, security and integrations — each with Enable/Disable and Back/Next/Skip. A review summary shows what's on vs skipped before applying, then a success screen offers quick actions (View Login Page, Edit Template, Dashboard, Login URL, Restart Wizard).
+* Added: "Enable Login Customization" in the wizard activates the login module and ensures the Login, Register, Lost Password and Reset Password pages exist and are wired to native WordPress authentication — working immediately, with no duplicate pages and no hardcoded IDs.
+* Added: Re-run the setup wizard any time from Settings → "Run Setup Wizard". Choices are remembered and pages are regenerated if missing.
+
+= 3.9.0 =
+* Added: WPS Hide Login-style **Login URL** page — a clean slug editor (your-site.com / [ login ] /) to move login off wp-login.php, plus a configurable **Redirection URL** for where non-logged-in visitors are sent when they hit wp-login.php or wp-admin (default: 404). Themed to the PowerPlus dashboard.
+* Changed: Endpoint blocking now protects **both wp-login.php and the wp-admin directory** for logged-out visitors (admin-ajax / admin-post stay open). A built-in safety prevents blocking unless a custom login URL is set, with redirect-loop protection and the `POWERPLUS_RECOVERY_MODE` escape hatch.
+* Simplified: Removed the multi-template library to avoid confusion — there is now **one editable page each** for Login, Register, Lost Password and Reset Password, designed directly in Elementor. The "Login Pages" screen lists exactly those four.
 
 = 3.8.0 =
 * Fixed: Saving settings no longer fails with a security error. A nonce-lifetime filter shortened the lifetime only during AJAX, so nonces created at page load (24h) didn't match verification (4h) — the filter has been removed and saves now succeed reliably.

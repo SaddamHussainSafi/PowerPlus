@@ -35,7 +35,10 @@ class Class_PKWT_Settings_Repository {
 			'after_login_redirect'   => home_url( '/' ),
 			'after_login_redirect_page_id' => 0,
 			'pkwt_custom_login_url'   => '',
+			'login_mode'             => 'legacy', // legacy | template | native
+			'login_template_id'      => 0,
 			'block_default_wp_auth'  => 1,
+			'login_blocked_redirect' => '', // empty/"404" => 404; otherwise a slug/path/URL
 			'filter_priority'        => PKWT_FILTER_PRIORITY,
 			'max_attempts'           => 5,
 			'lockout_minutes'        => 15,

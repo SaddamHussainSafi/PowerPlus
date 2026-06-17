@@ -83,6 +83,17 @@ class Class_PKWT_Settings {
 		$output['settings_activity_log'] = isset( $settings['settings_activity_log'] ) ? ( empty( $settings['settings_activity_log'] ) ? 0 : 1 ) : ( isset( $current['settings_activity_log'] ) ? absint( $current['settings_activity_log'] ) : 1 );
 		$output['admin_test_mode']       = isset( $settings['admin_test_mode'] ) ? ( empty( $settings['admin_test_mode'] ) ? 0 : 1 ) : ( isset( $current['admin_test_mode'] ) ? absint( $current['admin_test_mode'] ) : 0 );
 		$output['auto_update_all_plugins'] = isset( $settings['auto_update_all_plugins'] ) ? ( empty( $settings['auto_update_all_plugins'] ) ? 0 : 1 ) : ( isset( $current['auto_update_all_plugins'] ) ? absint( $current['auto_update_all_plugins'] ) : 0 );
+		$login_mode_in = isset( $settings['login_mode'] ) ? sanitize_key( (string) $settings['login_mode'] ) : ( isset( $current['login_mode'] ) ? sanitize_key( (string) $current['login_mode'] ) : 'legacy' );
+		$output['login_mode']            = in_array( $login_mode_in, array( 'legacy', 'template', 'native' ), true ) ? $login_mode_in : 'legacy';
+		$output['login_template_id']     = isset( $settings['login_template_id'] ) ? absint( $settings['login_template_id'] ) : ( isset( $current['login_template_id'] ) ? absint( $current['login_template_id'] ) : 0 );
+		// Redirection target for blocked wp-login/wp-admin requests (WPS-style). Stored as a
+		// bare slug/path (or "404"); resolved to a URL at redirect time.
+		if ( isset( $settings['login_blocked_redirect'] ) ) {
+			$raw_redirect = trim( (string) wp_unslash( $settings['login_blocked_redirect'] ) );
+			$output['login_blocked_redirect'] = ( '' === $raw_redirect ) ? '' : sanitize_text_field( $raw_redirect );
+		} else {
+			$output['login_blocked_redirect'] = isset( $current['login_blocked_redirect'] ) ? sanitize_text_field( (string) $current['login_blocked_redirect'] ) : '';
+		}
 		$output['login_page_id']         = isset( $settings['login_page_id'] ) ? absint( $settings['login_page_id'] ) : ( isset( $current['login_page_id'] ) ? absint( $current['login_page_id'] ) : 0 );
 		$output['register_page_id']      = isset( $settings['register_page_id'] ) ? absint( $settings['register_page_id'] ) : ( isset( $current['register_page_id'] ) ? absint( $current['register_page_id'] ) : 0 );
 		$output['lost_password_page_id'] = isset( $settings['lost_password_page_id'] ) ? absint( $settings['lost_password_page_id'] ) : ( isset( $current['lost_password_page_id'] ) ? absint( $current['lost_password_page_id'] ) : 0 );
@@ -198,12 +209,20 @@ class Class_PKWT_Settings {
 	}
 
 	/**
-	 * Normalize custom login URL value.
-	 * Accepts full URL, /path, or plain slug.
+	 * Normalize the custom login value down to a BARE single-segment slug.
+	 *
+	 * Storing a bare slug (e.g. "login"), not a full URL, is what keeps this safe on
+	 * subdirectory / WordPress-Playground installs whose home_url() carries a path prefix.
+	 * Previously a full URL was stored and the slug was re-extracted by stripping only the
+	 * host, leaving the install path in the slug — so every save re-prepended home_url and
+	 * the value grew. The redirector rebuilds the absolute URL from this slug at read time.
+	 *
+	 * Accepts a full URL, /path, or plain slug, and auto-heals an already-contaminated value
+	 * by taking the LAST meaningful path segment as the slug.
 	 *
 	 * @param string $raw Raw setting value.
 	 *
-	 * @return string
+	 * @return string Bare slug, or '' for none/reserved.
 	 */
 	private function normalize_custom_login_url( string $raw ): string {
 		$raw = trim( $raw );
@@ -211,33 +230,26 @@ class Class_PKWT_Settings {
 			return '';
 		}
 
-		$reserved = array( 'wp-login', 'wp-login.php' );
+		// Reduce any URL/path to its path component.
+		$path = ( preg_match( '#^https?://#i', $raw ) ) ? (string) wp_parse_url( $raw, PHP_URL_PATH ) : $raw;
+		$path = trim( $path, '/' );
 
-		if ( preg_match( '#^https?://#i', $raw ) ) {
-			$path = trim( (string) wp_parse_url( $raw, PHP_URL_PATH ), '/' );
-			if ( in_array( $path, $reserved, true ) ) {
-				return '';
-			}
-			return esc_url_raw( $raw );
+		// Strip the install's home path prefix if present (e.g. "scope:.../login" -> "login").
+		$home_path = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+		if ( '' !== $home_path && 0 === strpos( $path . '/', $home_path . '/' ) ) {
+			$path = trim( substr( $path, strlen( $home_path ) ), '/' );
 		}
 
-		if ( '/' === substr( $raw, 0, 1 ) ) {
-			$path = trim( ltrim( $raw, '/' ), '/' );
-			if ( in_array( $path, $reserved, true ) ) {
-				return '';
-			}
-			return esc_url_raw( home_url( trailingslashit( $path ) ) );
-		}
+		// Take the last non-empty segment as the login slug (single-level, like WPS Hide Login).
+		$segments = array_values( array_filter( explode( '/', $path ) ) );
+		$last     = ! empty( $segments ) ? end( $segments ) : '';
 
-		$slug = sanitize_title( $raw );
-		if ( '' === $slug ) {
-			return '';
-		}
-		if ( in_array( $slug, $reserved, true ) ) {
+		$slug = sanitize_title( $last );
+		if ( '' === $slug || in_array( $slug, array( 'wp-login', 'wp-login.php', 'wp-admin' ), true ) ) {
 			return '';
 		}
 
-		return esc_url_raw( home_url( '/' . $slug . '/' ) );
+		return $slug;
 	}
 
 	/**

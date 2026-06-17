@@ -1,6 +1,36 @@
 
 /* ===== PowerPlus Dashboard — Themed UI ===== */
 
+/* ── Onboarding wizard: full-screen takeover ──
+   Hide the WordPress admin chrome so the wizard owns the whole viewport. */
+body.pkwt-wizard-open #adminmenumain,
+body.pkwt-wizard-open #adminmenuwrap,
+body.pkwt-wizard-open #wpadminbar,
+body.pkwt-wizard-open #wpfooter,
+body.pkwt-wizard-open .update-nag,
+body.pkwt-wizard-open .notice { display: none !important; }
+body.pkwt-wizard-open #wpcontent { margin-left: 0 !important; }
+body.pkwt-wizard-open #wpbody-content { padding-bottom: 0 !important; }
+body.pkwt-wizard-open html, body.pkwt-wizard-open { overflow: hidden !important; }
+
+/* Animated premium background for the wizard */
+.pkwt-wiz-bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+.pkwt-wiz-bg::before {
+  content:''; position:absolute; inset:0;
+  background-image: radial-gradient(rgba(120,130,150,.10) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+}
+.pkwt-orb { position:absolute; border-radius:9999px; filter: blur(60px); opacity:.55; }
+.pkwt-orb.o1 { width:520px; height:520px; left:-120px; top:-160px; background:radial-gradient(circle,#FF6500,transparent 65%); animation: pkwtFloat1 18s ease-in-out infinite; }
+.pkwt-orb.o2 { width:460px; height:460px; right:-120px; top:-80px;  background:radial-gradient(circle,#6366f1,transparent 65%); opacity:.35; animation: pkwtFloat2 22s ease-in-out infinite; }
+.pkwt-orb.o3 { width:420px; height:420px; left:38%; bottom:-180px; background:radial-gradient(circle,#cc5200,transparent 65%); opacity:.30; animation: pkwtFloat3 26s ease-in-out infinite; }
+@keyframes pkwtFloat1 { 0%,100%{ transform:translate(0,0) } 50%{ transform:translate(40px,30px) } }
+@keyframes pkwtFloat2 { 0%,100%{ transform:translate(0,0) } 50%{ transform:translate(-50px,40px) } }
+@keyframes pkwtFloat3 { 0%,100%{ transform:translate(0,0) scale(1) } 50%{ transform:translate(30px,-30px) scale(1.08) } }
+#pkwt-dashboard-root.dark .pkwt-wiz-bg::before { background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px); }
+
 /* Scoped element resets.
    Tailwind's preflight is disabled (so it can't restyle the rest of wp-admin), so we
    restore the few normalizations the dashboard relies on — only inside the dashboard root.

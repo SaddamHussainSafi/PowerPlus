@@ -95,6 +95,26 @@ foreach ( $pkwt_tpl_library->get_layout_sets() as $pkwt_set_slug => $pkwt_set ) 
 
 $pkwt_elementor_active = class_exists( '\Elementor\Plugin' );
 
+// Saved Elementor templates (for the "Elementor template @ secret URL" login mode picker).
+$pkwt_elementor_templates = array();
+if ( $pkwt_elementor_active ) {
+	$pkwt_tpl_posts = get_posts( array(
+		'post_type'      => 'elementor_library',
+		'posts_per_page' => 100,
+		'post_status'    => 'publish',
+		'orderby'        => 'title',
+		'order'          => 'ASC',
+	) );
+	foreach ( $pkwt_tpl_posts as $pkwt_tp ) {
+		$pkwt_elementor_templates[] = array(
+			'id'    => $pkwt_tp->ID,
+			'title' => $pkwt_tp->post_title !== '' ? $pkwt_tp->post_title : ( '#' . $pkwt_tp->ID ),
+			'type'  => (string) get_post_meta( $pkwt_tp->ID, '_elementor_template_type', true ),
+			'edit'  => add_query_arg( array( 'post' => $pkwt_tp->ID, 'action' => 'elementor' ), admin_url( 'post.php' ) ),
+		);
+	}
+}
+
 // Module option groups for the dashboard (booleans the UI can toggle).
 $pkwt_modules = array(
 	'ghost'      => wp_parse_args( (array) get_option( 'pkwt_dpp_ghost_settings', array() ), array( 'dpp_ghost_enabled' => 0, 'dpp_ghost_remove_generator' => 1, 'dpp_ghost_strip_version_urls' => 1, 'dpp_ghost_remove_emoji' => 1, 'dpp_ghost_disable_xmlrpc' => 1, 'dpp_ghost_hide_rest_users' => 1, 'dpp_ghost_disable_author_archives' => 1, 'dpp_ghost_custom_cms_name' => '' ) ),
@@ -135,6 +155,9 @@ window.pkwtDashboard = {
 	pages       : <?php echo wp_json_encode( $pkwt_pages ); ?>,
 	templates   : <?php echo wp_json_encode( $pkwt_tpl_sets ); ?>,
 	elementor   : <?php echo wp_json_encode( $pkwt_elementor_active ); ?>,
+	wizardComplete : <?php echo wp_json_encode( (bool) get_option( 'pkwt_wizard_complete', false ) ); ?>,
+	onboardingChoices : <?php echo wp_json_encode( (array) get_option( 'pkwt_onboarding_choices', array() ) ); ?>,
+	elementorTemplates : <?php echo wp_json_encode( $pkwt_elementor_templates ); ?>,
 	modules     : <?php echo wp_json_encode( $pkwt_modules ); ?>,
 	exportUrl   : <?php echo wp_json_encode( $pkwt_export_url ); ?>,
 	resetUrl    : <?php echo wp_json_encode( $pkwt_reset_url ); ?>,

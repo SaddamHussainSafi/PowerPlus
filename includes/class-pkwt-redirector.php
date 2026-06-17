@@ -246,8 +246,7 @@ class Class_PKWT_Redirector {
 			return;
 		}
 
-		$settings = $this->settings_repo->get();
-		$custom   = isset( $settings['pkwt_custom_login_url'] ) ? esc_url_raw( (string) $settings['pkwt_custom_login_url'] ) : '';
+		$custom = $this->custom_login_absolute_url();
 		if ( '' === $custom ) {
 			return;
 		}
@@ -296,6 +295,12 @@ class Class_PKWT_Redirector {
 			return;
 		}
 
+		// Safety: never block the native login unless a custom login URL exists, or there would
+		// be no way left to sign in (a guaranteed lockout). Requires pkwt_custom_login_url set.
+		if ( empty( $settings['pkwt_custom_login_url'] ) ) {
+			return;
+		}
+
 		$path = $this->get_request_path();
 		if ( '' === $path || $this->is_allowed_native_endpoint( $path ) ) {
 			return;
@@ -311,9 +316,49 @@ class Class_PKWT_Redirector {
 			return;
 		}
 
+		// Block both wp-login.php AND the wp-admin directory for non-connected visitors
+		// (WPS Hide Login behavior). admin-ajax.php / admin-post.php are already exempted above.
 		if ( $this->is_blocked_native_auth_path( $path ) ) {
-			$this->render_not_found();
+			$this->handle_blocked_request();
 		}
+	}
+
+	/**
+	 * Either 404 a blocked request, or redirect it to the admin-configured "redirection URL".
+	 *
+	 * @return void
+	 */
+	private function handle_blocked_request(): void {
+		$settings = $this->settings_repo->get();
+		$target   = isset( $settings['login_blocked_redirect'] ) ? trim( (string) $settings['login_blocked_redirect'] ) : '';
+
+		// Empty or the literal "404" => serve a genuine 404 (the default, like WPS Hide Login).
+		if ( '' === $target || '404' === strtolower( $target ) ) {
+			$this->render_not_found();
+			return;
+		}
+
+		// Guard against redirect loops: a target that points back at a blocked path
+		// (wp-login / wp-admin) would bounce forever — fall back to a 404 instead.
+		$target_path = trim( (string) wp_parse_url( $target, PHP_URL_PATH ), '/' );
+		if ( '' !== $target_path && $this->is_blocked_native_auth_path( $target_path ) ) {
+			$this->render_not_found();
+			return;
+		}
+
+		// Otherwise resolve the slug/path/URL on the CURRENT home_url and redirect there.
+		if ( preg_match( '#^https?://#i', $target ) ) {
+			$url = esc_url_raw( $target );
+		} else {
+			$rel = trim( $target, '/' );
+			$url = esc_url_raw( home_url( '/' . $rel . '/' ) );
+		}
+		if ( '' === $url ) {
+			$this->render_not_found();
+			return;
+		}
+		wp_safe_redirect( $url, 302 );
+		exit;
 	}
 
 	/**
@@ -335,8 +380,14 @@ class Class_PKWT_Redirector {
 
 		$settings = $this->settings_repo->get();
 
-		// Get the custom login URL setting (e.g. http://test.local/my-login).
-		$custom_url = isset( $settings['pkwt_custom_login_url'] ) ? esc_url_raw( (string) $settings['pkwt_custom_login_url'] ) : '';
+		// In "Elementor template" login mode, the login renderer owns the custom URL and
+		// serves the template directly — don't also try to redirect it to a page.
+		if ( isset( $settings['login_mode'] ) && 'template' === $settings['login_mode'] ) {
+			return;
+		}
+
+		// Resolve the stored slug (or legacy URL) to an absolute URL on the current home.
+		$custom_url = $this->custom_login_absolute_url();
 		if ( '' === $custom_url ) {
 			return;
 		}
@@ -426,6 +477,31 @@ class Class_PKWT_Redirector {
 	 *
 	 * @return string
 	 */
+	/**
+	 * Resolve the stored custom login value (a bare slug, or a legacy full URL) to an absolute
+	 * URL on the CURRENT home_url. Returns '' when unset.
+	 *
+	 * @return string
+	 */
+	private function custom_login_absolute_url(): string {
+		$settings = $this->settings_repo->get();
+		$raw      = isset( $settings['pkwt_custom_login_url'] ) ? trim( (string) $settings['pkwt_custom_login_url'] ) : '';
+		if ( '' === $raw ) {
+			return '';
+		}
+		$path = preg_match( '#^https?://#i', $raw ) ? (string) wp_parse_url( $raw, PHP_URL_PATH ) : $raw;
+		// Strip the install's home path prefix so we don't double it when rebuilding.
+		$path      = trim( $path, '/' );
+		$home_path = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+		if ( '' !== $home_path && 0 === strpos( $path . '/', $home_path . '/' ) ) {
+			$path = trim( substr( $path, strlen( $home_path ) ), '/' );
+		}
+		if ( '' === $path ) {
+			return '';
+		}
+		return esc_url_raw( home_url( '/' . $path . '/' ) );
+	}
+
 	private function get_login_target_url(): string {
 		$settings = $this->settings_repo->get();
 		$custom   = isset( $settings['pkwt_custom_login_url'] ) ? (string) $settings['pkwt_custom_login_url'] : '';
@@ -470,17 +546,28 @@ class Class_PKWT_Redirector {
 	}
 
 	/**
-	 * Check if path should be blocked.
+	 * Whether this request path should be blocked for a logged-OUT visitor.
 	 *
-	 * Only block wp-login.php — never block wp-admin, which is the dashboard
-	 * and must remain accessible so logged-in users can reach the admin area.
+	 * Blocks wp-login.php AND any path under the wp-admin directory (WPS Hide Login
+	 * behavior). This only runs for guests (the caller checks is_user_logged_in()), and
+	 * admin-ajax.php / admin-post.php are exempted by is_allowed_native_endpoint() before
+	 * we get here, so back-end machinery and front-end AJAX keep working.
 	 *
 	 * @param string $path Path.
 	 *
 	 * @return bool
 	 */
 	private function is_blocked_native_auth_path( string $path ): bool {
-		return in_array( $path, array( 'wp-login.php', 'wp-login' ), true );
+		if ( in_array( $path, array( 'wp-login.php', 'wp-login' ), true ) ) {
+			return true;
+		}
+		// Anything inside wp-admin (the directory). admin-ajax/admin-post already exempted.
+		$admin_dir = ltrim( (string) wp_parse_url( admin_url( '/' ), PHP_URL_PATH ), '/' );
+		$admin_dir = untrailingslashit( $admin_dir );
+		if ( '' !== $admin_dir && ( $path === $admin_dir || 0 === strpos( $path, $admin_dir . '/' ) ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

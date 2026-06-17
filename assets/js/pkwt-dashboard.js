@@ -112,6 +112,12 @@ const persistSettings = (patch) =>
 const installElementor = () =>
   ajaxPost('pkwt_install_elementor', { nonce: D.nonce });
 
+/* Onboarding wizard apply / reset. */
+const applyOnboarding = (choices) =>
+  ajaxPost('pkwt_apply_onboarding', { nonce: D.nonce, choices: JSON.stringify(choices) });
+const resetOnboarding = () =>
+  ajaxPost('pkwt_reset_onboarding', { nonce: D.nonce });
+
 /* Module option groups (ghost / svg / classic / duplicator) — separate WP options */
 const persistModule = (group, patch) =>
   ajaxPost('pkwt_dash_save', { nonce: D.nonce, group, settings: JSON.stringify(patch) })
@@ -426,9 +432,9 @@ function TopBar({ onSearchClick, theme, onThemeChange }) {
 const NAV = [
   { id:'dashboard',     label:'Dashboard',         icon:IconDashboard },
   // group: Login & Design
-  { id:'login',         label:'Login Forms',       icon:IconLogin,   badge:'3',  group:'Login & Design' },
-  { id:'templates',     label:'Page Templates',    icon:IconLayers,             group:'Login & Design' },
-  { id:'branding',      label:'Branding',          icon:IconPalette,            group:'Login & Design' },
+  { id:'login',         label:'Login Pages',       icon:IconLogin,   group:'Login & Design' },
+  { id:'redirects',     label:'Login URL',         icon:IconLock,    group:'Login & Design' },
+  { id:'branding',      label:'Branding',          icon:IconPalette, group:'Login & Design' },
   // group: Features
   { id:'duplicator',    label:'Page Duplicator',   icon:IconCopy,               group:'Features' },
   { id:'widgets',       label:'Elementor Widgets', icon:IconBolt,    badge:'12', group:'Features' },
@@ -438,7 +444,6 @@ const NAV = [
   { id:'classic-editor',label:'Classic Editor',    icon:IconEdit,               group:'Features' },
   // group: System
   { id:'settings',      label:'Settings',          icon:IconSettings,           group:'System' },
-  { id:'redirects',     label:'Redirects',         icon:IconArrowRight,         group:'System' },
   { id:'compatibility', label:'Compatibility',     icon:IconGrid,               group:'System' },
   { id:'import-export', label:'Import / Export',   icon:IconImport,             group:'System' },
 ];
@@ -535,8 +540,8 @@ function DashboardPage({ settings={}, save, onNavigate, notify }) {
     { icon:IconLock,   label:'Max Attempts',   value:n('max_attempts')||5, suffix:` / ${n('lockout_minutes')||15}min lock`, spark:[5,5,5,5,5,5,5,5] },
   ];
   const quickActions=[
-    { icon:IconLayers, label:'Apply a Template',  hint:'One-click login page layouts.',      go:'templates' },
     { icon:IconLogin,  label:'Edit Login Page',   hint:'Open your login page in Elementor.', href: (pages.login&&pages.login.editUrl)||'' , go: (pages.login&&pages.login.editUrl)?null:'login' },
+    { icon:IconLock,   label:'Login URL',         hint:'Hide login + redirect blocked visitors.', go:'redirects' },
     { icon:IconShield, label:'Security Settings', hint:'Rate limiting & endpoint blocking.', go:'security' },
     { icon:IconCopy,   label:'Duplicate a Page',  hint:'One-click clone from the Pages list.', href: adminUrl('edit.php?post_type=page') },
   ];
@@ -545,7 +550,7 @@ function DashboardPage({ settings={}, save, onNavigate, notify }) {
     <div className="anim-page">
       <PageHeader title="Dashboard" subtitle="Overview of every PowerPlus module — at a glance."
         crumbs={['PowerPlus','Dashboard']}
-        actions={<Button variant="primary" icon={IconLayers} onClick={()=>onNavigate&&onNavigate('templates')}>Apply a Template</Button>}/>
+        actions={<Button variant="primary" icon={IconLogin} onClick={()=>onNavigate&&onNavigate('login')}>Login Pages</Button>}/>
       {/* Health banner — real state */}
       <div className="relative overflow-hidden border border-border rounded-xl px-5 py-4 mb-6 anim-slide-up flex items-center gap-4"
            style={{ background: healthy?'linear-gradient(90deg,rgba(63,185,80,.10),rgba(255,101,0,.05) 60%,transparent)':'linear-gradient(90deg,rgba(248,81,73,.10),transparent 60%)', animationDelay:'20ms' }}>
@@ -629,19 +634,29 @@ function DashboardPage({ settings={}, save, onNavigate, notify }) {
   );
 }
 
-function LoginFormsPage({ onNavigate }) {
+function LoginFormsPage({ onNavigate, notify }) {
   const pages = D.pages || {};
   const CARDS = [
-    { type:'login',    title:'Login Page',          desc:'Your custom sign-in page.',                hue:['#0d1117','#FF6500'], icon:IconLogin },
-    { type:'register', title:'Register Page',        desc:'New user sign-up page.',                   hue:['#1a1f2e','#6366f1'], icon:IconUser },
-    { type:'lost',     title:'Lost Password Page',   desc:'Password recovery request form.',          hue:['#13181f','#3fb950'], icon:IconKey },
-    { type:'reset',    title:'Reset Password Page',  desc:'Token-gated new password form.',           hue:['#2a1f1a','#cc5200'], icon:IconRefresh },
+    { type:'login',    title:'Login Page',          desc:'Your sign-in page.',               hue:['#0d1117','#FF6500'], icon:IconLogin },
+    { type:'register', title:'Register Page',        desc:'New user sign-up page.',           hue:['#1a1f2e','#6366f1'], icon:IconUser },
+    { type:'lost',     title:'Lost Password Page',   desc:'Password recovery request form.',  hue:['#13181f','#3fb950'], icon:IconKey },
+    { type:'reset',    title:'Reset Password Page',  desc:'New-password form (token-gated).', hue:['#2a1f1a','#cc5200'], icon:IconRefresh },
   ];
   return (
     <div className="anim-page">
-      <PageHeader title="Login Forms" subtitle="The real auth pages on this site — edit them in Elementor or apply a template."
-        crumbs={['PowerPlus','Login Forms']}
-        actions={<Button variant="primary" icon={IconLayers} onClick={()=>onNavigate&&onNavigate('templates')}>Apply a Template</Button>}/>
+      <PageHeader title="Login Pages" subtitle="One page each for login, register, lost &amp; reset password — design them in Elementor."
+        crumbs={['PowerPlus','Login Pages']}
+        actions={<Button variant="primary" icon={IconLock} onClick={()=>onNavigate&&onNavigate('redirects')}>Login URL &amp; Security</Button>}/>
+
+      {!D.elementor && (
+        <div className="mb-5 p-4 rounded-lg text-sm flex items-center gap-3"
+             style={{ background:'rgba(248,81,73,.08)', border:'1px solid rgba(248,81,73,.3)' }}>
+          <IconShield size={16} style={{ color:'#f85149', flexShrink:0 }}/>
+          <span>Elementor is needed to design these pages.</span>
+          <span className="ml-auto"><ElementorInstallButton notify={notify} className="text-xs"/></span>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {CARDS.map((c,i)=>{
           const p = pages[c.type] || {};
@@ -669,13 +684,17 @@ function LoginFormsPage({ onNavigate }) {
                     </a>
                   )}
                   {!exists && (
-                    <span className="text-xs text-sub">Not configured yet — run the setup wizard or assign a page in settings.</span>
+                    <span className="text-xs text-sub">Not created yet — activate the plugin or run onboarding to create it.</span>
                   )}
                 </div>
               </div>
             </div>
           );
         })}
+      </div>
+      <div className="mt-4 text-xs rounded-md p-3 leading-relaxed" style={{ background:'rgb(var(--c-card))', border:'1px solid rgb(var(--c-border))' }}>
+        <span className="font-semibold">Tip: </span>
+        each page already contains the matching PowerPlus widget — open it in Elementor and style it to match your brand. Set your secret login address on the <button className="text-brand font-medium" onClick={()=>onNavigate&&onNavigate('redirects')}>Login URL</button> page.
       </div>
     </div>
   );
@@ -1049,7 +1068,13 @@ function SettingsPage({ settings={}, save, onNavigate }) {
           </ul>
         </Card>
       </div>
-      <Card title="Backup & Restore" subtitle="Everything import/export lives on its own page." delay={160}>
+      <Card title="Setup Wizard" subtitle="Re-run the guided onboarding any time." delay={160} className="mb-4">
+        <div className="flex items-center justify-between gap-4">
+          <div className="text-sm text-sub">Walk through the feature setup again, regenerate the login pages, or change which modules are enabled.</div>
+          <Button variant="primary" icon={IconRocket} onClick={()=>window.pkwtOpenWizard&&window.pkwtOpenWizard()}>Run Setup Wizard</Button>
+        </div>
+      </Card>
+      <Card title="Backup & Restore" subtitle="Everything import/export lives on its own page." delay={240}>
         <div className="flex items-center justify-between gap-4">
           <div className="text-sm text-sub">Export a JSON snapshot of all settings, restore one, or factory-reset the plugin.</div>
           <Button variant="ghost" icon={IconImport} onClick={()=>onNavigate&&onNavigate('import-export')}>Open Import / Export</Button>
@@ -1143,66 +1168,109 @@ function TemplatesPage({ notify }) {
   );
 }
 
-function RedirectsPage({ settings={}, save }) {
-  const [loginUrl,setLoginUrl]   = useState(settings.pkwt_custom_login_url || '');
-  const [afterLogin,setAfterLogin] = useState(settings.after_login_redirect || '');
+/* Reduce a stored URL/path to the part AFTER the install's home path.
+   Critical for subdirectory / WordPress-Playground installs whose home URL carries a path
+   prefix (e.g. /scope:.../) — without stripping it the slug accumulates that prefix on
+   every save. `base` is the home URL (with trailing slash). */
+function stripBase(v, base) {
+  if (!v) return '';
+  let s = String(v).replace(/^https?:\/\/[^/]+/i, '');   // drop scheme + host -> path
+  s = s.replace(/^\/+|\/+$/g, '');
+  if (base) {
+    const bp = String(base).replace(/^https?:\/\/[^/]+/i, '').replace(/^\/+|\/+$/g, ''); // base path only
+    if (bp && (s === bp || s.indexOf(bp + '/') === 0)) s = s.slice(bp.length);
+  }
+  return s.replace(/^\/+|\/+$/g, '');
+}
+/* After-login redirect may be multi-level — keep the whole relative path. */
+function urlToSlug(v, base) { return stripBase(v, base); }
+/* Login slug is single-level — take the LAST segment (also auto-heals contaminated values). */
+function urlToLoginSlug(v, base) {
+  const p = stripBase(v, base);
+  const segs = p.split('/').filter(Boolean);
+  return segs.length ? segs[segs.length - 1] : '';
+}
+
+/* WPS-style slug field: [ base url ][ slug input ][ / ].
+   IMPORTANT: defined at MODULE scope (not inside a page component). If it were declared
+   inside the component, every keystroke would create a new component identity and React
+   would remount the <input>, destroying the cursor — the "loses focus after one char" bug. */
+function SlugField({ base, value, onChange, onBlur, placeholder }) {
+  return (
+    <div className="flex items-stretch rounded-lg overflow-hidden border border-border" style={{ background:'rgb(var(--c-bg))' }}>
+      <span className="flex items-center px-3 text-xs text-sub font-mono whitespace-nowrap" style={{ background:'rgba(0,0,0,.04)', borderRight:'1px solid rgb(var(--c-border))' }}>{base}</span>
+      <input className="flex-1 min-w-0 bg-transparent px-3 py-2.5 text-sm" style={{ outline:'none', border:0, color:'rgb(var(--c-fg))' }}
+        value={value} onChange={onChange} onBlur={onBlur} placeholder={placeholder} spellCheck={false}/>
+      <span className="flex items-center px-3 text-xs text-sub font-mono" style={{ borderLeft:'1px solid rgb(var(--c-border))' }}>/</span>
+    </div>
+  );
+}
+
+function RedirectsPage({ settings={}, save, notify }) {
+  const base = (siteUrl()||'/').replace(/\/+$/,'') + '/';
+  const [loginSlug,setLoginSlug]   = useState(urlToLoginSlug(settings.pkwt_custom_login_url, base));
+  const [redirect,setRedirect]     = useState(settings.login_blocked_redirect || '');
+  const [afterLogin,setAfterLogin] = useState(urlToSlug(settings.after_login_redirect, base));
   const [saving,setSaving] = useState(false);
 
-  /* Keep local inputs in sync when the server returns sanitized values */
-  useEffect(()=>{ setLoginUrl(settings.pkwt_custom_login_url || ''); }, [settings.pkwt_custom_login_url]);
-  useEffect(()=>{ setAfterLogin(settings.after_login_redirect || ''); }, [settings.after_login_redirect]);
+  useEffect(()=>{ setLoginSlug(urlToLoginSlug(settings.pkwt_custom_login_url, base)); }, [settings.pkwt_custom_login_url]);
+  useEffect(()=>{ setRedirect(settings.login_blocked_redirect || ''); }, [settings.login_blocked_redirect]);
+  useEffect(()=>{ setAfterLogin(urlToSlug(settings.after_login_redirect, base)); }, [settings.after_login_redirect]);
+
+  const blocking = !!Number(settings.block_default_wp_auth);
 
   const saveAll = async () => {
     setSaving(true);
-    await save({ pkwt_custom_login_url: loginUrl, after_login_redirect: afterLogin });
+    await save({
+      pkwt_custom_login_url: loginSlug.trim(),
+      login_blocked_redirect: redirect.trim(),
+      after_login_redirect: afterLogin.trim() ? base + afterLogin.trim().replace(/^\/+/,'') : '',
+    });
     setSaving(false);
   };
 
+  const liveLoginUrl = loginSlug.trim() ? base + loginSlug.trim().replace(/^\/+/,'') + '/' : '';
+
   return (
     <div className="anim-page">
-      <PageHeader title="Redirects" subtitle="Custom login URL and post-login destination — saved to your real plugin settings."
-        crumbs={['PowerPlus','Redirects']}
-        actions={<Button variant="primary" icon={IconCheck} onClick={saveAll}>{saving?'Saving…':'Save Redirects'}</Button>}/>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card title="Custom Login URL" subtitle="Your branded login address — replaces wp-login.php." delay={0}>
-          <label className="block text-[11px] label text-sub mb-1">Login URL (slug, /path or full URL)</label>
-          <input className="ip mb-2" value={loginUrl} onChange={e=>setLoginUrl(e.target.value)} placeholder="e.g. my-login"/>
-          {settings.pkwt_custom_login_url
-            ? <div className="text-xs text-sub mb-3">Current: <a className="text-brand" href={settings.pkwt_custom_login_url} target="_blank" rel="noopener">{settings.pkwt_custom_login_url}</a></div>
-            : <div className="text-xs text-sub mb-3">No custom login URL set — the default login page is used.</div>}
-          <div className="text-xs rounded-md p-3 leading-relaxed" style={{ background:'rgba(255,101,0,.07)', border:'1px solid rgba(255,101,0,.2)' }}>
-            <span className="font-semibold text-brand">How it works: </span>
-            saving renames your login page's slug to match, so the page is served directly at this URL. <code className="font-mono">wp-login</code> is reserved and will be rejected.
+      <PageHeader title="Login URL" subtitle="Hide your login behind a secret URL and control where blocked visitors go."
+        crumbs={['PowerPlus','Login URL']}
+        actions={<Button variant="primary" icon={IconCheck} onClick={saveAll}>{saving?'Saving…':'Save Changes'}</Button>}/>
+
+      <Card title="Hide Login" subtitle="Change the login URL and block wp-login.php + wp-admin for visitors who aren't logged in." delay={0} className="mb-4">
+        <label className="block text-[11px] label text-sub mb-1.5">Login URL</label>
+        <SlugField base={base} value={loginSlug} onChange={e=>setLoginSlug(e.target.value)} onBlur={saveAll} placeholder="login"/>
+        <div className="text-xs text-sub mt-1.5">
+          {liveLoginUrl
+            ? <>Your login is at <a className="text-brand" href={liveLoginUrl} target="_blank" rel="noopener">{liveLoginUrl}</a></>
+            : <>Set a slug to move your login away from <code className="font-mono">wp-login.php</code>.</>}
+        </div>
+
+        <label className="block text-[11px] label text-sub mb-1.5 mt-5">Redirection URL</label>
+        <SlugField base={base} value={redirect} onChange={e=>setRedirect(e.target.value)} onBlur={saveAll} placeholder="404"/>
+        <div className="text-xs text-sub mt-1.5">Where to send anyone who hits <code className="font-mono">wp-login.php</code> or <code className="font-mono">wp-admin</code> while logged out. Leave as <code className="font-mono">404</code> to show a Not Found page.</div>
+
+        <div className="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-border">
+          <div>
+            <div className="text-sm font-medium">Protect wp-login.php &amp; wp-admin</div>
+            <div className="text-xs text-sub mt-0.5">Turn away non-connected visitors from the default login &amp; admin URLs.</div>
           </div>
-        </Card>
-        <Card title="After-Login Redirect" subtitle="Where users land after a successful login." delay={80}>
-          <label className="block text-[11px] label text-sub mb-1">Redirect URL</label>
-          <input className="ip mb-3" value={afterLogin} onChange={e=>setAfterLogin(e.target.value)} placeholder={siteUrl()}/>
-          <div className="flex items-center justify-between py-3 border-t border-border">
-            <div>
-              <div className="text-sm font-medium">Block default WP login endpoints</div>
-              <div className="text-xs text-sub mt-0.5">Unauthenticated requests to wp-login.php are turned away.</div>
-            </div>
-            <Toggle on={!!Number(settings.block_default_wp_auth)} onChange={v=>save({ block_default_wp_auth: v?1:0 })}/>
-          </div>
-        </Card>
-        <Card title="Auth Pages" subtitle="The pages PowerPlus manages for each auth form." className="lg:col-span-2" delay={160}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {Object.entries(D.pages||{}).map(([type,p])=>(
-              <div key={type} className="border border-border rounded-lg p-3" style={{ background:'rgb(var(--c-bg))' }}>
-                <div className="text-[10px] label text-sub">{type === 'lost' ? 'Lost Password' : type === 'reset' ? 'Reset Password' : type}</div>
-                <div className="text-sm font-semibold mt-1 truncate">{p.title || '— not set —'}</div>
-                {p.id ? (
-                  <div className="flex gap-2 mt-2">
-                    {D.elementor && <a className="text-xs text-brand hover:underline" href={p.editUrl}>Edit</a>}
-                    <a className="text-xs text-sub hover:text-fg" href={p.viewUrl} target="_blank" rel="noopener">View</a>
-                  </div>
-                ) : <div className="text-xs text-sub mt-2">Assign in onboarding</div>}
-              </div>
-            ))}
-          </div>
-        </Card>
-      </div>
+          <Toggle on={blocking} onChange={v=>save({ block_default_wp_auth: v?1:0 })}/>
+        </div>
+
+        <div className="mt-4 text-xs rounded-md p-3 leading-relaxed" style={{ background:'rgba(255,101,0,.08)', border:'1px solid rgba(255,101,0,.25)' }}>
+          <span className="font-semibold text-brand">Heads up: </span>
+          keep this login URL somewhere safe. If you forget it you can still recover by defining
+          <code className="font-mono mx-1 px-1 rounded" style={{ background:'rgba(0,0,0,.08)' }}>POWERPLUS_RECOVERY_MODE</code>
+          as <code className="font-mono">true</code> in <code className="font-mono">wp-config.php</code>.
+        </div>
+      </Card>
+
+      <Card title="After-Login Redirect" subtitle="Where users land after a successful login (optional)." delay={120}>
+        <label className="block text-[11px] label text-sub mb-1.5">Redirect URL</label>
+        <SlugField base={base} value={afterLogin} onChange={e=>setAfterLogin(e.target.value)} onBlur={saveAll} placeholder="dashboard"/>
+        <div className="text-xs text-sub mt-1.5">Leave blank to use the WordPress default (admin dashboard).</div>
+      </Card>
     </div>
   );
 }
@@ -1436,7 +1504,6 @@ function ImportExportPage() {
 const PAGES = {
   dashboard:      DashboardPage,
   login:          LoginFormsPage,
-  templates:      TemplatesPage,
   duplicator:     DuplicatorPage,
   security:       SecurityPage,
   widgets:        WidgetsPage,
@@ -1450,12 +1517,294 @@ const PAGES = {
   'import-export':ImportExportPage,
 };
 
+/* ───────────────────────── ONBOARDING WIZARD ───────────────────────── */
+
+const WIZARD_STEPS = [
+  {
+    key:'login_pages', icon:IconLogin, title:'Login Customization', emoji:'🔐',
+    blurb:"Let's give your members a beautiful, on-brand sign-in experience — built on WordPress's own secure login.",
+    master:'login_customization', masterLabel:'Enable Login Customization',
+    items:[
+      { key:'login_page',    label:'Custom Login Page',    sub:'A branded sign-in page (username & password).' },
+      { key:'register_page', label:'Custom Register Page',  sub:'On-brand sign-up with the native fields.' },
+      { key:'lost_page',     label:'Lost Password Page',    sub:'Styled “forgot password” request form.' },
+      { key:'reset_page',    label:'Reset Password Page',   sub:'Token-gated new-password form.' },
+    ],
+  },
+  {
+    key:'branding', icon:IconPalette, title:'Branding', emoji:'🎨',
+    blurb:'Make every screen feel like yours — logo, background and tone.',
+    items:[
+      { key:'login_logo',              label:'Login Logo',                 sub:'Replace the WordPress logo with yours.' },
+      { key:'login_background',         label:'Login Background',           sub:'Custom colors / image behind the form.' },
+      { key:'disable_default_styling',  label:'Disable default wp-login styling', sub:'Take full control of the native login look.' },
+      { key:'custom_errors',            label:'Custom Error Messages',      sub:'Friendly, enumeration-safe error text.' },
+      { key:'typography',               label:'Typography & Colors',        sub:'Fonts and colors for the login form.' },
+      { key:'button_styling',           label:'Button Styling',             sub:'Style the submit buttons.' },
+    ],
+  },
+  {
+    key:'behavior', icon:IconArrowRight, title:'Behavior', emoji:'⚡',
+    blurb:'Smooth out what happens before and after sign-in.',
+    items:[
+      { key:'redirect_login',  label:'Redirect After Login',  sub:'Send members to a chosen page after login.' },
+      { key:'redirect_logout', label:'Redirect After Logout', sub:'Where users land after signing out.' },
+      { key:'remember_me',     label:'Remember Me',           sub:'Keep users signed in.' },
+      { key:'password_toggle', label:'Password Visibility Toggle', sub:'Show/hide password eye icon.' },
+      { key:'role_redirects',  label:'User Role-Based Redirects', sub:'Different landing pages per role.' },
+    ],
+  },
+  {
+    key:'security', icon:IconShield, title:'Security', emoji:'🛡️',
+    blurb:'Keep the bad bots out without getting in your members’ way.',
+    items:[
+      { key:'anti_spam',  label:'reCAPTCHA / Anti-Spam',  sub:'Block automated login & signup abuse.' },
+      { key:'hide_login', label:'Hide Login URL',         sub:'Move login off wp-login.php to a secret URL.' },
+      { key:'rate_limit', label:'Brute-force Protection', sub:'Throttle & lock out repeated failures.' },
+    ],
+  },
+  {
+    key:'integrations', icon:IconBox, title:'Integrations', emoji:'🧩',
+    blurb:'Play nicely with the tools you already use.',
+    items:[
+      { key:'woocommerce',      label:'WooCommerce Login Compatibility', sub:'Use Woo account flows where present.' },
+      { key:'elementor_import', label:'Elementor Template Import',       sub:'Import ready-made login designs.' },
+      { key:'email_templates',  label:'Email Template Customization',    sub:'Brand the auth emails.' },
+    ],
+  },
+];
+
+function WizardToggleRow({ label, sub, on, onChange }) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-3 px-1 border-b border-border last:border-0">
+      <div className="min-w-0">
+        <div className="text-sm font-medium">{label}</div>
+        <div className="text-xs text-sub mt-0.5">{sub}</div>
+      </div>
+      <Toggle on={on} onChange={onChange} size="sm"/>
+    </div>
+  );
+}
+
+function OnboardingWizard({ onClose, notify }) {
+  // step 0 = welcome; 1..N = feature groups; N+1 = summary; N+2 = applying/success
+  const N = WIZARD_STEPS.length;
+  const SUMMARY = N + 1, DONE = N + 2;
+  const [step,setStep] = useState(0);
+  const [choices,setChoices] = useState(() => {
+    const init = { ...(D.onboardingChoices||{}) };
+    // sensible defaults on first run
+    if (!Object.keys(init).length) {
+      ['login_customization','login_page','register_page','lost_page','reset_page',
+       'login_logo','login_background','disable_default_styling','custom_errors',
+       'remember_me','password_toggle','anti_spam','rate_limit','elementor_import'].forEach(k=>{ init[k]=true; });
+    }
+    return init;
+  });
+  const [applying,setApplying] = useState(false);
+  const [result,setResult] = useState(null);
+
+  /* Full-screen takeover: hide the WP admin chrome while the wizard is open. */
+  useEffect(()=>{
+    document.body.classList.add('pkwt-wizard-open');
+    return ()=>document.body.classList.remove('pkwt-wizard-open');
+  },[]);
+
+  const set = (k,v) => setChoices(c=>({ ...c, [k]: v }));
+  const total = N + 2; // welcome + groups + summary (progress denominator before done)
+  const pct = Math.min(100, Math.round((step / (SUMMARY)) * 100));
+
+  const apply = async () => {
+    setApplying(true);
+    setStep(DONE);
+    try {
+      const data = await applyOnboarding(choices);
+      setResult(data);
+    } catch (e) {
+      notify && notify(e.message || 'Setup failed', 'error');
+      setResult({ error: e.message });
+    } finally { setApplying(false); }
+  };
+
+  const enabledList = () => {
+    const out = [];
+    WIZARD_STEPS.forEach(s=>{
+      if (s.master && !choices[s.master]) return;
+      s.items.forEach(it=>{ if (choices[it.key]) out.push(it.label); });
+    });
+    return out;
+  };
+  const skippedList = () => {
+    const out = [];
+    WIZARD_STEPS.forEach(s=>{
+      s.items.forEach(it=>{ if (!choices[it.key]) out.push(it.label); });
+    });
+    return out;
+  };
+
+  /* ── shell ── */
+  return (
+    <div className="fixed inset-0 overflow-auto" style={{ zIndex:100000, background:'rgb(var(--c-bg))' }}>
+      {/* premium animated background */}
+      <div className="pkwt-wiz-bg">
+        <div className="pkwt-orb o1"/><div className="pkwt-orb o2"/><div className="pkwt-orb o3"/>
+      </div>
+      <div className="relative min-h-full flex flex-col">
+        {/* top bar */}
+        <div className="flex items-center gap-3 px-6 py-4">
+          <LogoMark size={28}/>
+          <div className="text-sm font-bold tracking-tight">PowerPlus Setup</div>
+          {step>0 && step<DONE && (
+            <div className="flex-1 mx-4 h-1.5 rounded-full overflow-hidden" style={{ background:'rgb(var(--c-border))', maxWidth:380 }}>
+              <div className="h-full rounded-full" style={{ width:pct+'%', background:'linear-gradient(90deg,#FF6500,#cc5200)', transition:'width .4s cubic-bezier(.4,0,.2,1)' }}/>
+            </div>
+          )}
+          <div className="flex-1"/>
+          {step<DONE && <button onClick={onClose} className="text-xs text-sub hover:text-fg">Skip setup →</button>}
+        </div>
+
+        <div className="flex-1 flex items-center justify-center px-6 pb-12">
+          <div className="w-full" style={{ maxWidth: step===0?780:(step===DONE?560:620) }}>
+
+            {/* WELCOME */}
+            {step===0 && (
+              <div className="text-center anim-slide-up">
+                <div className="mx-auto mb-8 inline-flex"><LogoMark size={104}/></div>
+                <div className="text-[11px] tracking-[0.25em] font-semibold text-brand mb-3">ALL-IN-ONE TOOLKIT</div>
+                <h1 className="font-extrabold tracking-tight leading-[1.05]" style={{ fontSize:'clamp(40px, 6vw, 68px)' }}>Welcome to PowerPlus</h1>
+                <p className="text-sub mt-5 leading-relaxed mx-auto" style={{ fontSize:'clamp(16px, 1.6vw, 20px)', maxWidth:620 }}>
+                  Your all-in-one toolkit for a beautiful, secure WordPress login — plus duplication, SVG, Ghost Mode and more. Let's set it up together in under a minute. ✨
+                </p>
+                <button onClick={()=>setStep(1)} className="btn btn-primary mt-10 inline-flex items-center gap-2.5" style={{ padding:'17px 40px', fontSize:18, borderRadius:14 }}>
+                  Start Setup <IconArrowRight size={19}/>
+                </button>
+                <div className="mt-5"><button onClick={onClose} className="text-sm text-sub hover:text-fg">I'll explore on my own</button></div>
+              </div>
+            )}
+
+            {/* FEATURE GROUPS */}
+            {step>=1 && step<=N && (()=>{
+              const s = WIZARD_STEPS[step-1];
+              const masterOff = s.master && !choices[s.master];
+              return (
+                <div key={s.key} className="anim-page">
+                  <div className="text-center mb-6">
+                    <div className="text-4xl mb-2">{s.emoji}</div>
+                    <div className="text-[11px] label text-sub">Step {step} of {N}</div>
+                    <h2 className="text-2xl font-bold tracking-tight mt-1">{s.title}</h2>
+                    <p className="text-sub text-sm mt-2 max-w-md mx-auto leading-relaxed">{s.blurb}</p>
+                  </div>
+                  <div className="border border-border rounded-2xl shadow-card p-5" style={{ background:'rgb(var(--c-card))' }}>
+                    {s.master && (
+                      <div className="flex items-center justify-between gap-4 pb-3 mb-2 border-b border-border">
+                        <div className="flex items-center gap-2">
+                          <span className="text-brand"><s.icon size={18}/></span>
+                          <span className="text-sm font-semibold">{s.masterLabel}</span>
+                        </div>
+                        <Toggle on={!!choices[s.master]} onChange={v=>set(s.master,v)}/>
+                      </div>
+                    )}
+                    <div style={{ opacity: masterOff?0.45:1, pointerEvents: masterOff?'none':'auto', transition:'opacity .2s' }}>
+                      {s.items.map(it=>(
+                        <WizardToggleRow key={it.key} label={it.label} sub={it.sub} on={!!choices[it.key]} onChange={v=>set(it.key,v)}/>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-6">
+                    <button onClick={()=>setStep(step-1)} className="btn btn-quiet inline-flex items-center gap-1.5"><IconArrowRight size={14} style={{ transform:'rotate(180deg)' }}/> Back</button>
+                    <div className="flex items-center gap-2">
+                      <button onClick={()=>setStep(step+1)} className="btn btn-quiet">Skip</button>
+                      <button onClick={()=>setStep(step+1)} className="btn btn-primary inline-flex items-center gap-1.5">Next <IconArrowRight size={14}/></button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* SUMMARY */}
+            {step===SUMMARY && (
+              <div className="anim-page">
+                <div className="text-center mb-6">
+                  <div className="text-4xl mb-2">📋</div>
+                  <h2 className="text-2xl font-bold tracking-tight">Review your setup</h2>
+                  <p className="text-sub text-sm mt-2">Here's what we'll turn on. You can change anything later.</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="border border-border rounded-2xl p-5 shadow-card" style={{ background:'rgb(var(--c-card))' }}>
+                    <div className="flex items-center gap-2 mb-3 text-sm font-semibold"><IconCheck size={15} style={{ color:'#3fb950' }}/> Enabled <Badge variant="green">{enabledList().length}</Badge></div>
+                    <ul className="space-y-1.5 max-h-60 overflow-auto">
+                      {enabledList().map(l=><li key={l} className="text-sm text-sub flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-ok inline-block"/>{l}</li>)}
+                      {!enabledList().length && <li className="text-sm text-sub">Nothing selected yet.</li>}
+                    </ul>
+                  </div>
+                  <div className="border border-border rounded-2xl p-5 shadow-card" style={{ background:'rgb(var(--c-card))' }}>
+                    <div className="flex items-center gap-2 mb-3 text-sm font-semibold"><IconX size={15} style={{ color:'#8b949e' }}/> Skipped <Badge variant="grey">{skippedList().length}</Badge></div>
+                    <ul className="space-y-1.5 max-h-60 overflow-auto">
+                      {skippedList().map(l=><li key={l} className="text-sm text-sub flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background:'rgb(var(--c-border))' }}/>{l}</li>)}
+                      {!skippedList().length && <li className="text-sm text-sub">You enabled everything! 🎉</li>}
+                    </ul>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between mt-6">
+                  <button onClick={()=>setStep(N)} className="btn btn-quiet inline-flex items-center gap-1.5"><IconArrowRight size={14} style={{ transform:'rotate(180deg)' }}/> Back</button>
+                  <button onClick={apply} className="btn btn-primary inline-flex items-center gap-2" style={{ padding:'11px 22px' }}><IconRocket size={16}/> Apply &amp; Finish</button>
+                </div>
+              </div>
+            )}
+
+            {/* APPLYING / SUCCESS */}
+            {step===DONE && (
+              <div className="text-center anim-slide-up">
+                {applying ? (
+                  <>
+                    <IconRefresh size={40} className="animate-spin mx-auto mb-4 text-brand"/>
+                    <div className="text-lg font-semibold">Setting everything up…</div>
+                    <div className="text-sub text-sm mt-1">Creating pages, applying settings, wiring up your login.</div>
+                  </>
+                ) : result && !result.error ? (
+                  <>
+                    <div className="mx-auto mb-5 w-16 h-16 rounded-full flex items-center justify-center" style={{ background:'rgba(63,185,80,.15)', color:'#3fb950' }}><IconCheck size={32}/></div>
+                    <h2 className="text-2xl font-bold tracking-tight">You're all set! 🎉</h2>
+                    <p className="text-sub text-sm mt-2 max-w-sm mx-auto">Your login system is live and ready. Here's where to go next.</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-6 text-left">
+                      {result.login_view && <a className="qa-btn" href={result.login_view} target="_blank" rel="noopener"><IconExternal size={15}/> View Login Page</a>}
+                      {result.login_edit && <a className="qa-btn" href={result.login_edit}><IconEdit size={15}/> Edit Login Template</a>}
+                      <button className="qa-btn" onClick={onClose}><IconDashboard size={15}/> Go to Dashboard</button>
+                      <button className="qa-btn" onClick={()=>{ onClose&&onClose('redirects'); }}><IconLock size={15}/> Login URL &amp; Security</button>
+                      <button className="qa-btn sm:col-span-2" onClick={()=>{ setResult(null); setStep(0); }}><IconRefresh size={15}/> Restart Setup Wizard</button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="mx-auto mb-5 w-16 h-16 rounded-full flex items-center justify-center" style={{ background:'rgba(248,81,73,.15)', color:'#f85149' }}><IconX size={32}/></div>
+                    <h2 className="text-xl font-bold">Something went wrong</h2>
+                    <p className="text-sub text-sm mt-2">{(result&&result.error)||'Please try again.'}</p>
+                    <button onClick={()=>setStep(SUMMARY)} className="btn btn-primary mt-5">Back to summary</button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <style>{`#pkwt-dashboard-root .qa-btn{display:flex;align-items:center;gap:8px;padding:12px 14px;border:1px solid rgb(var(--c-border));border-radius:10px;background:rgb(var(--c-card));font-size:13px;font-weight:600;color:rgb(var(--c-fg));text-decoration:none;transition:all .18s}#pkwt-dashboard-root .qa-btn:hover{border-color:#FF6500;color:#FF6500}`}</style>
+    </div>
+  );
+}
+
 function App() {
   const [route,setRoute]    = useState((window.pkwtDashboard||{}).currentPage || 'dashboard');
   const [collapsed,setCol]  = useState(window.innerWidth < 900);
   const [settings,setSettings] = useState(D.settings || {});
   const [toast,setToast]    = useState(null);
+  const [showWizard,setShowWizard] = useState(!D.wizardComplete);
   const toastTimer = useRef(null);
+
+  // Closing the wizard optionally navigates to a route (e.g. from a success quick-action).
+  const closeWizard = (gotoRoute) => {
+    setShowWizard(false);
+    if (typeof gotoRoute === 'string') setRoute(gotoRoute);
+  };
 
   const notify = (msg, tone='ok') => {
     clearTimeout(toastTimer.current);
@@ -1510,6 +1859,9 @@ function App() {
     if (D.notice && MSG[D.notice]) notify(MSG[D.notice][0], MSG[D.notice][1]);
   }, []);
 
+  /* Let any page re-open the wizard (e.g. Settings → "Run Setup Wizard"). */
+  useEffect(()=>{ window.pkwtOpenWizard = ()=>setShowWizard(true); return ()=>{ delete window.pkwtOpenWizard; }; }, []);
+
   /* Keyboard shortcut Shift+D toggles theme */
   useEffect(()=>{
     const onKey=(e)=>{
@@ -1530,6 +1882,21 @@ function App() {
   },[]);
 
   const Page = PAGES[route] || DashboardPage;
+
+  if (showWizard) {
+    return (
+      <div className="pp-dotbg" style={{ minHeight:'100vh', background:'rgb(var(--c-bg))', color:'rgb(var(--c-fg))' }}>
+        <OnboardingWizard onClose={closeWizard} notify={notify}/>
+        {toast && (
+          <div className="fixed bottom-6 right-6 z-[110] flex items-center gap-2 px-4 py-3 rounded-lg shadow-card text-sm font-medium anim-slide-up"
+               style={{ background:'rgb(var(--c-card))', border:`1px solid ${toast.tone==='error'?'rgba(248,81,73,.5)':'rgba(63,185,80,.5)'}`, color:'rgb(var(--c-fg))' }}>
+            {toast.tone==='error' ? <IconX size={15} style={{color:'#f85149'}}/> : <IconCheck size={15} style={{color:'#3fb950'}}/>}
+            {toast.msg}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="pp-dotbg" style={{ minHeight:'100vh', background:'rgb(var(--c-bg))', color:'rgb(var(--c-fg))' }}>
