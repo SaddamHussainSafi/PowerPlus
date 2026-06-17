@@ -1143,7 +1143,7 @@ function TemplatesPage({ notify }) {
   );
 }
 
-function RedirectsPage({ settings={}, save }) {
+function RedirectsPage({ settings={}, save, onNavigate, notify }) {
   const [loginUrl,setLoginUrl]   = useState(settings.pkwt_custom_login_url || '');
   const [afterLogin,setAfterLogin] = useState(settings.after_login_redirect || '');
   const [saving,setSaving] = useState(false);
@@ -1158,11 +1158,71 @@ function RedirectsPage({ settings={}, save }) {
     setSaving(false);
   };
 
+  const mode = settings.login_mode || 'legacy';
+  const templates = D.elementorTemplates || [];
+  const MODES = [
+    { id:'legacy',   icon:IconCopy,   title:'Login Page',          desc:'A real WP page built with Elementor (classic PowerPlus).' },
+    { id:'template', icon:IconLayers, title:'Elementor Template',  desc:'Serve an Elementor template at a secret URL — no extra page. (Beta)' },
+    { id:'native',   icon:IconLogin,  title:'Native + Branding',   desc:'Style the default wp-login.php — no Elementor needed.' },
+  ];
+
   return (
     <div className="anim-page">
-      <PageHeader title="Redirects" subtitle="Custom login URL and post-login destination — saved to your real plugin settings."
+      <PageHeader title="Login & Redirects" subtitle="Choose how your login is served, set the custom URL and post-login destination."
         crumbs={['PowerPlus','Redirects']}
         actions={<Button variant="primary" icon={IconCheck} onClick={saveAll}>{saving?'Saving…':'Save Redirects'}</Button>}/>
+
+      <Card title="Login Mode" subtitle="How the login screen is delivered." delay={0} className="mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {MODES.map(m=>{
+            const active = mode===m.id;
+            return (
+              <button key={m.id} onClick={()=>save({ login_mode:m.id })}
+                className="text-left rounded-lg border p-4 ease-out-soft"
+                style={{ background:'rgb(var(--c-bg))', borderColor: active?'#FF6500':'rgb(var(--c-border))', boxShadow: active?'0 0 0 1px #FF6500':'none' }}>
+                <div className="flex items-center gap-2 mb-1">
+                  <span style={{ color: active?'#FF6500':'rgb(var(--c-sub))' }}><m.icon size={17}/></span>
+                  <span className="text-sm font-semibold">{m.title}</span>
+                  {active && <span className="ml-auto"><IconCheck size={14} style={{ color:'#FF6500' }}/></span>}
+                </div>
+                <div className="text-xs text-sub leading-relaxed">{m.desc}</div>
+              </button>
+            );
+          })}
+        </div>
+        {mode==='template' && (
+          <div className="mt-4 border-t border-border pt-4">
+            {!D.elementor ? (
+              <div className="text-sm text-sub flex items-center gap-3">
+                <IconShield size={15} style={{ color:'#f85149' }}/> Elementor is required for this mode.
+                <span className="ml-auto"><ElementorInstallButton notify={notify} className="text-xs"/></span>
+              </div>
+            ) : (
+              <>
+                <label className="block text-[11px] label text-sub mb-1">Elementor template to serve as the login screen</label>
+                {templates.length ? (
+                  <select className="ip" value={settings.login_template_id||0} onChange={e=>save({ login_template_id: parseInt(e.target.value,10)||0 })}>
+                    <option value={0}>— Select a template —</option>
+                    {templates.map(t=> <option key={t.id} value={t.id}>{t.title}{t.type?` (${t.type})`:''}</option> )}
+                  </select>
+                ) : (
+                  <div className="text-xs text-sub">No Elementor templates found. Create one in <a className="text-brand" href={adminUrl('edit.php?post_type=elementor_library')}>Templates → Saved Templates</a> with a PowerPlus Login Form widget, then pick it here.</div>
+                )}
+                <div className="mt-3 text-xs rounded-md p-3 leading-relaxed" style={{ background:'rgba(255,101,0,.07)', border:'1px solid rgba(255,101,0,.2)' }}>
+                  <span className="font-semibold text-brand">How it works: </span>
+                  the selected template is rendered at your custom login URL below — full Elementor design, no separate page created. The real <code className="font-mono">wp-login.php</code> stays available unless you enable endpoint blocking.
+                </div>
+              </>
+            )}
+          </div>
+        )}
+        {mode==='native' && (
+          <div className="mt-4 border-t border-border pt-4 text-sm text-sub">
+            Style the default login screen from the <button className="text-brand font-medium" onClick={()=>onNavigate&&onNavigate('branding')}>Branding</button> page (logo, colors, background, messages).
+          </div>
+        )}
+      </Card>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card title="Custom Login URL" subtitle="Your branded login address — replaces wp-login.php." delay={0}>
           <label className="block text-[11px] label text-sub mb-1">Login URL (slug, /path or full URL)</label>

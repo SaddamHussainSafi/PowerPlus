@@ -260,6 +260,7 @@ class Class_PKWT_Admin {
 			'block_default_wp_auth', 'security_dashboard_enabled', 'settings_activity_log',
 			'admin_test_mode', 'auto_update_all_plugins', 'login_page_id', 'register_page_id', 'lost_password_page_id',
 			'reset_password_page_id', 'after_login_redirect', 'after_login_redirect_page_id',
+			'login_mode', 'login_template_id',
 			'pkwt_custom_login_url', 'max_attempts', 'lockout_minutes', 'captcha_provider',
 			'recaptcha_site_key', 'recaptcha_secret_key', 'hcaptcha_site_key', 'hcaptcha_secret_key',
 			'plugin_menu_name', 'plugin_description', 'support_url', 'role_redirects', 'ip_allowlist',

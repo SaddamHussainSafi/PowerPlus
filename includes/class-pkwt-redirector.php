@@ -335,6 +335,12 @@ class Class_PKWT_Redirector {
 
 		$settings = $this->settings_repo->get();
 
+		// In "Elementor template" login mode, the login renderer owns the custom URL and
+		// serves the template directly — don't also try to redirect it to a page.
+		if ( isset( $settings['login_mode'] ) && 'template' === $settings['login_mode'] ) {
+			return;
+		}
+
 		// Get the custom login URL setting (e.g. http://test.local/my-login).
 		$custom_url = isset( $settings['pkwt_custom_login_url'] ) ? esc_url_raw( (string) $settings['pkwt_custom_login_url'] ) : '';
 		if ( '' === $custom_url ) {

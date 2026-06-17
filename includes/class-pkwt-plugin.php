@@ -130,6 +130,9 @@ class Class_PKWT_Plugin {
 
 		$branding = new Class_PKWT_Branding();
 		$branding->register();
+
+		$login_renderer = new Class_PKWT_Login_Renderer();
+		$login_renderer->register();
 	}
 
 	/**

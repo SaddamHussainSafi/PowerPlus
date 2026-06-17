@@ -83,6 +83,9 @@ class Class_PKWT_Settings {
 		$output['settings_activity_log'] = isset( $settings['settings_activity_log'] ) ? ( empty( $settings['settings_activity_log'] ) ? 0 : 1 ) : ( isset( $current['settings_activity_log'] ) ? absint( $current['settings_activity_log'] ) : 1 );
 		$output['admin_test_mode']       = isset( $settings['admin_test_mode'] ) ? ( empty( $settings['admin_test_mode'] ) ? 0 : 1 ) : ( isset( $current['admin_test_mode'] ) ? absint( $current['admin_test_mode'] ) : 0 );
 		$output['auto_update_all_plugins'] = isset( $settings['auto_update_all_plugins'] ) ? ( empty( $settings['auto_update_all_plugins'] ) ? 0 : 1 ) : ( isset( $current['auto_update_all_plugins'] ) ? absint( $current['auto_update_all_plugins'] ) : 0 );
+		$login_mode_in = isset( $settings['login_mode'] ) ? sanitize_key( (string) $settings['login_mode'] ) : ( isset( $current['login_mode'] ) ? sanitize_key( (string) $current['login_mode'] ) : 'legacy' );
+		$output['login_mode']            = in_array( $login_mode_in, array( 'legacy', 'template', 'native' ), true ) ? $login_mode_in : 'legacy';
+		$output['login_template_id']     = isset( $settings['login_template_id'] ) ? absint( $settings['login_template_id'] ) : ( isset( $current['login_template_id'] ) ? absint( $current['login_template_id'] ) : 0 );
 		$output['login_page_id']         = isset( $settings['login_page_id'] ) ? absint( $settings['login_page_id'] ) : ( isset( $current['login_page_id'] ) ? absint( $current['login_page_id'] ) : 0 );
 		$output['register_page_id']      = isset( $settings['register_page_id'] ) ? absint( $settings['register_page_id'] ) : ( isset( $current['register_page_id'] ) ? absint( $current['register_page_id'] ) : 0 );
 		$output['lost_password_page_id'] = isset( $settings['lost_password_page_id'] ) ? absint( $settings['lost_password_page_id'] ) : ( isset( $current['lost_password_page_id'] ) ? absint( $current['lost_password_page_id'] ) : 0 );
