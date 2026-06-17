@@ -81,7 +81,7 @@ $unusual_pattern = ( ! empty( $rate_limit_status['limited'] ) || $recent_24h_cha
 					</div>
 				</div>
 				<p class="description"><?php esc_html_e( 'Returns 404 for unauthenticated access to native login/admin paths.', 'powerplus-toolkit' ); ?></p>
-				<div class="pkwt-info-box pkwt-info-box-warning"><?php esc_html_e( 'Emergency bypass: set POWERKIT_AUTH_RECOVERY_MODE to true in wp-config.php.', 'powerplus-toolkit' ); ?></div>
+				<div class="pkwt-info-box pkwt-info-box-warning"><?php esc_html_e( 'Emergency bypass: set POWERPLUS_RECOVERY_MODE to true in wp-config.php.', 'powerplus-toolkit' ); ?></div>
 			</section>
 
 			<section class="pkwt-card pkwt-card-span-2">

@@ -576,6 +576,11 @@ class Class_PKWT_Redirector {
 	 * @return bool
 	 */
 	private function is_recovery_mode(): bool {
+		// Primary, documented constant (matches what the dashboard tells users to set).
+		if ( defined( 'POWERPLUS_RECOVERY_MODE' ) ) {
+			return (bool) POWERPLUS_RECOVERY_MODE;
+		}
+		// Legacy aliases kept for backward compatibility with older installs/docs.
 		if ( defined( 'POWERKIT_AUTH_RECOVERY_MODE' ) ) {
 			return (bool) POWERKIT_AUTH_RECOVERY_MODE;
 		}

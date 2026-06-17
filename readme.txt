@@ -4,7 +4,7 @@ Donate link: https://saddamhussain.com.np/
 Tags: login, elementor, custom login, login page, register
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 3.10.2
+Stable tag: 3.10.3
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,19 +13,24 @@ Power Packed Tools - Complete WordPress Management Suite.
 
 == Description ==
 
-**PowerPlus — All-in-One Powerful Toolkit** gives you one dashboard for custom auth routing, post duplication, SVG security controls, Ghost Mode hardening, and Classic Editor control.
+**PowerPlus** helps you create branded WordPress login, register, lost-password and reset-password pages — without replacing WordPress authentication. Default WordPress login pages are plain, limited and off-brand; PowerPlus gives you a working, customizable login experience in a few guided steps, then lets you refine the design with built-in styling or Elementor widgets.
 
-No more ugly default WordPress login pages. Every pixel is under your control, and all feature modules are managed from one settings experience.
+Customize forms, fields, buttons, typography, spacing, colors, messages and layouts from one clean dashboard — while WordPress-native login, registration, password reset and security hooks keep working exactly as they should.
 
 = Overview =
 
-This plugin now includes four core modules in one package:
+PowerPlus is built around one hero feature — the **Custom Auth Builder** — with four supporting utility modules:
 
-* **Custom Auth Builder** — Build and style login/register/lost/reset pages with Elementor widgets
-* **Duplicate Post Module** — Duplicate posts, pages, products, and custom post types including meta/ACF and Elementor data regeneration
-* **SVG Upload Module** — Safely allow SVG uploads with server-side sanitization, role controls, scan tools, and logs
-* **Ghost Mode Module** — Reduce common WordPress fingerprints with configurable source/API hardening and detection testing
-* **Classic Editor Module** — Disable Gutenberg with per-post-type control and classic editor management options
+**Main module**
+
+* **Custom Auth Builder** — Branded login, register, lost-password and reset-password pages on native WordPress auth. Custom login URL, redirects, CAPTCHA, WooCommerce compatibility, and Elementor design support.
+
+**Utility modules**
+
+* **Duplicate Content** — Duplicate posts, pages, products and custom post types, preserving meta and Elementor data.
+* **SVG Upload Control** — Allow SVG uploads with server-side sanitization, role permissions and scan logs.
+* **Privacy Hardening** (Ghost Mode) — Reduce common WordPress fingerprints with configurable source/API controls and safe defaults.
+* **Classic Editor Control** — Disable the block editor per post type, with user preferences.
 
 = Who is this for? =
 
@@ -36,10 +41,10 @@ This plugin now includes four core modules in one package:
 = How it works =
 
 1. Install and activate the plugin
-2. The plugin creates custom login, register, and lost password pages automatically
-3. Open any page in Elementor and drag the login widgets onto your design
-4. Style every detail — fields, buttons, labels, colors, fonts, shadows — from the Elementor panel
-5. Save. Your branded login page is live.
+2. A guided setup wizard welcomes you — choose which modules to enable, or skip and configure later
+3. Enabling Login Customization creates working Login, Register, Lost Password and Reset Password pages on native WordPress auth — no manual setup
+4. Customize the design with the built-in styling controls, or open a page in Elementor to drag in the PowerPlus widgets
+5. Set a custom (hidden) login URL and review everything from one dashboard
 
 = Included Widgets =
 
@@ -73,7 +78,7 @@ Every widget includes the same styling controls you find in native Elementor wid
 
 * All form submissions use WordPress nonces
 * Rate limiting on login and lost password actions
-* No data sent to external servers
+* No data sent externally unless optional CAPTCHA integrations are enabled
 * Passwords never logged
 * Compatible with two-factor authentication plugins
 * CAPTCHA support via Google reCAPTCHA and hCaptcha
@@ -89,7 +94,7 @@ Every widget includes the same styling controls you find in native Elementor wid
 
 = Privacy =
 
-This plugin does not collect or transmit any user data to external servers. All data stays on your WordPress installation. For details, see the FAQ section.
+PowerPlus stores only plugin settings on your WordPress installation and runs no analytics or tracking. The only data sent externally is when you enable optional CAPTCHA (Google reCAPTCHA or hCaptcha), which transmits a verification token to that service. See the External Services section for details.
 
 = Documentation and Support =
 
@@ -114,9 +119,9 @@ This plugin does not collect or transmit any user data to external servers. All 
 
 = After Activation =
 
-1. The plugin will automatically create your custom login, register, and lost password pages
-2. Go to PowerPlus — All-in-One Powerful Toolkit > Settings to assign pages and configure options
-3. Open any page in Elementor to start designing with the login widgets
+1. You're taken to a guided setup wizard — you can Start Setup, skip it, or configure later
+2. The wizard creates the auth pages it needs and enables only the modules you choose (no duplicate pages on re-activation)
+3. Customize the design with the built-in controls or in Elementor, and set your custom login URL
 
 = Requirements =
 
@@ -142,9 +147,9 @@ Yes. The plugin includes a WooCommerce mode in settings that hooks into WooComme
 
 Yes. The plugin uses WordPress's native wp_signon() function for authentication, which means all authentication hooks — including those from 2FA plugins — still fire correctly.
 
-= Is it GDPR compliant? =
+= Is it privacy-friendly? =
 
-Yes. The plugin does not collect, store, or transmit any personal data to external servers. It stores only plugin settings in your WordPress database. It integrates with WordPress's privacy tools including the personal data eraser and exporter. See the Privacy Policy section in settings for suggested policy text.
+PowerPlus is privacy-friendly by design. It stores only plugin settings in your WordPress database and does not run analytics or tracking. The one exception is optional CAPTCHA: if you enable Google reCAPTCHA or hCaptcha, those services receive a verification token from the visitor's browser (see the External Services section). It also integrates with WordPress's privacy tools, including the personal data eraser and exporter.
 
 = What happens if I delete the custom login page by accident? =
 
@@ -160,7 +165,7 @@ The plugin automatically registers custom auth pages with WP Rocket and W3 Total
 
 = Can I show my own branding instead of the plugin name? =
 
-Yes. The White Label settings tab allows you to rename the plugin in the WordPress admin menu, set a custom support URL, and hide the plugin from the plugins list on client sites.
+Yes. The Branding module white-labels the native login screen (logo, link, background, accent color, messages) and the admin chrome (custom footer text, hide the WordPress version, hide the admin-bar logo). You can also hide PowerPlus from the plugins list on client sites.
 
 = Where can I report a security vulnerability? =
 
@@ -178,6 +183,11 @@ Please report security issues directly to the author via the contact form at htt
 8. The onboarding wizard shown on first activation
 
 == Changelog ==
+
+= 3.10.3 =
+* Fixed: Emergency recovery mode now works as documented. The code checked an old constant name (POWERKIT_AUTH_RECOVERY_MODE) while the dashboard told users to set POWERPLUS_RECOVERY_MODE — defining POWERPLUS_RECOVERY_MODE = true in wp-config.php now correctly restores default login access (legacy constant names still honored).
+* Docs: Trust/readme cleanup — corrected the module count (one hero module + four utilities), merged the duplicated 3.5.8 changelog entry, fixed privacy wording so it no longer claims zero external data when optional CAPTCHA is enabled, corrected the stored option names (pkwt_settings, not cle_settings) with a legacy-migration note, replaced the "every pixel" claim with precise wording, softened the GDPR claim to "privacy-friendly", and updated the White Label FAQ to reference the Branding module.
+* Changed: "Ghost Mode" is now presented as "Privacy Hardening" in the dashboard (clearer intent; the page notes its former name).
 
 = 3.10.1 =
 * Fixed: The Login URL kept appending the site's path (e.g. "scope:.../") to the slug on every save, especially on subdirectory / WordPress Playground installs. The login URL is now stored as a clean bare slug and rebuilt against the live site address at runtime, so it no longer accumulates. Existing values with their structure intact auto-heal on the next save.
@@ -235,11 +245,9 @@ Please report security issues directly to the author via the contact form at htt
 = 3.5.8 =
 * Added: Premium React dashboard UI with animated stats, quick actions, and module toggles
 * Added: Plugin banner and icons on WordPress.org listing
-* Added: Lightning bolt SVG admin menu icon
-* Improved: Main admin page now loads modern dark-themed dashboard
-
-= 3.5.8 =
+* Improved: Main admin page now loads the modern dashboard
 * Fixed: All remaining "PowerKit" display strings replaced with "PowerPlus" across admin notices, widget titles, onboarding, conflict detector, and frontend messages
+
 = 3.5.6 =
 * Renamed: Plugin slug changed to powerplus-toolkit (approved by WordPress.org)
 * Renamed: Plugin display name changed to PowerPlus — All-in-One Powerful Toolkit
@@ -666,11 +674,11 @@ No data is sent to any external service if CAPTCHA is set to "None" (the default
 
 == Privacy Policy ==
 
-PowerPlus — All-in-One Powerful Toolkit does not collect, store, or transmit any personal data to external servers or third parties.
+PowerPlus stores plugin data locally on your site and does not run analytics or tracking. The only data transmitted externally is an optional CAPTCHA verification token, sent to Google reCAPTCHA or hCaptcha only when you enable that feature (see External Services).
 
 **Data stored locally on your site:**
 
-* Plugin settings (stored in wp_options table as cle_settings)
+* Plugin settings (stored in the wp_options table under the `pkwt_settings` key, plus per-module keys `pkwt_dpp_settings`, `pkwt_dpp_svg_settings`, `pkwt_dpp_ghost_settings` and `pkwt_dpp_classic_settings`). Sites upgraded from the plugin's earlier "CLE/PowerKit" releases may retain legacy `cle_*` keys, which are migration leftovers and are cleaned up on uninstall.
 * Custom page IDs created by the plugin (stored in wp_options)
 * Login attempt counters for rate limiting (stored as temporary WordPress transients, auto-deleted after the lockout period)
 

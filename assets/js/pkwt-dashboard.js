@@ -440,7 +440,7 @@ const NAV = [
   { id:'widgets',       label:'Elementor Widgets', icon:IconBolt,    badge:'12', group:'Features' },
   { id:'security',      label:'Security',          icon:IconShield,  badge:'NEW',badgeVariant:'green', group:'Features' },
   { id:'svg-upload',    label:'SVG Upload',        icon:IconUpload,             group:'Features' },
-  { id:'ghost-mode',    label:'Ghost Mode',        icon:IconEye,                group:'Features' },
+  { id:'ghost-mode',    label:'Privacy Hardening', icon:IconEye,                group:'Features' },
   { id:'classic-editor',label:'Classic Editor',    icon:IconEdit,               group:'Features' },
   // group: System
   { id:'settings',      label:'Settings',          icon:IconSettings,           group:'System' },
@@ -1363,8 +1363,8 @@ function GhostModePage({ notify }) {
   const b = (k) => !!Number(m[k]);
   return (
     <div className="anim-page">
-      <PageHeader title="Ghost Mode" subtitle="Hide WordPress fingerprints from your public source code — saves instantly."
-        crumbs={['PowerPlus','Ghost Mode']}/>
+      <PageHeader title="Privacy Hardening" subtitle="Reduce WordPress fingerprints in your public source — formerly “Ghost Mode”. Saves instantly."
+        crumbs={['PowerPlus','Privacy Hardening']}/>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card title="Ghost Mode" subtitle="Master switch for all stealth features." delay={0}>
           <div className="flex items-start justify-between gap-3 mb-5">

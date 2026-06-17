@@ -1,5 +1,5 @@
 /**
- * PowerKit — Elementor editor template picker
+ * PowerPlus — Elementor editor template picker
  *
  * Handles template import from within the Elementor widget panel.
  * After a successful import the Elementor preview reloads automatically
