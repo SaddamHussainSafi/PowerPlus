@@ -184,44 +184,21 @@ Please report security issues directly to the author via the contact form at htt
 
 == Changelog ==
 
-Recent releases are listed below. For the complete history, see CHANGELOG.md in the plugin folder.
-
 = 3.10.4 =
-* Improved: Refined dashboard motion and interaction states for a smoother, more polished feel.
-* Improved: Cleaner full-screen layout — removed the duplicate admin footer and tightened spacing.
-
-= 3.10.3 =
-* Fixed: Emergency recovery mode now responds to the documented POWERPLUS_RECOVERY_MODE constant.
-* Improved: Clearer, more accurate documentation and consistent module naming throughout the dashboard.
-
-= 3.10.2 =
-* Improved: Redesigned onboarding welcome screen with a full-screen layout and refined typography.
-
-= 3.10.1 =
-* Fixed: Custom login URL no longer accumulated the site path on subdirectory installs; it is now stored as a clean slug.
-
-= 3.10.0 =
-* Added: Guided setup wizard — choose which features to enable, with a review summary and success screen. Re-runnable any time from Settings.
-* Fixed: Settings fields keep focus while typing.
+* Added: Guided setup wizard to enable features and create the login, register, lost-password and reset-password pages in one step.
+* Improved: Refined dashboard design, motion and onboarding experience.
 
 = 3.9.0 =
-* Added: Hidden login URL with a configurable redirect for blocked visitors, and protection for wp-login.php and wp-admin.
+* Added: Hidden login URL with a configurable redirect for blocked visitors, plus protection for wp-login.php and wp-admin.
 * Improved: One editable page each for login, register, lost password and reset password.
 
 = 3.8.0 =
-* Added: Branding module to white-label the login screen and admin chrome.
+* Added: Branding module to white-label the login screen and admin area.
 * Added: One-click Elementor install and an optional auto-update-all-plugins switch.
-* Changed: Dashboard assets are now bundled with the plugin (no external CDNs).
-
-= 3.7.0 =
-* Improved: Dashboard performance and reliability.
 
 = 3.6.0 =
-* Security: Hardened SVG sanitization, login rate limiting (including the native login form) and an IP allow-list.
-* Fixed: Reliable settings saving and correct Elementor page duplication.
-
-= 3.5.x and earlier =
-* Custom login pages, Elementor widgets, page duplicator, SVG uploads, Privacy Hardening and Classic Editor control, plus the WordPress.org rename to PowerPlus. See CHANGELOG.md for full details.
+* Security: Strengthened SVG sanitization, login rate limiting and an IP allow-list.
+* Improved: More reliable settings saving and Elementor page duplication.
 
 == Upgrade Notice ==
 
