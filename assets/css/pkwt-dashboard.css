@@ -115,26 +115,41 @@ body.pkwt-wizard-open html, body.pkwt-wizard-open { overflow: hidden !important;
 
 /* Typography helpers */
 .label { letter-spacing:.08em; text-transform:uppercase; font-weight:500; }
-.ease-out-soft { transition:all .2s cubic-bezier(.4,0,.2,1); }
+/* Spring-like ease for a more "alive", premium feel (overshoots slightly then settles). */
+.ease-out-soft { transition:all .22s cubic-bezier(.34,1.56,.64,1); }
 
 /* Animations */
-@keyframes slideUp  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-@keyframes fadeIn   { from{opacity:0;transform:translateY(4px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes slideUp  { from{opacity:0;transform:translateY(14px) scale(.985)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes fadeIn   { from{opacity:0;transform:translateY(6px)}  to{opacity:1;transform:translateY(0)} }
 @keyframes pulseGlow{ 0%,100%{box-shadow:0 0 0 0 rgba(255,101,0,.6)} 50%{box-shadow:0 0 12px 3px rgba(255,101,0,.2)} }
 @keyframes glowLine { 0%,100%{opacity:.35} 50%{opacity:1} }
 @keyframes ripple   { from{transform:scale(0);opacity:.5} to{transform:scale(4);opacity:0} }
 @keyframes navIn    { from{transform:scaleY(0)} to{transform:scaleY(1)} }
 @keyframes drawLine { to{stroke-dashoffset:0;} }
 
-.anim-slide-up  { animation:slideUp .5s cubic-bezier(.4,0,.2,1) both; }
-.anim-page      { animation:fadeIn .35s ease-out both; }
+.anim-slide-up  { animation:slideUp .55s cubic-bezier(.22,1,.36,1) both; }
+.anim-page      { animation:fadeIn .4s cubic-bezier(.22,1,.36,1) both; }
 .anim-pulse     { animation:pulseGlow 2.4s ease-in-out infinite; }
 .topbar-pulse   { animation:glowLine 3.5s ease-in-out infinite; }
 .ripple { position:absolute; border-radius:9999px; background:rgba(255,255,255,.35); pointer-events:none; animation:ripple .6s linear; }
 
-/* Toggle */
-.toggle-track { transition:background .3s cubic-bezier(.4,0,.2,1),box-shadow .3s; }
-.toggle-thumb { transition:left .3s cubic-bezier(.4,0,.2,1),box-shadow .3s; }
+/* Staggered entrance — children of a page animate in sequence for a polished cascade. */
+.anim-page > * { animation: fadeIn .45s cubic-bezier(.22,1,.36,1) both; }
+.anim-page > *:nth-child(1){animation-delay:.02s}
+.anim-page > *:nth-child(2){animation-delay:.07s}
+.anim-page > *:nth-child(3){animation-delay:.12s}
+.anim-page > *:nth-child(4){animation-delay:.17s}
+.anim-page > *:nth-child(5){animation-delay:.22s}
+.anim-page > *:nth-child(6){animation-delay:.27s}
+
+/* Press feedback on buttons (active state) for tactile interaction. */
+#pkwt-dashboard-root .btn:active { transform: translateY(1px) scale(.985); }
+#pkwt-dashboard-root .btn { transition: all .18s cubic-bezier(.34,1.56,.64,1); }
+
+/* Toggle — snappy spring so the thumb glides with a little life */
+.toggle-track { transition:background .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s; }
+.toggle-thumb { transition:left .28s cubic-bezier(.34,1.56,.64,1),box-shadow .25s; }
+.toggle-track:active { transform: scale(.96); }
 
 /* Sidebar nav active bar */
 .nav-active-bar {
@@ -150,9 +165,9 @@ body.pkwt-wizard-open html, body.pkwt-wizard-open { overflow: hidden !important;
 .qa-fill { position:absolute; inset:0; background:linear-gradient(90deg,rgba(255,101,0,.18),rgba(255,101,0,.02)); transform:translateX(-100%); transition:transform .35s cubic-bezier(.4,0,.2,1); }
 .qa:hover .qa-fill { transform:translateX(0); }
 
-/* Stat card hover */
-.stat-card { transition:transform .25s cubic-bezier(.4,0,.2,1),border-color .25s,box-shadow .25s; }
-.stat-card:hover { transform:scale(1.012); border-color:rgba(255,101,0,.5); box-shadow:0 0 32px rgba(255,101,0,.18); }
+/* Stat card hover — gentle lift + scale for depth */
+.stat-card { transition:transform .28s cubic-bezier(.34,1.56,.64,1),border-color .25s,box-shadow .25s; }
+.stat-card:hover { transform:translateY(-3px) scale(1.012); border-color:rgba(255,101,0,.5); box-shadow:0 10px 32px rgba(255,101,0,.18); }
 .stat-card::after { content:''; position:absolute; left:16px; right:16px; bottom:0; height:1px; background:linear-gradient(90deg,transparent,rgba(255,101,0,0),transparent); transition:background .3s; }
 .stat-card:hover::after { background:linear-gradient(90deg,transparent,rgba(255,101,0,.7),transparent); box-shadow:0 0 16px rgba(255,101,0,.5); }
 

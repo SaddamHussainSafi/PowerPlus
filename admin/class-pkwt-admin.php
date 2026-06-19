@@ -505,16 +505,9 @@ class Class_PKWT_Admin {
 	 * @return string
 	 */
 	public function filter_admin_footer_text( string $text ): string {
-		$page = $this->get_query_arg_key( 'page' );
-		if ( 0 !== strpos( $page, 'pkwt-settings' ) ) {
-			return $text;
-		}
-
-		return sprintf(
-			/* translators: %s: current year */
-			esc_html__( '© %s PowerPlus — All-in-One Powerful Toolkit | Developed by Saddam Hussain Safi', 'powerplus-toolkit' ),
-			gmdate( 'Y' )
-		) . ' | <a href="https://inceptastudio.com/" target="_blank" rel="noopener noreferrer">Incepta Studio</a> | <a href="https://saddamhussain.com.np/" target="_blank" rel="noopener noreferrer">Portfolio</a>';
+		// The dashboard hides #wpfooter and renders its own; leave WP's footer untouched
+		// elsewhere. Kept minimal and promo-free.
+		return $text;
 	}
 
 	/**

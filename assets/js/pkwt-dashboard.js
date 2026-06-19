@@ -508,7 +508,7 @@ function Sidebar({ current, onNavigate, collapsed }) {
             <LogoMark size={22}/>
             <div className="text-[11px] text-sub leading-tight">
               <div className="font-medium text-fg">PowerPlus</div>
-              <div>v{(window.pkwtDashboard||{}).version||'3.5.8.1'} · Free</div>
+              <div>v{(window.pkwtDashboard||{}).version||''}</div>
             </div>
           </div>
         ):(
@@ -1905,13 +1905,9 @@ function App() {
         <Sidebar current={route} onNavigate={setRoute} collapsed={collapsed}/>
         <main className="flex-1 min-w-0 p-8 overflow-auto" key={route}>
           <Page onNavigate={setRoute} settings={settings} save={save} notify={notify}/>
-          <footer className="mt-12 pt-6 border-t border-border flex flex-wrap items-center justify-between gap-2 text-xs text-sub">
-            <div>© 2026 PowerPlus — All-in-One Powerful Toolkit · Developed by Saddam Hussain Safi</div>
+          <footer className="mt-12 pt-5 border-t border-border flex flex-wrap items-center justify-between gap-2 text-xs text-sub">
+            <div>PowerPlus v{D.version||''}</div>
             <div className="flex items-center gap-3">
-              <a className="hover:text-brand ease-out-soft" href="https://saddamhussain.com.np/" target="_blank" rel="noopener">Portfolio</a>
-              <span>·</span>
-              <a className="hover:text-brand ease-out-soft" href="https://wordpress.org/plugins/powerplus-toolkit/" target="_blank" rel="noopener">WordPress.org</a>
-              <span>·</span>
               <a className="hover:text-brand ease-out-soft" href="https://wordpress.org/support/plugin/powerplus-toolkit/" target="_blank" rel="noopener">Support</a>
             </div>
           </footer>

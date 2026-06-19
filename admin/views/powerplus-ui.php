@@ -132,11 +132,16 @@ $pkwt_import_nonce = wp_create_nonce( 'pkwt_import_settings' );
 $pkwt_notice = isset( $_GET['pkwt_notice'] ) ? sanitize_key( wp_unslash( $_GET['pkwt_notice'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 ?>
 <style>
-/* Remove default .wrap margins so our UI starts flush */
-#wpbody-content .wrap { margin-top: 0 !important; padding-top: 0 !important; }
-#wpbody-content       { padding-bottom: 0 !important; }
+/* Full-bleed dashboard: remove WP chrome margins and the redundant admin footer so our
+   own footer is the only one (fixes the overlapping/duplicate footer text). */
+html.wp-toolbar { background: #fff; }
+#wpbody-content .wrap { margin: 0 !important; padding: 0 !important; }
+#wpbody-content       { padding: 0 !important; }
+#wpcontent, #wpbody, #wpbody-content { min-height: 0 !important; }
 #wpcontent            { padding-left: 0 !important; }
-#pkwt-dashboard-root  { min-height: calc(100vh - 32px); }
+#wpfooter             { display: none !important; }   /* SPA has its own footer */
+#pkwt-dashboard-root  { min-height: calc(100vh - 32px); display: block; }
+#pkwt-dashboard-root .wrap { margin: 0; }
 </style>
 <div class="wrap" style="margin:0;padding:0;">
   <div id="pkwt-dashboard-root"></div>
