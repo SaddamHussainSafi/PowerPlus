@@ -399,7 +399,7 @@ function TopBar({ onSearchClick, theme, onThemeChange }) {
         <div className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
           <LogoMark size={20}/>
           <span className="font-semibold text-sm tracking-tight">PowerPlus</span>
-          <span className="text-[10px] label text-sub border border-border rounded-full px-2 py-0.5">v3.5.8.1</span>
+          <span className="text-[10px] label text-sub border border-border rounded-full px-2 py-0.5">v{(window.pkwtDashboard||{}).version||''}</span>
         </div>
         {/* Right: actions */}
         <div className="flex items-center gap-1.5">

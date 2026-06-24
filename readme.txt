@@ -131,13 +131,25 @@ PowerPlus stores only plugin settings on your WordPress installation and runs no
 
 == Frequently Asked Questions ==
 
-= Does this plugin require Elementor Pro? =
+= Do I need Elementor to use PowerPlus? =
 
-No. All core features work with the free version of Elementor. Elementor Pro is not required.
+No. Login, register, lost-password and reset-password run on native WordPress authentication and work as soon as you finish the setup wizard. Elementor is optional and only used to visually design those pages.
+
+= Does it require Elementor Pro? =
+
+No. The free version of Elementor is enough for the design features. Elementor Pro is not required.
+
+= How do I change my login URL? =
+
+Open PowerPlus, go to Login URL, and enter a slug (for example "account"). You can also choose where logged-out visitors are sent if they try to reach wp-login.php or wp-admin.
+
+= What if I lock myself out? =
+
+Define POWERPLUS_RECOVERY_MODE as true in wp-config.php to temporarily restore the default WordPress login while you fix your settings.
 
 = Will this break my existing login flow? =
 
-No. The plugin creates separate custom pages and redirects WordPress login traffic to them. The native wp-login.php file is never modified and remains fully functional. Deactivating the plugin instantly restores the default WordPress login behavior.
+No. The native wp-login.php file is never modified and remains fully functional. Deactivating the plugin instantly restores the default WordPress login behavior.
 
 = Is it compatible with WooCommerce? =
 
@@ -173,14 +185,11 @@ Please report security issues directly to the author via the contact form at htt
 
 == Screenshots ==
 
-1. The Elementor editor showing the Login Form widget with styling controls panel open
-2. The Register Form widget with field configuration options
-3. A finished branded login page design built with the plugin
-4. The plugin settings panel showing the General tab
-5. The plugin settings panel showing the Security tab
-6. The Elementor widget panel showing all Custom Login widgets in their own category
-7. A split-screen login page layout built with the Auth Tabs widget
-8. The onboarding wizard shown on first activation
+1. The welcome screen shown after activation
+2. The guided setup wizard for enabling features
+3. The PowerPlus dashboard
+4. The Login URL screen for hiding wp-login.php
+5. The Branding screen for white-labeling the login page
 
 == Changelog ==
 
